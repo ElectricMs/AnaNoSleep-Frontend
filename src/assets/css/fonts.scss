@@ -1,0 +1,44 @@
+/* 
+ * 自定义字体加载文件
+ * 在此文件中声明所有自定义字体
+ * 然后在 main.scss 中导入此文件
+ */
+
+// 守望先锋标题字体 (Big Noodle Titling Oblique)
+@font-face {
+  font-family: 'BigNoodleTitling';
+  src: url('../fonts/big_noodle_titling_oblique.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* 
+ * 示例：加载自定义字体
+ * 
+ * 步骤：
+ * 1. 将字体文件放在 ../fonts/ 目录下
+ * 2. 取消下面的注释并根据你的字体文件修改
+ * 3. 在 main.scss 中导入此文件：@import './fonts.scss';
+ */
+
+/*
+// 示例：常规字重
+@font-face {
+  font-family: 'CustomFont';
+  src: url('../fonts/CustomFont-Regular.woff2') format('woff2'),
+       url('../fonts/CustomFont-Regular.woff') format('woff'),
+       url('../fonts/CustomFont-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; // 字体加载策略：swap 表示先显示后备字体，字体加载完成后替换
+}
+*/
+
+/* 
+ * font-display 选项说明：
+ * - swap: 立即显示后备字体，字体加载完成后替换（推荐，用户体验好）
+ * - block: 等待字体加载完成再显示文本（可能造成闪烁）
+ * - fallback: 短暂等待后显示后备字体，如果字体加载完成再替换
+ * - optional: 如果字体未快速加载，则永久使用后备字体
+ */
