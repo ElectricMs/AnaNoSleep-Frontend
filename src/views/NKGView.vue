@@ -24,7 +24,7 @@
     </div>
 
     <!-- 战队介绍区域 -->
-    <div class="intro-section" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }">
+    <div class="intro-section" :class="{ 'dark-mode': themeStore.isDarkMode }">
       <div class="container">
         <div class="intro-card clean-style" ref="introCard" :class="{ 'animate-in': isVisible1 }">
           <div class="intro-content">
@@ -41,7 +41,7 @@
     </div>
 
     <!-- 赛事历史区域 -->
-    <div class="history-section" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }" ref="historySection">
+    <div class="history-section" :class="{ 'dark-mode': themeStore.isDarkMode }" ref="historySection">
       <div class="container">
         <div class="section-header" ref="historyHeader" :class="{ 'animate-in': isVisible2 }">
           <h2>战队历程</h2>
@@ -127,7 +127,7 @@
     </div>
 
     <!-- 人员名单区域 -->
-    <div class="members-section" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }" ref="membersSection">
+    <div class="members-section" :class="{ 'dark-mode': themeStore.isDarkMode }" ref="membersSection">
       <div class="container">
         <div class="section-header" ref="membersHeader" :class="{ 'animate-in': isVisibleMembers }">
           <h2>战队成员</h2>
@@ -163,7 +163,7 @@
     </div>
 
     <!-- 招募信息区域 -->
-    <div class="recruitment-section" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }" ref="recruitmentSection">
+    <div class="recruitment-section" :class="{ 'dark-mode': themeStore.isDarkMode }" ref="recruitmentSection">
       <div class="container">
         <div class="recruitment-card clean-style" ref="recruitmentCard" :class="{ 'animate-in': isVisible4 }">
           <div class="recruitment-header">
@@ -205,7 +205,7 @@
 
     <!-- 底部CTA区域 - 已简化合并到招募区域，删除冗余的CTA -->
     <!-- 如果需要保留底部导航，可以使用一个更简单的样式 -->
-    <div class="simple-footer-nav" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }">
+    <div class="simple-footer-nav" :class="{ 'dark-mode': themeStore.isDarkMode }">
       <router-link to="/" class="nav-link">← 返回首页</router-link>
     </div>
 
@@ -242,11 +242,9 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../stores/theme'
-import { useChristmasStore } from '../stores/christmas'
 import { nkgMembersData } from '../data/nkgMembersData.js'
 
 const themeStore = useThemeStore()
-const christmasStore = useChristmasStore()
 
 // 成员名单数据
 const membersList = nkgMembersData

@@ -18,7 +18,7 @@
     </div>
 
     <!-- 内容介绍区域 -->
-    <div class="content-section" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }">
+    <div class="content-section" :class="{ 'dark-mode': themeStore.isDarkMode }">
       <div class="content-container">
         <!-- 英雄思路教学 -->
         <div class="feature-card clean-style" ref="featureCard1" :class="{ 'animate-in': isVisible1 }">
@@ -36,7 +36,7 @@
     </div>
 
     <!-- 内容介绍区域2 -->
-    <div class="content-section" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }">
+    <div class="content-section" :class="{ 'dark-mode': themeStore.isDarkMode }">
       <div class="content-container">
         <!-- 网页导航 -->
         <div class="feature-card clean-style" ref="featureCard2" :class="{ 'animate-in': isVisible2 }">
@@ -54,7 +54,7 @@
     </div>
 
     <!-- 内容介绍区域3 -->
-    <div class="content-section content-section-final" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }">
+    <div class="content-section content-section-final" :class="{ 'dark-mode': themeStore.isDarkMode }">
       <div class="content-container">
         <!-- NanKaiGayming -->
         <div class="feature-card clean-style" ref="featureCard3" :class="{ 'animate-in': isVisible3 }">
@@ -76,10 +76,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../stores/theme'
-import { useChristmasStore } from '../stores/christmas'
 
 const themeStore = useThemeStore()
-const christmasStore = useChristmasStore()
 
 // 动画可见性状态
 const isVisible1 = ref(false)

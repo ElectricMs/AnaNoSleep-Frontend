@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation-section" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }">
+  <div class="navigation-section" :class="{ 'dark-mode': themeStore.isDarkMode }">
     <div class="container">
       <div class="header-group" :class="{ 'animate-in': true }">
         <h1 class="section-title">网页导航</h1>
@@ -34,11 +34,9 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
-import { useChristmasStore } from '../stores/christmas'
 import { useNavigationStore } from '../stores/navigation'
 
 const themeStore = useThemeStore()
-const christmasStore = useChristmasStore()
 const navigationStore = useNavigationStore()
 const router = useRouter()
 

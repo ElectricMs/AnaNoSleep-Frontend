@@ -24,18 +24,6 @@
       </div>
       
       <div class="nav-toggle">
-        <!-- 圣诞模式切换按钮 -->
-        <button 
-          @click="christmasStore.toggleChristmasMode" 
-          class="theme-toggle christmas-toggle desktop-theme-toggle"
-          :class="{ 'active': christmasStore.isChristmasMode }"
-          title="切换节日气氛"
-        >
-          <svg class="icon-snow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11.9994 3V7M11.9994 7V17M11.9994 7L8.99943 4M11.9994 7L14.9994 4M11.9994 17V21M11.9994 17L8.99943 20M11.9994 17L14.9994 20M4.20624 7.49999L7.67034 9.49999M7.67034 9.49999L16.3306 14.5M7.67034 9.49999L3.57227 10.5981M7.67034 9.49999L6.57227 5.40191M16.3306 14.5L19.7947 16.5M16.3306 14.5L17.4287 18.5981M16.3306 14.5L20.4287 13.4019M4.2067 16.5L7.6708 14.5M7.6708 14.5L16.3311 9.49999M7.6708 14.5L3.57273 13.4019M7.6708 14.5L6.57273 18.5981M16.3311 9.49999L19.7952 7.49999M16.3311 9.49999L17.4291 5.40192M16.3311 9.49999L20.4291 10.5981" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-
         <!-- 桌面端主题切换按钮 -->
         <button @click="themeStore.toggleTheme" class="theme-toggle desktop-theme-toggle" :title="themeStore.isDarkMode ? '切换到日间模式' : '切换到夜间模式'">
           <!-- Sun Icon (Show in Dark Mode to switch to Day) -->
@@ -83,16 +71,6 @@
       
       <!-- 移动端主题切换按钮 -->
       <div class="mobile-toggles">
-        <button 
-          @click="christmasStore.toggleChristmasMode" 
-          class="mobile-theme-toggle christmas-toggle"
-          :class="{ 'active': christmasStore.isChristmasMode }"
-        >
-          <svg class="icon-snow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11.9994 3V7M11.9994 7V17M11.9994 7L8.99943 4M11.9994 7L14.9994 4M11.9994 17V21M11.9994 17L8.99943 20M11.9994 17L14.9994 20M4.20624 7.49999L7.67034 9.49999M7.67034 9.49999L16.3306 14.5M7.67034 9.49999L3.57227 10.5981M7.67034 9.49999L6.57227 5.40191M16.3306 14.5L19.7947 16.5M16.3306 14.5L17.4287 18.5981M16.3306 14.5L20.4287 13.4019M4.2067 16.5L7.6708 14.5M7.6708 14.5L16.3311 9.49999M7.6708 14.5L3.57273 13.4019M7.6708 14.5L6.57273 18.5981M16.3311 9.49999L19.7952 7.49999M16.3311 9.49999L17.4291 5.40192M16.3311 9.49999L20.4291 10.5981" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span>节日气氛</span>
-        </button>
         <button @click="themeStore.toggleTheme" class="mobile-theme-toggle">
           <svg v-if="themeStore.isDarkMode" class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
@@ -119,12 +97,10 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
-import { useChristmasStore } from '../stores/christmas'
 
 const router = useRouter()
 const route = useRoute()
 const themeStore = useThemeStore()
-const christmasStore = useChristmasStore()
 
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
@@ -359,44 +335,6 @@ onUnmounted(() => {
   display: flex;
 }
 
-// 圣诞模式切换按钮特殊样式
-.christmas-toggle {
-  padding: 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent !important;
-  border-color: transparent !important;
-  color: rgba(255, 255, 255, 0.5); // 默认未激活状态显示为灰色（半透明白）
-
-  .icon-snow {
-    width: 22px;
-    height: 22px;
-    transition: transform 0.6s ease;
-  }
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
-    color: #fff; // 悬停时变白
-    
-    .icon-snow {
-      transform: rotate(180deg);
-    }
-  }
-
-  &.active {
-    color: #aee1f5; // 冰雪蓝
-    text-shadow: 0 0 10px rgba(174, 225, 245, 0.5);
-    
-    .icon-snow {
-      stroke: #aee1f5;
-      filter: drop-shadow(0 0 2px rgba(174, 225, 245, 0.5));
-    }
-  }
-}
-
 .mobile-toggles {
   display: flex;
   gap: 1rem;
@@ -410,87 +348,6 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-  }
-
-  // 移动端下的圣诞按钮样式覆盖
-  .christmas-toggle {
-    width: auto;
-    height: auto;
-    padding: 0.75rem 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    border-radius: 25px;
-    color: #999; // 移动端未激活灰色
-
-    .icon-snow {
-      margin-right: 4px;
-    }
-
-    &:hover {
-      color: #666;
-    }
-
-    &.active {
-      background: rgba(174, 225, 245, 0.15) !important;
-      border-color: #aee1f5 !important;
-      color: #3aa1c9; // 深一点的蓝色用于浅色背景
-
-      .icon-snow {
-        stroke: #3aa1c9;
-      }
-    }
-  }
-}
-
-// 移动端夜间模式下的圣诞按钮样式
-.navbar.dark-mode .mobile-toggles .christmas-toggle {
-  color: rgba(255, 255, 255, 0.5); // 夜间模式未激活灰色
-  border-color: rgba(255, 255, 255, 0.1) !important;
-
-  &:hover {
-    color: #fff;
-  }
-
-  &.active {
-    color: #aee1f5;
-    border-color: rgba(174, 225, 245, 0.5) !important;
-    background: rgba(174, 225, 245, 0.1) !important;
-
-    .icon-snow {
-      stroke: #aee1f5;
-    }
-  }
-}
-
-// 确保在白色导航栏（滚动后或非首页）下图标可见
-.navbar.non-home-page .christmas-toggle,
-.navbar-scrolled .christmas-toggle {
-  color: #ccc !important; // 白色背景下未激活显示为灰色
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.05) !important;
-    color: #666 !important; // 悬停变深灰
-  }
-
-  &.active {
-    color: #3aa1c9 !important;
-    .icon-snow { stroke: #3aa1c9; }
-  }
-}
-
-// 修正夜间模式下的显示（覆盖上面的规则）
-.navbar.dark-mode.non-home-page .christmas-toggle,
-.navbar.dark-mode.navbar-scrolled .christmas-toggle {
-  color: rgba(255, 255, 255, 0.5); // 夜间模式背景下未激活灰色
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
-    color: #fff;
-  }
-  
-  &.active {
-    color: #aee1f5 !important;
-    .icon-snow { stroke: #aee1f5; }
   }
 }
 

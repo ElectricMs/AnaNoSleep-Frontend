@@ -1,5 +1,5 @@
 <template>
-  <div class="about-section" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }">
+  <div class="about-section" :class="{ 'dark-mode': themeStore.isDarkMode }">
     <div class="container">
       <h1 class="section-title">关于我们</h1>
       <div class="about-content">
@@ -27,10 +27,8 @@
 
 <script setup>
 import { useThemeStore } from '../stores/theme'
-import { useChristmasStore } from '../stores/christmas'
 
 const themeStore = useThemeStore()
-const christmasStore = useChristmasStore()
 </script>
 
 <style lang="scss" scoped>

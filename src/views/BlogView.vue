@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-section" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }">
+  <div class="blog-section" :class="{ 'dark-mode': themeStore.isDarkMode }">
     <div class="container">
       <!-- 加载状态 -->
       <div v-if="blogStore.loading" class="loading-container">
@@ -94,11 +94,9 @@
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
-import { useChristmasStore } from '../stores/christmas'
 import { useBlogStore } from '../stores/blog'
 
 const themeStore = useThemeStore()
-const christmasStore = useChristmasStore()
 const blogStore = useBlogStore()
 const route = useRoute()
 const router = useRouter()

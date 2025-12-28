@@ -49,21 +49,6 @@ html {
   padding: 0 2rem;
 }
 
-/* 圣诞节背景纹理 - 全局样式 */
-.christmas-bg {
-  background-color: #f8f9fa !important;
-  /* 高清单色圣诞主题图案，砖墙交替排列 */
-  background-image: url(#{$christmas-bg-light}) !important;
-  background-repeat: repeat !important;
-  background-attachment: fixed !important;
-  background-size: 240px 240px !important;
-  
-  &.dark-mode {
-    background-color: #2a2a2a !important;
-    background-image: url(#{$christmas-bg-dark}) !important;
-  }
-}
-
 /* 通用按钮样式 */
 .btn {
   padding: 1rem 2rem;

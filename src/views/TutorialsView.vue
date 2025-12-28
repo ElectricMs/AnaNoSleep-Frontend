@@ -1,5 +1,5 @@
 <template>
-  <div class="tutorials-section" :class="{ 'dark-mode': themeStore.isDarkMode, 'christmas-bg': christmasStore.isChristmasMode }">
+  <div class="tutorials-section" :class="{ 'dark-mode': themeStore.isDarkMode }">
     <div class="container">
       <div class="header-group">
         <h1 class="section-title">攻略教程</h1>
@@ -65,11 +65,9 @@
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
-import { useChristmasStore } from '../stores/christmas'
 import { useBlogStore } from '../stores/blog'
 
 const themeStore = useThemeStore()
-const christmasStore = useChristmasStore()
 const blogStore = useBlogStore()
 const router = useRouter()
 
