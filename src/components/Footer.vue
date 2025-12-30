@@ -76,13 +76,13 @@ const closePrivacyModal = () => {
 
 <style lang="scss" scoped>
 .footer {
-    background: #333E48;
+    background: #120725;
     color: #e0e0e0;
     transition: all 0.3s ease;
     padding: 2rem 0; // 减少上下内边距
 
     &.dark-mode {
-        background: #1a1a1a;
+        background: #0b061a;
     }
 }
 

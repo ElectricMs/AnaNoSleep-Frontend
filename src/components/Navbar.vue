@@ -139,7 +139,7 @@ onUnmounted(() => {
   right: 0;
   z-index: 1000;
   //padding: 1rem 0;
-  height: 70px;
+  height: 60px;
   transition: all 0.3s ease;
   background: transparent;
 
