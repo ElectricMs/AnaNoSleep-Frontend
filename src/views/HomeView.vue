@@ -1,156 +1,277 @@
 <template>
-  <div class="home-section">
-    <!-- 主背景区域 -->
-    <div class="hero-section" :class="{ 'dark-mode': themeStore.isDarkMode }">
-      <!-- 参考 aliued.com 首屏：深色渐变底 + 浮动媒体卡片 + 居中文案 -->
-      <div class="hero-bg" aria-hidden="true"></div>
-      <!-- 参考图：背景全屏，但内容区更窄（居中 stage 容器） -->
-      <div class="hero-stage">
-        <div class="hero-media-wall" aria-hidden="true">
-          <div class="hero-main-card">
-            <img src="/src/assets/images/homeview-bg1.jpg" alt="" class="hero-card-img">
-          </div>
-
-          <div class="hero-float-card hero-float-card--md c1">
-            <img src="/src/assets/images/kirimercy.jpg" alt="" class="hero-card-img">
-          </div>
-
-          <div class="hero-float-card hero-float-card--md c2">
-            <img src="/src/assets/images/route66.jpg" alt="" class="hero-card-img">
-           </div>
-          
-          <div class="hero-float-card hero-float-card--sm c4">
-            <img src="/src/assets/images/kirimercy2.jpg" alt="" class="hero-card-img">
-          </div>
-
-          <div class="hero-float-card hero-float-card--sm c5">
-            <img src="/src/assets/images/kiriko.jpg" alt="" class="hero-card-img">
-          </div>
-
-          <div class="hero-float-card hero-float-card--main c6">
-            <img src="/src/assets/images/overlab.png" alt="" class="hero-card-img">
-          </div>
-
-          <div class="hero-float-card hero-float-card--sm c7">
-            <img src="/src/assets/images/owtv.png" alt="" class="hero-card-img">
-          </div>
-
-          <div class="hero-float-card hero-float-card--sm c8">
-            <img src="/src/assets/images/patch-notes.png" alt="" class="hero-card-img">
-          </div>
-
-          <div class="hero-float-card hero-float-card--md c9">
-            <img src="/src/assets/images/stadiumbuilds.png" alt="" class="hero-card-img">
-          </div>
-
-          <div class="hero-float-card hero-float-card--sm c10">
-            <img src="/src/assets/images/liquipedia.png" alt="" class="hero-card-img">
-          </div>
-        </div>
-        <div class="hero-content">
-          <h1 class="hero-title"><span class="hero-title-accent">ANANOSLEEP</span>.COM</h1>
-          <p class="hero-subtitle">在此探索更多守望先锋</p>
-
-        </div>
-        <div class="scroll-indicator" @click="scrollToContent">
-          <div class="scroll-arrow"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 内容介绍区域（参考 aliued.com：窄容器 + 水印大字 + 分区风格） -->
-    <div class="content-section ali-block ali-define" :class="{ 'dark-mode': themeStore.isDarkMode }" data-watermark="TUTORIALS">
-      <div class="content-container">
-        <!-- 英雄思路教学 -->
-        <div class="feature-card clean-style" ref="featureCard1" :class="{ 'animate-in': isVisible1 }">
-          <div class="feature-text">
-            <h2>英雄思路教学</h2>
-            <p>学习英雄对位技巧：压制敌方坦克，阻挡后排，给予巨大压力，劣势对位抗压</p>
-            <p>技能释放精进：掌控战场局面，学习关键开团与保护队友，细节做到极致</p>
-            <router-link to="/tutorials" class="btn-simple">了解更多</router-link>
-          </div>
-          <div class="ali-pillars" aria-label="内容入口">
-            <div class="ali-pillar ali-pillar--accent">
-              <div class="ali-pillar-title">Guides</div>
-              <div class="ali-pillar-sub">基础到进阶</div>
+  <div class="serif-home" :class="{ 'dark-mode': themeStore.isDarkMode }">
+    <!-- Hero Section - Dramatic Serif Typography -->
+    <section class="serif-hero" :class="{ 'is-entered': heroEntered }">
+      <div class="serif-container">
+        <div class="serif-hero-stage">
+          <!-- Floating Photos -->
+          <div class="serif-floating-gallery" aria-hidden="true">
+            <div
+              v-for="(img, idx) in heroFloatImages"
+              :key="img.src"
+              class="serif-float-card"
+              :class="`serif-float-card--${idx + 1}`"
+            >
+              <img :src="img.src" :alt="img.alt" loading="lazy" />
             </div>
-            <div class="ali-pillar ali-pillar--dark">
-              <div class="ali-pillar-title">Matchups</div>
-              <div class="ali-pillar-sub">对位思路</div>
-            </div>
-            <div class="ali-pillar ali-pillar--accent">
-              <div class="ali-pillar-title">Skills</div>
-              <div class="ali-pillar-sub">技能细节</div>
-            </div>
-            <div class="ali-pillar ali-pillar--img">
-              <img src="/src/assets/images/hero-tutorial.jpg" alt="英雄教学" loading="lazy">
-              <div class="ali-pillar-mask"></div>
-              <div class="ali-pillar-title">Practice</div>
-              <div class="ali-pillar-sub">训练计划</div>
+          </div>
+
+          <!-- Center Panel -->
+          <div class="serif-hero-content serif-hero-panel">
+            <div class="serif-label">OVERWATCH GUIDES</div>
+            <h1 class="serif-title">
+              ANANOSLEEP<span class="serif-period">.</span>COM
+            </h1>
+            <p class="serif-subtitle">
+              探索守望先锋英雄策略，掌握对位技巧与实战细节
+            </p>
+            <div class="serif-actions">
+              <router-link to="/tutorials" class="serif-btn serif-btn--primary">
+                开始探索
+              </router-link>
+              <router-link to="/navigation" class="serif-btn serif-btn--outline">
+                了解更多
+              </router-link>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- 内容介绍区域2 -->
-    <div class="content-section ali-block ali-create" :class="{ 'dark-mode': themeStore.isDarkMode }" data-watermark="NAVIGATIONS">
-      <div class="content-container">
-        <!-- 网页导航 -->
-        <div class="feature-card clean-style" ref="featureCard2" :class="{ 'animate-in': isVisible2 }">
-          <div class="feature-text">
-            <h2>网页导航</h2>
-            <p>此处收纳了众多中外实用守望先锋相关网站</p>
-            <p>覆盖数据详解、角斗领域教程与守望先锋电竞，提供英雄热度查询与电竞选手专访，总有你没见过的</p>
-            <router-link to="/navigation" class="btn-simple">了解更多</router-link>
-          </div>
-          <div class="ali-ux-cards" aria-label="导航入口">
-            <div class="ali-ux-card ali-ux-card--dark">
-              <div class="ali-ux-card-title">For Newbie</div>
-              <div class="ali-ux-card-sub">新手入门</div>
-              <img src="/src/assets/images/wiki.png" alt="资料百科" loading="lazy">
+    <!-- Main Content Surface -->
+    <div class="serif-main">
+    <!-- Section 1: 英雄教学 - Asymmetric Layout -->
+    <section class="serif-section serif-section--tutorials">
+      <div class="serif-container">
+        <!-- Section Label -->
+        <div class="serif-section-label">
+          <span class="serif-line"></span>
+          <span class="serif-label-stack">
+            <span class="serif-label-text">WE DEFINE</span>
+            <span class="serif-label-subtext">HERO STRATEGY FRAMEWORK</span>
+          </span>
+          <span class="serif-line"></span>
+        </div>
+
+        <!-- Asymmetric Content Grid -->
+        <div class="serif-grid-serif">
+          <div class="serif-content-main">
+            <h2 class="serif-section-title">英雄策略规范</h2>
+            <p class="serif-section-description">
+              系统性学习对位技巧、技能细节和实战训练，从基础到进阶的完整教学体系。
+              <span class="serif-section-description-en">
+                A complete learning system—from fundamentals to advanced play—covering matchups, mechanics, and real-match practice.
+              </span>
+            </p>
+
+            <div class="serif-features">
+              <div class="serif-feature-item">
+                <div class="serif-feature-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                  </svg>
+                </div>
+                <div class="serif-feature-content">
+                  <h3>对位技巧</h3>
+                  <p>压制敌方坦克，阻挡后排，劣势对位抗压</p>
+                </div>
+              </div>
+
+              <div class="serif-feature-item">
+                <div class="serif-feature-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </div>
+                <div class="serif-feature-content">
+                  <h3>技能精进</h3>
+                  <p>掌控战场局面，关键开团与保护队友</p>
+                </div>
+              </div>
+
+              <div class="serif-feature-item">
+                <div class="serif-feature-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </div>
+                <div class="serif-feature-content">
+                  <h3>实战训练</h3>
+                  <p>从理论到实践，完整的训练计划体系</p>
+                </div>
+              </div>
             </div>
-            <div class="ali-ux-card ali-ux-card--light">
-              <div class="ali-ux-card-title">For Advanced</div>
-              <div class="ali-ux-card-sub">进阶提升</div>
-              <img src="/src/assets/images/owtics.png" alt="网页导航" loading="lazy">
+
+            <router-link to="/tutorials" class="serif-link serif-link--arrow">
+              了解英雄教学
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </router-link>
+          </div>
+
+          <div class="serif-cards-side">
+            <div class="serif-card serif-card--accent-top">
+              <div class="serif-card-stat">100+</div>
+              <div class="serif-card-label">英雄指南</div>
+            </div>
+            <div class="serif-card serif-card--accent-top">
+              <div class="serif-card-stat">50+</div>
+              <div class="serif-card-label">对位解析</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- 内容介绍区域3 -->
-    <div class="content-section ali-block ali-guide content-section-final" :class="{ 'dark-mode': themeStore.isDarkMode }" data-watermark="NKGSTORY">
-      <div class="content-container">
-        <!-- NanKaiGayming -->
-        <div class="feature-card clean-style" ref="featureCard3" :class="{ 'animate-in': isVisible3 }">
-          <div class="feature-text">
-            <h2>NanKaiGayming</h2>
-            <p>了解南开大学守望先锋高校战队《NanKaiGayming》的故事</p>
-            <p>南开大学守望先锋校队NKG自2023年起参加守望先锋高校联赛、朱诺杯高校赛、owcs预选赛和朱诺杯高校赛等赛事，2025年11月在第二届宿舍英雄天津站中取得冠军。</p>
-            <router-link to="/nkg" class="btn-simple">了解更多</router-link>
+    <!-- Section 2: 网页导航 - Featured Cards -->
+    <section class="serif-section serif-section--navigation">
+      <div class="serif-container">
+        <!-- Section Label -->
+        <div class="serif-section-label">
+          <span class="serif-line"></span>
+          <span class="serif-label-stack">
+            <span class="serif-label-text">WE CREATE</span>
+            <span class="serif-label-subtext">CURATED RESOURCE NAVIGATION</span>
+          </span>
+          <span class="serif-line"></span>
+        </div>
+
+        <div class="serif-grid-serif">
+          <div class="serif-content-main">
+            <h2 class="serif-section-title">网页导航系统</h2>
+            <p class="serif-section-description">
+              收纳众多中外实用守望先锋相关网站，覆盖数据详解、角斗领域教程与电竞选手专访，提供英雄热度查询与数据分析。
+              <span class="serif-section-description-en">
+                A curated directory of essential Overwatch sites—stats, guides, interviews, and meta insights in one place.
+              </span>
+            </p>
+
+            <div class="serif-highlights">
+              <div class="serif-highlight">
+                <div class="serif-highlight-number">01</div>
+                <div class="serif-highlight-text">
+                  <h4>资料百科</h4>
+                  <p>新手入门必备资料</p>
+                </div>
+              </div>
+              <div class="serif-highlight">
+                <div class="serif-highlight-number">02</div>
+                <div class="serif-highlight-text">
+                  <h4>数据分析</h4>
+                  <p>英雄热度与战局统计</p>
+                </div>
+              </div>
+              <div class="serif-highlight">
+                <div class="serif-highlight-number">03</div>
+                <div class="serif-highlight-text">
+                  <h4>进阶教程</h4>
+                  <p>角斗领域深度解析</p>
+                </div>
+              </div>
+            </div>
+
+            <router-link to="/navigation" class="serif-link serif-link--arrow">
+              探索导航资源
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </router-link>
           </div>
-          <div class="ali-grid" aria-label="内容卡片">
-            <div class="ali-grid-card ali-grid-card--img">
-              <img src="/src/assets/images/NanKaiGayming.png" alt="NKG 战队" loading="lazy">
-              <div class="ali-grid-card-title">Team</div>
+
+          <div class="serif-image-side">
+            <div class="serif-featured-card">
+              <img src="/src/assets/images/wiki.png" alt="资料百科" class="serif-featured-img">
+              <div class="serif-featured-overlay">
+                <span class="serif-featured-tag">新手入门</span>
+                <h3 class="serif-featured-title">资料百科</h3>
+              </div>
             </div>
-            <div class="ali-grid-card ali-grid-card--img">
-              <img src="/src/assets/images/NKG_Real.jpg" alt="NKG 合照" loading="lazy">
-              <div class="ali-grid-card-title">Moments</div>
-            </div>
-            <div class="ali-grid-card ali-grid-card--solid">
-              <div class="ali-grid-card-title">100+</div>
-              <div class="ali-grid-card-sub">故事片段</div>
-            </div>
-            <div class="ali-grid-card ali-grid-card--solid2">
-              <div class="ali-grid-card-title">4</div>
-              <div class="ali-grid-card-sub">赛事赛季</div>
+            <div class="serif-featured-card">
+              <img src="/src/assets/images/owtics.png" alt="数据分析" class="serif-featured-img">
+              <div class="serif-featured-overlay">
+                <span class="serif-featured-tag">进阶提升</span>
+                <h3 class="serif-featured-title">数据平台</h3>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- Section 3: NKG战队 - Stats & Story -->
+    <section class="serif-section serif-section--nkg">
+      <div class="serif-container">
+        <!-- Section Label -->
+        <div class="serif-section-label">
+          <span class="serif-line"></span>
+          <span class="serif-label-stack">
+            <span class="serif-label-text">WE LEAD</span>
+            <span class="serif-label-subtext">TEAM STORY & ACHIEVEMENTS</span>
+          </span>
+          <span class="serif-line"></span>
+        </div>
+
+        <div class="serif-grid-serif">
+          <div class="serif-content-main">
+            <h2 class="serif-section-title">NanKaiGayming</h2>
+            <p class="serif-section-description">
+              南开大学守望先锋高校战队，自2023年起参加守望先锋高校联赛、朱诺杯高校赛、OWCS预选赛等多项赛事。
+              <span class="serif-section-description-en">
+                A collegiate Overwatch team from Nankai University, competing since 2023 across major tournaments and qualifiers.
+              </span>
+            </p>
+
+            <div class="serif-quote">
+              <svg class="serif-quote-mark" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path>
+                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path>
+              </svg>
+              <p class="serif-quote-text">
+                2025年11月在第二届宿舍英雄天津站中取得冠军，展现高校电竞实力。
+              </p>
+            </div>
+
+            <router-link to="/nkg" class="serif-link serif-link--arrow">
+              了解战队故事
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </router-link>
+          </div>
+
+          <div class="serif-stats-side">
+            <div class="serif-stats-grid">
+              <div class="serif-stat-card serif-stat-card--primary">
+                <div class="serif-stat-value">100+</div>
+                <div class="serif-stat-label">故事片段</div>
+              </div>
+              <div class="serif-stat-card">
+                <div class="serif-stat-value">4</div>
+                <div class="serif-stat-label">赛事赛季</div>
+              </div>
+              <div class="serif-stat-card serif-stat-card--full">
+                <img src="/src/assets/images/NanKaiGayming.png" alt="NKG Team" class="serif-stat-img">
+                <div class="serif-stat-overlay">
+                  <span>Team Moments</span>
+                </div>
+              </div>
+              <div class="serif-stat-card serif-stat-card--full">
+                <img src="/src/assets/images/NKG_Real.jpg" alt="NKG Photo" class="serif-stat-img">
+                <div class="serif-stat-overlay">
+                  <span>Team Photo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     </div>
   </div>
 </template>
@@ -160,1136 +281,1305 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../stores/theme'
 
 const themeStore = useThemeStore()
+const heroEntered = ref(false)
 
-// 动画可见性状态
-const isVisible1 = ref(false)
-const isVisible2 = ref(false)
-const isVisible3 = ref(false)
-
-// 元素引用
-const featureCard1 = ref(null)
-const featureCard2 = ref(null)
-const featureCard3 = ref(null)
-
-// Intersection Observer
-let observer = null
-
-const scrollToContent = () => {
-  const contentSection = document.querySelector('.content-section')
-  if (contentSection) {
-    contentSection.scrollIntoView({
-      behavior: 'smooth'
-    })
-  }
-}
-
-// 设置 Intersection Observer
-const setupObserver = () => {
-  observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        // 根据元素引用确定是哪个卡片
-        if (entry.target === featureCard1.value) {
-          isVisible1.value = true
-        } else if (entry.target === featureCard2.value) {
-          isVisible2.value = true
-        } else if (entry.target === featureCard3.value) {
-          isVisible3.value = true
-        }
-        // 动画触发后停止观察该元素
-        observer.unobserve(entry.target)
-      }
-    })
-  }, {
-    threshold: 0.2, // 当元素20%可见时触发
-    rootMargin: '0px 0px -50px 0px' // 提前50px触发
-  })
-
-  // 开始观察所有卡片
-  if (featureCard1.value) observer.observe(featureCard1.value)
-  if (featureCard2.value) observer.observe(featureCard2.value)
-  if (featureCard3.value) observer.observe(featureCard3.value)
-}
+const heroFloatImages = [
+  { src: '/src/assets/images/overlab.png', alt: 'Overwatch Lab' },
+  { src: '/src/assets/images/owtics.png', alt: 'OWTics' },
+  { src: '/src/assets/images/owtv.png', alt: 'OWTV' },
+  { src: '/src/assets/images/patch-notes.png', alt: 'Patch Notes' },
+  { src: '/src/assets/images/stadiumbuilds.png', alt: 'Stadium Builds' },
+  { src: '/src/assets/images/route66.jpg', alt: 'Route 66' },
+  { src: '/src/assets/images/wiki.png', alt: 'Wiki' },
+  { src: '/src/assets/images/liquipedia.png', alt: 'Liquipedia' },
+  { src: '/src/assets/images/overhub.png', alt: 'Overhub' },
+  { src: '/src/assets/images/mapleqaq.png', alt: 'Mapleqaq' },
+  { src: '/src/assets/images/kiriko.jpg', alt: 'Kiriko' },
+  { src: '/src/assets/images/kirimercy2.jpg', alt: 'Kiriko Mercy' }
+]
 
 onMounted(() => {
-  // 延迟设置观察器，确保DOM已渲染
-  setTimeout(setupObserver, 100)
+  requestAnimationFrame(() => {
+    heroEntered.value = true
+  })
 })
 
 onUnmounted(() => {
-  if (observer) {
-    observer.disconnect()
-  }
 })
 </script>
 
 <style lang="scss" scoped>
-.home-section {
+/* ============================================
+   SERIF DESIGN SYSTEM - HomeView Styles
+   ============================================ */
+
+.serif-home {
   min-height: 100vh;
+  background: var(--serif-background);
+  color: var(--serif-foreground);
+  font-family: var(--serif-font-body);
+  transition: background 0.3s ease, color 0.3s ease;
+  position: relative;
+
+  /* 全局纸纹理叠加层 - 30% 不透明度 */
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    opacity: 0.08; /* 降低全局材质感，避免正文区域“脏/糙” */
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='global-noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23global-noise)'/%3E%3C/svg%3E");
+    z-index: 9999;
+  }
+
+  &.dark-mode {
+    background: var(--serif-background);
+    color: var(--serif-foreground);
+
+    /* 深色模式下的纹理稍微淡一些 */
+    &::before {
+      opacity: 0.06;
+    }
+  }
 }
 
-.hero-section {
-  // 参考图：首屏占据大半屏，而不是整屏
-  height: clamp(520px, 65vh, 760px);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  user-select: none; // 禁止文本选择
-  cursor: default;   // 鼠标保持默认箭头样式
-}
-
-.hero-stage {
-  position: relative;
-  /* aliued 风格：舞台宽度固定，不随视口缩放；视口变窄只减少两侧留白，继续变窄则裁切 */
-  width: 1180px;
-  min-width: 1180px; // 关键：禁止被 flex 压缩
-  flex: 0 0 1180px;  // 关键：作为 flex item 固定占位，不参与收缩
-  height: 100%;
+/* Container */
+.serif-container {
+  max-width: var(--serif-container-max);
   margin: 0 auto;
-  padding: 0;
+  /* 收紧容器的上下留白（主要用于正文 sections），横向保持舒适边距 */
+  padding: 0rem 2rem;
+}
+
+.serif-main {
+  position: relative;
+  z-index: 2;
+  /* 正文用“暖灰纸面”来和 Hero 深色舞台拉开差异 */
+  background:
+    radial-gradient(900px circle at 12% -10%, rgba(184, 134, 11, 0.08), transparent 55%),
+    radial-gradient(900px circle at 88% 0%, rgba(26, 26, 26, 0.04), transparent 60%),
+    linear-gradient(180deg, #F5F3F0 0%, #FAFAF8 55%, #FAFAF8 100%);
+  border-top: 1px solid var(--serif-border);
+  box-shadow: 0 -1px 0 rgba(26, 26, 26, 0.06);
+
+  /* 让“材质”更优雅：只在正文内加很淡的噪点，而不是全局强噪点 */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper-noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper-noise)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ============================================
+   HERO SECTION - Editorial Elegance
+   ============================================ */
+.serif-hero {
+  /* 局部覆盖 token：让 Hero 变成深色舞台，正文保持浅色 */
+  --serif-foreground: #FAFAF8;
+  --serif-muted-foreground: rgba(250, 250, 248, 0.72);
+  --serif-border: rgba(250, 250, 248, 0.14);
+  --serif-card: rgba(255, 255, 255, 0.08);
+  --serif-muted: rgba(255, 255, 255, 0.06);
+
+  /* 标题区域高度：更克制（更小） */
+  min-height: calc(44vh + var(--app-navbar-height, 60px));
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 2;
-}
-
-.hero-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
+  padding: calc(3.5rem + var(--app-navbar-height, 60px)) 0 2.5rem 0;
+  position: relative;
+  margin-top: calc(var(--app-navbar-height, 60px) * -1);
+  color: var(--serif-foreground);
   background:
-    radial-gradient(900px 420px at 28% 40%, rgba(138, 92, 255, 0.38) 0%, rgba(138, 92, 255, 0) 65%),
-    radial-gradient(780px 380px at 72% 35%, rgba(255, 122, 74, 0.22) 0%, rgba(255, 122, 74, 0) 65%),
-    radial-gradient(520px 320px at 62% 78%, rgba(0, 210, 255, 0.14) 0%, rgba(0, 210, 255, 0) 70%),
-    linear-gradient(180deg, #0b061a 0%, #0e0a26 40%, #06050f 100%);
+    radial-gradient(900px circle at 18% 20%, rgba(184, 134, 11, 0.18), transparent 60%),
+    radial-gradient(1000px circle at 82% 30%, rgba(113, 26, 95, 0.22), transparent 62%),
+    linear-gradient(180deg, #070710 0%, #120b2a 55%, #0b0b14 100%);
+
+  /* Paper texture overlay - 30% opacity for print quality */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.18;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    z-index: 1;
+  }
+
+  /* Ambient glow - 2% opacity for atmospheric depth */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    right: 8%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--serif-accent) 0%, transparent 70%);
+    opacity: 0.06;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
-.hero-media-wall {
+.serif-hero-stage {
+  position: relative;
+  min-height: calc(44vh + var(--app-navbar-height, 60px));
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+.serif-floating-gallery {
   position: absolute;
-  inset: 0;
+  inset: -2rem 0 -2rem 0;
   z-index: 1;
   pointer-events: none;
-  // 参考 aliued：定版尺寸（不随视口宽度缩放）
-  --card-main-w: 200px;
-  --card-main-h: 120px;
-  --card-md-w: 150px;
-  --card-md-h: 90px;
-  --card-sm-w: 80px;
-  --card-sm-h: 80px;
 }
 
-.hero-main-card,
-.hero-float-card {
+.serif-float-card {
   position: absolute;
-  border-radius: 14px;
+  left: 50%;
+  top: 50%;
+  width: 220px;
+  border-radius: 18px;
   overflow: hidden;
+  border: 1px solid rgba(250, 250, 248, 0.14);
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow:
-    0 18px 50px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(0, 0, 0, 0.12) inset;
-  backdrop-filter: blur(6px);
-  transform: translateZ(0);
-  will-change: transform, opacity, filter;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  filter: saturate(1.05) contrast(1.02);
+  --rot: 0deg;
+  --x: 0px;
+  --y: 0px;
+  --scatter-delay: 0ms;
+  --float-dur: 7.5s;
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0) rotate(0deg) scale(0.9);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    opacity: 0.92;
+  }
 }
 
-.hero-card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: saturate(1.05) contrast(1.05) brightness(0.92);
+@keyframes serifScatter {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg) scale(0.9);
+  }
+  100% {
+    transform: translate3d(calc(-50% + var(--x)), calc(-50% + var(--y)), 0) rotate(var(--rot)) scale(1);
+  }
 }
 
-/* 不改变卡片尺寸，仅放大图片（会在卡片内裁切） */
-.hero-float-card.c4 .hero-card-img {
-  //transform: scale(1.4);
-  transform-origin: center;
+@keyframes serifFloatCard {
+  0% {
+    transform: translate3d(calc(-50% + var(--x)), calc(-50% + var(--y)), 0) rotate(var(--rot)) scale(1);
+  }
+  50% {
+    transform: translate3d(calc(-50% + var(--x)), calc(-50% + var(--y) - 14px), 0) rotate(var(--rot)) scale(1);
+  }
+  100% {
+    transform: translate3d(calc(-50% + var(--x)), calc(-50% + var(--y)), 0) rotate(var(--rot)) scale(1);
+  }
 }
 
-// 主卡片：在标题左侧，尺寸更大（参考 aliued.com 首屏左侧媒体块）
-.hero-main-card {
-  width: var(--card-main-w);
-  height: var(--card-main-h);
-  left: 90px;
-  top: 200px;
-  --base-transform: translateY(-50%);
-  --enter-x: 260px;
-  --enter-y: 0px;
-  --float-x: 0px;
-  --float-y: 10px;
-  --float-duration: 6s;
-  --target-opacity: 1;
-  opacity: var(--target-opacity);
-  transform: translate(0px, 0px) scale(1) var(--base-transform) translateZ(0);
-  animation:
-    heroCardIn 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 0ms both,
-    heroCardFloat var(--float-duration) ease-in-out 900ms infinite;
+.serif-hero.is-entered .serif-float-card {
+  opacity: 1;
+  animation-name: serifScatter, serifFloatCard;
+  animation-duration: 700ms, var(--float-dur);
+  animation-delay: var(--scatter-delay), calc(var(--scatter-delay) + 700ms);
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1), ease-in-out;
+  animation-fill-mode: forwards, both;
+  animation-iteration-count: 1, infinite;
 }
 
-// 浮动卡片：围绕内容，营造“媒体墙”氛围
-.hero-float-card {
-  // 默认给中等尺寸（具体用 --md/--sm/--main 控制）
-  width: var(--card-md-w);
-  height: var(--card-md-h);
-  --target-opacity: 0.75;
-  opacity: var(--target-opacity);
-  --enter-x: 0px;
-  --enter-y: 0px;
-  --float-x: 0px;
-  --float-y: 10px;
-  --float-duration: 8s;
-  // 动画在各个卡片位里分别定义，避免覆盖不同的 rotate/定位
-  transform: translate(0px, 0px) scale(1) var(--base-transform) translateZ(0);
-  animation:
-    heroCardIn 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 0ms both,
-    heroCardFloat var(--float-duration) ease-in-out 900ms infinite;
+.serif-float-card--1 {
+  width: 240px;
+  --rot: -6deg;
+  --x: -520px;
+  --y: -170px;
+  --scatter-delay: 0ms;
+  --float-dur: 8.2s;
 }
 
-.hero-float-card--md {
-  width: var(--card-md-w);
-  height: var(--card-md-h);
+.serif-float-card--2 {
+  width: 190px;
+  --rot: 4deg;
+  --x: -260px;
+  --y: -40px;
+  --scatter-delay: 80ms;
+  --float-dur: 7.4s;
+  opacity: 0.9;
 }
 
-.hero-float-card--sm {
-  width: var(--card-sm-w);
-  height: var(--card-sm-h);
-  //--target-opacity: 0.68;
+.serif-float-card--3 {
+  width: 260px;
+  --rot: 6deg;
+  --x: 500px;
+  --y: -160px;
+  --scatter-delay: 140ms;
+  --float-dur: 9s;
 }
 
-// 与主卡片同尺寸（“目前最大的尺寸不变”，主卡片保持原值，这张提升到同级）
-.hero-float-card--main {
-  width: var(--card-main-w);
-  height: var(--card-main-h);
-  //--target-opacity: 0.62;
+.serif-float-card--4 {
+  width: 200px;
+  --rot: -3deg;
+  --x: 390px;
+  --y: 90px;
+  --scatter-delay: 220ms;
+  --float-dur: 7.2s;
+  opacity: 0.88;
 }
 
-.hero-float-card.c1 {
-  left: 20px;
-  top: 350px;
-  --base-transform: translate(0px, 0px);
-  --enter-x: 220px;
-  --enter-y: 160px;
-  --float-y: 10px;
-  --float-duration: 8s;
-}
-.hero-float-card.c2 {
-  left: 240px;
-  top: 320px;
-  --base-transform: translate(0px, 0px);
-  --enter-x: -220px;
-  --enter-y: 160px;
-  --float-y: 12px;
-  --float-duration: 7.5s;
-}
-.hero-float-card.c4 {
-  left: 420px;
-  top: 430px;
-  --base-transform: translate(0px, 0px);
-  --enter-x: 200px;
-  --enter-y: -160px;
-  --float-y: 11px;
-  --float-duration: 10s;
+.serif-float-card--5 {
+  width: 210px;
+  --rot: 3deg;
+  --x: -420px;
+  --y: 150px;
+  --scatter-delay: 300ms;
+  --float-dur: 8.8s;
+  opacity: 0.86;
 }
 
-.hero-float-card.c5 {
-  left: 370px;
-  top: 100px;
-  --base-transform: translate(0px, 0px);
-  //--target-opacity: 0.55;
-  --enter-x: 0px;
-  --enter-y: 140px;
-  --float-y: 10px;
-  --float-duration: 8.6s;
+.serif-float-card--6 {
+  width: 260px;
+  --rot: -5deg;
+  --x: 160px;
+  --y: 190px;
+  --scatter-delay: 360ms;
+  --float-dur: 9.4s;
+  opacity: 0.9;
 }
 
-.hero-float-card.c6 {
-  left: 800px;
-  top: 350px;
-  --base-transform: translateY(-50%);
-  --enter-x: -260px;
-  --enter-y: 0px;
-  --float-x: -6px;
-  --float-y: 0px;
-  --float-duration: 9.4s;
+.serif-float-card--7 {
+  width: 180px;
+  --rot: -8deg;
+  --x: -620px;
+  --y: 20px;
+  --scatter-delay: 120ms;
+  --float-dur: 8.6s;
+  opacity: 0.75;
 }
 
-.hero-float-card.c7 {
-  left: 720px;
-  top: 380px;
-  --base-transform: translateX(-50%);
-  //--target-opacity: 0.58;
-  --enter-x: -200px;
-  --enter-y: -160px;
-  --float-y: 12px;
-  --float-duration: 10.2s;
+.serif-float-card--8 {
+  width: 190px;
+  --rot: 8deg;
+  --x: 650px;
+  --y: 10px;
+  --scatter-delay: 180ms;
+  --float-dur: 9.2s;
+  opacity: 0.75;
 }
 
-.hero-float-card.c8 {
-  left: 1030px;
-  top: 420px;
-  --base-transform: translate(0px, 0px);
-  --enter-x: -180px;
-  --enter-y: 140px;
-  --float-y: 10px;
-  --float-duration: 8.2s;
+.serif-float-card--9 {
+  width: 170px;
+  --rot: 10deg;
+  --x: 640px;
+  --y: -260px;
+  --scatter-delay: 260ms;
+  --float-dur: 7.8s;
+  opacity: 0.7;
 }
 
-.hero-float-card.c9 {
-  left: 960px;
-  top: 180px;
-  --base-transform: translate(0px, 0px);
-  --enter-x: -220px;
-  --enter-y: 80px;
-  --float-y: 12px;
-  --float-duration: 9.1s;
+.serif-float-card--10 {
+  width: 160px;
+  --rot: -10deg;
+  --x: -640px;
+  --y: -260px;
+  --scatter-delay: 200ms;
+  --float-dur: 7.6s;
+  opacity: 0.7;
 }
 
-.hero-float-card.c10 {
-  left: 850px;
-  top: 120px;
-  --base-transform: translate(0px, 0px);
-  --enter-x: 0px;
-  --enter-y: 160px;
-  --float-y: 9px;
-  --float-duration: 7.9s;
+.serif-float-card--11 {
+  width: 210px;
+  --rot: 5deg;
+  --x: 260px;
+  --y: -260px;
+  --scatter-delay: 320ms;
+  --float-dur: 8.9s;
+  opacity: 0.78;
 }
 
-.hero-content {
-  text-align: center;
+.serif-float-card--12 {
+  width: 200px;
+  --rot: -4deg;
+  --x: -260px;
+  --y: -270px;
+  --scatter-delay: 280ms;
+  --float-dur: 8.4s;
+  opacity: 0.78;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .serif-float-card {
+    animation: none !important;
+    opacity: 1;
+    transform: translate3d(calc(-50% + var(--x)), calc(-50% + var(--y)), 0) rotate(var(--rot)) scale(1);
+  }
+}
+
+.serif-hero-content {
+  position: relative;
   z-index: 2;
-  width: 800px;      // 定版宽度，避免舞台被压缩时内容重新排版
-  max-width: 800px;
-  padding: 0;
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+
+  /* 添加装饰性细线 */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: var(--serif-accent);
+    opacity: 0.3;
+  }
 }
 
-.hero-title {
-  /* aliued 风格：桌面端标题定版，不随视口宽度缩放 */
-  font-size: 60px;
-  font-weight: 900;
-  //font-family: "Times New Roman", Times, Georgia, serif;
-  color: #fff;
-  margin-bottom: 1rem;
-  //letter-spacing: 0.03em;
-  text-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
-  animation: fadeInUp 1s ease-out;
+.serif-hero-panel {
+  /* 去掉面板背景：让文字“浮”在舞台上，图片围绕 */
+  padding: 1.25rem 0 1.75rem;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
 }
 
-.hero-title-accent {
-  color: #ED6516;
+.serif-label {
+  font-family: var(--serif-font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--serif-accent);
+  margin-bottom: 1.5rem;
 }
 
-.hero-subtitle {
-  /* aliued 风格：桌面端副标题定版，不随视口宽度缩放 */
-  font-size: 18px;
-  line-height: 1.7;
-  color: rgba(255, 255, 255);
-  margin: 0 auto 1.4rem;
-  max-width: 640px;
-  animation: fadeInUp 1s ease-out 0.15s both;
+.serif-title {
+  font-family: var(--serif-font-display);
+  font-size: clamp(2.25rem, 5.4vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--serif-foreground);
+  margin-bottom: 2rem;
 }
 
-.hero-buttons {
+.serif-period {
+  color: var(--serif-accent);
+}
+
+.serif-subtitle {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--serif-muted-foreground);
+  margin-bottom: 3rem;
+  letter-spacing: 0.01em;
+}
+
+.serif-actions {
   display: flex;
   gap: 1.5rem;
   justify-content: center;
   flex-wrap: wrap;
-  animation: fadeInUp 1s ease-out 0.3s both;
 }
 
-.btn {
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 50px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
-
-  &.btn-primary {
-    background: linear-gradient(90deg, #7c3aed 0%, #5b21b6 55%, #4c1d95 100%);
-    color: #fff;
-    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.35);
-
-    &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 40px rgba(124, 58, 237, 0.5);
-    }
-  }
-
-  &.btn-secondary {
-    background: rgba(255, 255, 255, 0.06);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    backdrop-filter: blur(6px);
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateY(-3px);
-    }
-  }
-
-  &.btn-outline {
-    background: transparent;
-    color: #ED6516;
-    border: 2px solid #ED6516;
-    margin-top: 1rem;
-
-    &:hover {
-      background: #ED6516;
-      color: #fff;
-      transform: translateY(-2px);
-    }
-    
-    // 为动画进入的卡片中的按钮添加效果
-    .feature-card.animate-in & {
-      animation: buttonSlideIn 0.2s ease-out 0.5s both;
-    }
-  }
-}
-
-// 简洁风格按钮
-.btn-simple {
+/* Buttons - Restrained Elegance */
+.serif-btn {
   display: inline-flex;
   align-items: center;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #ED6516;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  font-family: var(--serif-font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
   text-decoration: none;
-  margin-top: 1.5rem;
-  transition: all 0.3s ease;
+  border-radius: 6px; /* 更符合 Serif 风格的较小圆角 */
+  transition: all 200ms ease-out; /* 200ms 克制过渡 */
+  min-height: 48px;
   position: relative;
-  cursor: pointer;
-  
+  overflow: hidden;
+  touch-action: manipulation; /* 更好的触摸响应 */
+
+  /* Subtle background gradient */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  &.serif-btn--primary {
+    background: var(--serif-accent);
+    color: var(--serif-accent-foreground);
+    border: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+
+    &:hover {
+      background: var(--serif-accent-secondary);
+      box-shadow: 0 4px 12px rgba(184, 134, 11, 0.15);
+      transform: translateY(-1px); /* 克制的微小提升 */
+
+      &::before {
+        opacity: 1;
+      }
+    }
+
+    &:active {
+      transform: translateY(0); /* 点击时返回 */
+    }
+  }
+
+  &.serif-btn--outline {
+    background: transparent;
+    color: var(--serif-foreground);
+    border: 1px solid var(--serif-foreground); /* 1px 细边框 */
+
+    &:hover {
+      background: var(--serif-muted);
+      border-color: var(--serif-accent);
+      color: var(--serif-accent);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+  }
+}
+
+/* Hero Images - Editorial Layout */
+.serif-hero-images {
+  display: none;
+}
+
+.serif-image-card {
+  position: absolute;
+  border-radius: 8px; /* 更小的圆角更优雅 */
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* 更克制的阴影 */
+  border: 1px solid var(--serif-border);
+  transition: all 200ms ease-out; /* 200ms 克制过渡 */
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 200ms ease; /* 只改变滤镜，不改变 transform */
+  }
+
+  /* 克制的悬停效果 - 无 translate/lift，只有阴影和背景色调变化 */
+  &:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12); /* 增强阴影 */
+    border-color: var(--serif-accent); /* 边框颜色变为金色 */
+
+    /* 背景色调变化 - 使用 ::after 伪元素 */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(184, 134, 11, 0.03), transparent 70%);
+      opacity: 1;
+    }
+  }
+
   &::after {
     content: '';
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    margin-left: 0.5rem;
-    border-top: 2px solid currentColor;
-    border-right: 2px solid currentColor;
-    transform: rotate(45deg);
-    transition: transform 0.3s ease;
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(184, 134, 11, 0), transparent 70%);
+    opacity: 0;
+    transition: opacity 200ms ease;
+    pointer-events: none;
   }
-  
-  // 底部线条动画效果
+
+  &--main {
+    width: 320px;
+    height: 240px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateZ(20px);
+    z-index: 3;
+  }
+
+  &--secondary {
+    width: 200px;
+    height: 150px;
+    top: 10%;
+    left: 15%;
+    transform: rotate(-3deg) translateZ(-20px);
+    z-index: 2;
+  }
+
+  &--tertiary {
+    width: 220px;
+    height: 165px;
+    bottom: 10%;
+    right: 15%;
+    transform: rotate(2deg) translateZ(-30px);
+    z-index: 2;
+  }
+}
+
+/* ============================================
+   SECTIONS - Generous Whitespace
+   ============================================ */
+.serif-section {
+  padding: 4rem 0; /* 进一步收紧 section 间距 */
+  border-top: 1px solid var(--serif-border);
+  position: relative;
+
+  /* 为每个 section 添加纸纹理 */
   &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.08; /* 更克制的纹理，避免“脏” */
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    z-index: 0;
+  }
+
+  > .serif-container {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.serif-section-label {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.serif-line {
+  flex: 1;
+  height: 1px;
+  background: var(--serif-border);
+}
+
+.serif-label-text {
+  font-family: var(--serif-font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--serif-accent);
+}
+
+.serif-label-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.serif-label-subtext {
+  font-family: var(--serif-font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--serif-muted-foreground);
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+/* Asymmetric Grid */
+.serif-grid-serif {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.serif-content-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.serif-section-title {
+  font-family: var(--serif-font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--serif-foreground);
+  margin-bottom: 1rem;
+}
+
+.serif-section-description {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: var(--serif-muted-foreground);
+  letter-spacing: 0.01em;
+}
+
+.serif-section-description-en {
+  display: block;
+  margin-top: 0.9rem;
+  font-family: var(--serif-font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--serif-muted-foreground) 88%, var(--serif-foreground));
+}
+
+/* ============================================
+   SECTION 1: TUTORIALS
+   ============================================ */
+.serif-features {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.serif-feature-item {
+  display: flex;
+  align-items: start;
+  gap: 1.5rem;
+}
+
+.serif-feature-icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--serif-muted);
+  border-radius: 8px; /* 更小的圆角 */
+  color: var(--serif-accent);
+  transition: all 200ms ease-out; /* 200ms 克制过渡 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); /* 更克制的阴影 */
+
+  svg {
+    width: 26px;
+    height: 26px;
+    /* 移除 svg 的 transform 变换 */
+  }
+}
+
+/* 克制的悬停效果 - 只改变背景色调和阴影 */
+.serif-feature-item:hover .serif-feature-icon {
+  background: radial-gradient(circle at center, rgba(184, 134, 11, 0.08), transparent 70%);
+  box-shadow: 0 2px 8px rgba(184, 134, 11, 0.12); /* 金色阴影 */
+}
+
+.serif-feature-content {
+  flex: 1;
+}
+
+.serif-feature-content h3 {
+  font-family: var(--serif-font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--serif-foreground);
+  margin-bottom: 0.5rem;
+}
+
+.serif-feature-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--serif-muted-foreground);
+}
+
+.serif-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--serif-font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--serif-accent);
+  text-decoration: none;
+  transition: color 200ms ease-out; /* 只过渡颜色 */
+  position: relative;
+
+  /* 添加下划线效果 */
+  &::after {
     content: '';
     position: absolute;
     bottom: -4px;
     left: 0;
     width: 0;
-    height: 2px;
-    background-color: #ED6516;
-    transition: width 0.3s ease;
+    height: 1px;
+    background: var(--serif-accent);
+    transition: width 200ms ease-out;
   }
-  
+
+  svg {
+    transition: transform 200ms ease-out;
+  }
+
   &:hover {
-    color: #c95612;
-    
+    color: var(--serif-accent-secondary);
+
     &::after {
-      transform: translateX(6px);
+      width: 100%; /* 下划线展开 */
     }
-    
-    &::before {
-      width: 100%;
+
+    svg {
+      transform: translateX(4px); /* 箭头移动 */
     }
   }
-  
-  // 为动画进入的卡片中的按钮添加效果
-  // .feature-card.animate-in & {
-  //   animation: buttonSlideIn 0.2s ease-out 0.5s both;
-  // }
 }
 
-.content-section.dark-mode .btn-simple {
-  color: #ff8c42;
-  
-  &::before {
-    background-color: #ff8c42;
-  }
-  
-  &:hover {
-    color: #ffa060;
-  }
-}
-
-@keyframes buttonSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.scroll-indicator {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  cursor: pointer;
-  animation: bounce 2s infinite;
-}
-
-.scroll-arrow {
-  width: 30px;
-  height: 30px;
-  border-right: 3px solid #fff;
-  border-bottom: 3px solid #fff;
-  transform: rotate(45deg);
-}
-
-.content-section {
-  padding: 3rem 0 0 0;
-  background: #f8f9fa;
-  transition: all 0.3s ease;
-
-  &.dark-mode {
-    background: #2a2a2a;
-  }
-}
-
-.content-section-final {
-  padding: 3rem 0;
-}
-
-.content-container {
-  // aliued 风格：定版内容舞台（宽度变化只裁切，不缩放/不重排）
-  width: 880px;
-  min-width: 880px;
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-.feature-card {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-  padding: 3rem 0; // 移除左右内边距，减少卡片感
-  transition: all 0.3s ease;
-  
-  // 初始状态：隐藏并向下偏移
-  // opacity: 0;
-  // transform: translateY(60px);
-  // transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  
-  // 简洁风格样式
-  &.clean-style {
-    background: transparent;
-    box-shadow: none;
-    border: none;
-  }
-  
-  // 动画进入状态
-  // &.animate-in {
-  //   opacity: 1;
-  //   transform: translateY(0);
-  // }
-  
-  // 为不同卡片添加不同的延迟
-  &:nth-child(1) {
-    transition-delay: 0.1s;
-  }
-  
-  &:nth-child(2) {
-    transition-delay: 0.2s;
-  }
-  
-  &:nth-child(3) {
-    transition-delay: 0.3s;
-  }
-}
-
-/* =========================
- * aliued 风格内容区（收窄 + 水印大字 + 分区色块 + 卡片组）
- * ========================= */
-.content-section.ali-block {
-  position: relative;
-  // 高度（纵向留白）更大，接近参考图的“展陈感”
-  padding: 7rem 0 3.5rem 0;
-  min-height: 560px;
-  overflow: hidden;
-}
-
-.content-section.ali-block::before {
-  content: attr(data-watermark);
-  position: absolute;
-  left: 50%;
-  top: 54%;
-  transform: translate(-50%, -50%)scaleY(1.5);
-  // 定版水印字号：避免随宽度变化而缩放
-  font-size: 180px;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  color: rgba(0, 0, 0, 0.06);
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.content-section.ali-define {
-  background: #f2f2f2;
-}
-
-.content-section.ali-create {
-  background: linear-gradient(180deg, #ED6516 0%, #f07b30 60%, #f38a45 100%);
-}
-
-.content-section.ali-guide {
-  /* NKG：整段背景使用紫色 */
-  --ali-accent: #711a5f;
-  background: var(--ali-accent);
-}
-
-.content-section.ali-guide::before {
-  color: rgba(255, 255, 255, 0.12);
-}
-
-.content-section.ali-create::before {
-  color: rgba(255, 255, 255, 0.18);
-}
-
-.content-section.ali-create .feature-text h2,
-.content-section.ali-create .feature-text p,
-.content-section.ali-create .btn-simple {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.content-section.ali-create .feature-text h2::after {
-  background: rgba(255, 255, 255, 0.8);
-}
-
-.content-section.ali-create .btn-simple::before {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-.content-section.ali-create .btn-simple {
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.content-section.ali-create .btn-simple:hover {
-  color: #fff;
-}
-
-/* 让卡片更“平面编辑风”，弱化原本大阴影 */
-.content-section.ali-block .feature-card {
-  padding: 2.2rem 0;
-  gap: 2.8rem;
-}
-
-.content-section.ali-block .feature-text h2 {
-  // 定版字号：避免随宽度变化而缩放
-  font-size: 34px;
-  margin-bottom: 1.15rem;
-}
-
-.content-section.ali-block .feature-text p {
-  font-size: 16px;
-  line-height: 1.7;
-  margin-bottom: 0.95rem;
-}
-
-.content-section.ali-block .btn-simple {
-  font-size: 16px;
-}
-
-/* NKG（紫色底）上的文字/装饰：改为浅色以保持对比 */
-.content-section.ali-guide .feature-text h2,
-.content-section.ali-guide .feature-text p {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.content-section.ali-guide .feature-text h2::after {
-  background: rgba(255, 255, 255, 0.85);
-}
-
-.content-section.ali-guide .btn-simple {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.content-section.ali-guide .btn-simple::before {
-  background-color: rgba(255, 255, 255, 0.85);
-}
-
-.content-section.ali-guide .btn-simple:hover {
-  color: #ffffff;
-}
-
-.content-section.ali-block .feature-img {
-  box-shadow: none;
-  border-radius: 14px;
-}
-
-/* Brand: 竖向“书脊”卡片 */
-.ali-pillars {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-  align-items: stretch;
-}
-
-.ali-pillar {
-  position: relative;
-  height: 280px;
-  border-radius: 14px;
-  overflow: hidden;
-  padding: 18px 16px;
+/* Side Cards */
+.serif-cards-side {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background: #fff;
+  gap: 1.5rem;
 }
 
-.ali-pillar--accent {
-  background: linear-gradient(180deg, #ED6516 0%, #ff8a42 100%);
-  border-color: rgba(237, 101, 22, 0.25);
-}
-
-.ali-pillar--dark {
-  background: #151515;
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.ali-pillar--img img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: contrast(1.05) saturate(1.05) brightness(0.78);
-}
-
-.ali-pillar-mask {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 85%);
-}
-
-.ali-pillar-title {
-  position: relative;
-  z-index: 1;
-  font-size: 1rem;
-  font-weight: 800;
-  color: #111;
-}
-
-.ali-pillar-sub {
-  position: relative;
-  z-index: 1;
-  margin-top: 6px;
-  font-size: 0.88rem;
-  color: rgba(17, 17, 17, 0.75);
-}
-
-.ali-pillar--accent .ali-pillar-title,
-.ali-pillar--accent .ali-pillar-sub,
-.ali-pillar--dark .ali-pillar-title,
-.ali-pillar--dark .ali-pillar-sub,
-.ali-pillar--img .ali-pillar-title,
-.ali-pillar--img .ali-pillar-sub {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.ali-pillar--dark .ali-pillar-sub {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* UX: 两张横向入口卡 */
-.ali-ux-cards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  align-items: stretch;
-}
-
-.ali-ux-card {
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  min-height: 170px;
-  padding: 18px 18px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.ali-ux-card img {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 62%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.85;
-  filter: contrast(1.05) saturate(1.05) brightness(0.9);
-  transform: translateX(8px);
-}
-
-.ali-ux-card--dark {
-  background: rgba(0, 0, 0, 0.62);
-}
-
-.ali-ux-card--light {
-  background: rgba(255, 255, 255, 0.92);
-  border-color: rgba(0, 0, 0, 0.08);
-}
-
-.ali-ux-card-title {
-  position: relative;
-  z-index: 1;
-  font-weight: 900;
-  font-size: 1.15rem;
-  letter-spacing: -0.01em;
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.ali-ux-card-sub {
-  position: relative;
-  z-index: 1;
-  margin-top: 6px;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.ali-ux-card--light .ali-ux-card-title {
-  color: #111;
-}
-.ali-ux-card--light .ali-ux-card-sub {
-  color: rgba(17, 17, 17, 0.7);
-}
-
-/* Guide: 拼图卡 */
-.ali-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.ali-grid-card {
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  min-height: 170px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #f3f4f6;
-}
-
-.ali-grid-card--img img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: contrast(1.05) saturate(1.05) brightness(0.9);
-}
-
-.ali-grid-card-title {
-  position: absolute;
-  left: 14px;
-  bottom: 12px;
-  font-weight: 900;
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.92);
-  text-shadow: 0 10px 30px rgba(0,0,0,0.55);
-}
-
-.ali-grid-card--solid,
-.ali-grid-card--solid2 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 18px;
-}
-
-.ali-grid-card--solid {
-  background: #b7ff00;
-  border-color: rgba(0,0,0,0.08);
-}
-.ali-grid-card--solid2 {
-  background: #8b5cf6;
-  border-color: rgba(0,0,0,0.08);
-}
-
-.ali-grid-card--solid .ali-grid-card-title,
-.ali-grid-card--solid2 .ali-grid-card-title {
-  position: static;
-  color: rgba(17, 17, 17, 0.92);
-  text-shadow: none;
-  font-size: 2.35rem;
-  line-height: 1;
-}
-
-.ali-grid-card-sub {
-  margin-top: 6px;
-  font-weight: 700;
-  color: rgba(17, 17, 17, 0.7);
-}
-
-/* NKG 区块：把数字卡调成紫色体系 */
-.content-section.ali-guide .ali-grid-card--solid {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(255, 255, 255, 0.35);
-}
-
-.content-section.ali-guide .ali-grid-card--solid2 {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.28);
-}
-
-.content-section.ali-guide .ali-grid-card--solid2 .ali-grid-card-title,
-.content-section.ali-guide .ali-grid-card--solid2 .ali-grid-card-sub {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.content-section.ali-guide .ali-grid-card--solid2 .ali-grid-card-sub {
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.content-section.ali-guide .ali-grid-card--solid .ali-grid-card-title,
-.content-section.ali-guide .ali-grid-card--solid .ali-grid-card-sub {
-  color: rgba(17, 17, 17, 0.9);
-}
-
-/* 注意：为实现“只遮挡、不变位”，此页面不做该区块的响应式重排 */
-
-.content-section.dark-mode .feature-card.clean-style {
-  background: transparent;
-  box-shadow: none;
-}
-
-.feature-text h2 {
-  font-size: 2.8rem;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 2rem;
-  position: relative;
-  user-select: none; // 禁止文本选择
-  
-  // 添加下划线装饰
-  &::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 4px;
-    background: #ED6516; // 使用主色调
-    margin-top: 1rem;
-    border-radius: 2px;
-  }
-  
-  // 为动画进入的卡片中的标题添加效果
-  // .feature-card.animate-in & {
-  //   animation: textSlideIn 0.2s ease-out 0.2s both;
-  // }
-}
-
-@keyframes textSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.content-section.dark-mode .feature-text h2 {
-  color: #e0e0e0;
-}
-
-.feature-text p {
-  font-size: 1.15rem;
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-  color: #555;
-  
-  // 为动画进入的卡片中的段落添加效果
-  // .feature-card.animate-in & {
-  //   animation: textSlideIn 0.2s ease-out 0.3s both;
-  // }
-  
-}
-
-.content-section.dark-mode .feature-text p {
-  color: #ccc;
-}
-
-.feature-image {
-  position: relative;
-  width: 100%;
-  // height: 0; // 移除固定宽高比，允许图片自然高度但限制最大高度
-  // padding-bottom: 56.25%; 
+.serif-card {
+  background: var(--serif-card);
+  border: 1px solid var(--serif-border);
+  border-radius: 8px; /* 更小的圆角 */
+  padding: 2.5rem 2rem;
   text-align: center;
+  transition: all 200ms ease-out; /* 200ms 克制过渡 */
+  position: relative;
+  overflow: hidden;
+
+  /* 背景色调变化 */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at top right, rgba(184, 134, 11, 0.03), transparent 60%);
+    opacity: 0;
+    transition: opacity 200ms ease;
+    pointer-events: none;
+  }
+
+  &--accent-top {
+    border-top: 2px solid var(--serif-accent); /* 2px 细线更优雅 */
+  }
+
+  /* 克制的悬停效果 - 无 translate/lift */
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); /* 增强阴影 */
+    border-color: var(--serif-accent); /* 边框变为金色 */
+
+    &::before {
+      opacity: 1; /* 背景色调变化 */
+    }
+  }
+}
+
+.serif-card-stat {
+  font-family: var(--serif-font-display);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--serif-foreground);
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.serif-card-label {
+  font-family: var(--serif-font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--serif-muted-foreground);
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   SECTION 2: NAVIGATION
+   ============================================ */
+.serif-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.serif-highlight {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 1.5rem;
 }
 
-.feature-img {
-  width: 100%;
-  max-width: 500px; // 稍微加大最大宽度
-  height: auto;
-  border-radius: 20px; // 加大圆角
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); // 更柔和深邃的阴影
-  transition: transform 0.3s ease;
-  object-fit: cover;
+.serif-highlight-number {
+  font-family: var(--serif-font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--serif-accent);
+  opacity: 0.3;
+  flex-shrink: 0;
+}
 
+.serif-highlight-text h4 {
+  font-family: var(--serif-font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--serif-foreground);
+  margin-bottom: 0.25rem;
+}
+
+.serif-highlight-text p {
+  font-size: 0.875rem;
+  color: var(--serif-muted-foreground);
+}
+
+/* Featured Images */
+.serif-image-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.serif-featured-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--serif-border);
+  aspect-ratio: 16 / 10;
+  background: var(--serif-muted);
+  transition: all 200ms ease-out; /* 200ms 克制过渡 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); /* 更克制的阴影 */
+
+  /* 克制的悬停效果 */
   &:hover {
-    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* 增强阴影 */
+    border-color: var(--serif-accent); /* 边框变为金色 */
   }
 }
 
-// 为动画进入的卡片中的图片添加额外效果
-// .feature-card.animate-in .feature-img {
-//   animation: imageFloat 0.4s ease-out 0.4s both;
-// }
+.serif-featured-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.95);
+  transition: filter 200ms ease; /* 只改变滤镜 */
+}
 
-@keyframes imageFloat {
-  0% {
+.serif-featured-card:hover .serif-featured-img {
+  filter: brightness(0.88); /* 克制的亮度变化 */
+}
+
+.serif-featured-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 50%);
+  transition: all 0.3s ease;
+}
+
+.serif-featured-card:hover .serif-featured-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent 60%);
+}
+
+.serif-featured-tag {
+  font-family: var(--serif-font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--serif-accent);
+  background: rgba(255, 255, 255, 0.98);
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.serif-featured-title {
+  font-family: var(--serif-font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   SECTION 3: NKG
+   ============================================ */
+.serif-quote {
+  position: relative;
+  background: var(--serif-muted);
+  border-left: 3px solid var(--serif-accent);
+  padding: 2rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.serif-quote-mark {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 32px;
+  height: 32px;
+  color: var(--serif-accent);
+  opacity: 0.2;
+}
+
+.serif-quote-text {
+  font-family: var(--serif-font-display);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-style: italic;
+  color: var(--serif-foreground);
+  padding-left: 2rem;
+}
+
+/* Stats Grid */
+.serif-stats-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.serif-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.serif-stat-card {
+  background: var(--serif-card);
+  border: 1px solid var(--serif-border);
+  border-radius: 8px; /* 更小的圆角 */
+  padding: 2rem;
+  text-align: center;
+  transition: all 200ms ease-out; /* 200ms 克制过渡 */
+  position: relative;
+  overflow: hidden;
+
+  /* 背景色调变化 */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(184, 134, 11, 0.04), transparent 70%);
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
+    transition: opacity 200ms ease;
+    pointer-events: none;
   }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+
+  &--primary {
+    background: var(--serif-muted);
+    border-color: var(--serif-accent);
+    border-width: 2px;
+  }
+
+  &--full {
+    grid-column: span 2;
+    padding: 0;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    position: relative;
+  }
+
+  /* 克制的悬停效果 */
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); /* 增强阴影 */
+
+    &::before {
+      opacity: 1; /* 背景色调变化 */
+    }
+  }
+
+  &:not(.serif-stat-card--full) {
+    &:hover {
+      border-color: var(--serif-accent); /* 边框变为金色 */
+    }
   }
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+.serif-stat-value {
+  font-family: var(--serif-font-display);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--serif-foreground);
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.serif-stat-label {
+  font-family: var(--serif-font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--serif-muted-foreground);
+  position: relative;
+  z-index: 1;
+}
+
+.serif-stat-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 200ms ease; /* 只改变滤镜 */
+}
+
+.serif-stat-card--full:hover .serif-stat-img {
+  filter: brightness(0.92); /* 克制的亮度变化 */
+}
+
+.serif-stat-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.25rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent 60%);
+  color: white;
+  font-family: var(--serif-font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.serif-stat-card--full:hover .serif-stat-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent 70%);
+  padding: 1.5rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+  .serif-container {
+    padding: 0.25rem 1.5rem;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .serif-hero {
+    padding: calc(3rem + var(--app-navbar-height, 80px)) 0 2.25rem 0;
+    min-height: calc(44vh + var(--app-navbar-height, 80px));
+    margin-top: calc(var(--app-navbar-height, 80px) * -1);
+  }
+
+  .serif-title {
+    font-size: 2.5rem;
+  }
+
+  .serif-subtitle {
+    font-size: 1rem;
+  }
+
+  .serif-actions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .serif-btn {
+    width: 100%;
+    padding: 0.875rem 2rem;
+  }
+
+  .serif-hero-panel {
+    padding: 2.25rem 1.5rem 2.75rem;
+  }
+
+  /* 移动端减少浮动图片数量，避免拥挤 */
+  .serif-float-card {
+    width: 160px;
+
+    img {
+      height: 120px;
+    }
+  }
+
+  .serif-float-card--2,
+  .serif-float-card--4,
+  .serif-float-card--5 {
+    display: none;
+  }
+
+  .serif-float-card--7,
+  .serif-float-card--8,
+  .serif-float-card--9,
+  .serif-float-card--10,
+  .serif-float-card--11,
+  .serif-float-card--12 {
+    display: none;
+  }
+
+  .serif-float-card--1 {
+    --x: -170px;
+    --y: -80px;
+  }
+
+  .serif-float-card--3 {
+    --x: 160px;
+    --y: -70px;
+  }
+
+  .serif-float-card--6 {
+    --x: 50px;
+    --y: 120px;
+  }
+
+  .serif-section {
+    padding: 4.25rem 0;
+  }
+
+  .serif-grid-serif {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .serif-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .serif-stat-card--full {
+    grid-column: span 1;
+  }
+
+  .serif-section-label {
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+
+    .serif-line {
+      display: none; /* 移动端隐藏横线，只保留文字 */
+    }
+  }
+
+  .serif-label-text {
+    font-size: 0.625rem;
+  }
+
+  .serif-label-subtext {
+    font-size: 0.55rem;
+    letter-spacing: 0.16em;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .serif-section-description-en {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
   }
 }
 
-/* 首屏卡片：加载时从中心放射到目标位置（缩放+透明度恢复），结束后进入轻漂浮 */
-@keyframes heroCardIn {
-  0% {
-    opacity: 0;
-    filter: blur(6px);
-    transform: translate(var(--enter-x), var(--enter-y)) scale(0.65) var(--base-transform) translateZ(0);
+/* 平板优化 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .serif-hero {
+    padding: 7rem 0 5rem 0;
   }
-  60% {
-    opacity: var(--target-opacity, 1);
-    filter: blur(0);
-    transform: translate(0px, 0px) scale(1.03) var(--base-transform) translateZ(0);
-  }
-  100% {
-    opacity: var(--target-opacity, 1);
-    filter: blur(0);
-    transform: translate(0px, 0px) scale(1) var(--base-transform) translateZ(0);
-  }
-}
 
-@keyframes heroCardFloat {
-  0%,
-  100% {
-    transform: translate(0px, 0px) scale(1) var(--base-transform) translateZ(0);
+  .serif-float-card {
+    width: 200px;
+
+    img {
+      height: 135px;
+    }
   }
-  50% {
-    transform: translate(var(--float-x, 0px), calc(-1 * var(--float-y, 10px))) scale(1) var(--base-transform) translateZ(0);
+
+  .serif-grid-serif {
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 3rem;
   }
 }
 
-@keyframes heroMainFloat {
-  0% {
-    transform: translateY(-58%);
-  }
-  50% {
-    transform: translateY(-62%);
-  }
-  100% {
-    transform: translateY(-58%);
-  }
-}
+/* Dark Mode Adjustments - Editorial Elegance */
+.serif-home.dark-mode {
+  /* 确保深色模式下的背景和边框颜色正确 */
+  .serif-card,
+  .serif-stat-card,
+  .serif-featured-card {
+    background: var(--serif-card);
+    border-color: var(--serif-border);
 
-@keyframes floatCard1 {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-@keyframes floatCard2 {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0); }
-}
-@keyframes floatCard3 {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-9px); }
-  100% { transform: translateY(0); }
-}
-@keyframes floatCard4 {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-11px); }
-  100% { transform: translateY(0); }
-}
-
-@keyframes floatCard5 {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-@keyframes floatCard6 {
-  0% { transform: translateY(-50%) translateX(0); }
-  50% { transform: translateY(-50%) translateX(-6px); }
-  100% { transform: translateY(-50%) translateX(0); }
-}
-@keyframes floatCard7 {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0); }
-}
-
-@keyframes bounce {
-
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    transform: translateX(-50%) translateY(0);
+    &:hover {
+      border-color: var(--serif-accent);
+    }
   }
 
-  40% {
-    transform: translateX(-50%) translateY(-10px);
+  .serif-feature-icon {
+    background: var(--serif-muted);
   }
 
-  60% {
-    transform: translateX(-50%) translateY(-5px);
+  .serif-quote {
+    background: var(--serif-muted);
+    border-left-color: var(--serif-accent);
+  }
+
+  /* 深色模式下的图片卡片阴影 - 更克制 */
+  .serif-image-card,
+  .serif-featured-card,
+  .serif-card,
+  .serif-stat-card {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* 更克制的阴影 */
+
+    &:hover {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2); /* 微妙增强 */
+    }
+  }
+
+  /* 深色模式下的 Hero 区域优化 */
+  .serif-hero {
+    /* 深色模式下的氛围光晕更明显 */
+    &::after {
+      opacity: 0.03; /* 增加到 3% */
+    }
   }
 }
 
-// 响应式设计
-// 注意：为实现“只遮挡、不变位”，此页面不对内容区做 <=768px 的响应式重排
+/* 深色模式下的按钮优化 */
+.serif-home.dark-mode {
+  .serif-btn--outline {
+    border-color: var(--serif-border);
+    color: var(--serif-foreground);
 
-// 小屏幕优化
-@media (max-width: 480px) {
-  // 注意：为实现“只遮挡、不变位”，此页面不对内容区做 <=480px 的响应式重排
+    &:hover {
+      background: var(--serif-muted);
+      border-color: var(--serif-accent);
+      color: var(--serif-accent);
+      box-shadow: 0 4px 12px rgba(184, 134, 11, 0.1);
+    }
+  }
+}
 
-  .scroll-arrow {
-    width: 40px;
-    height: 40px;
-    border-right: 4px solid #fff;
-    border-bottom: 4px solid #fff;
+/* 深色模式下的链接优化 */
+.serif-home.dark-mode {
+  .serif-link {
+    color: var(--serif-accent);
+
+    &:hover {
+      color: var(--serif-accent-secondary);
+    }
+  }
+}
+
+/* 深色模式下的标题优化 */
+.serif-home.dark-mode {
+  .serif-section-title,
+  .serif-title,
+  .serif-feature-content h3,
+  .serif-highlight-text h4 {
+    color: var(--serif-foreground);
   }
 }
 </style>

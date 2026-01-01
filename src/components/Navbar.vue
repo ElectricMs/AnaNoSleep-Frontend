@@ -6,6 +6,11 @@
     'mobile-menu-open': isMobileMenuOpen
   }">
     <div class="nav-container">
+      <!-- Brand -->
+      <router-link to="/" class="nav-brand" aria-label="AnaNoSleep 首页">
+        <img class="nav-brand-logo" src="/logo.png" alt="AnaNoSleep" />
+        <span class="nav-brand-text">AnaNoSleep</span>
+      </router-link>
       
       <!-- 桌面端导航菜单 -->
       <div class="nav-menu desktop-menu">
@@ -138,179 +143,158 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   z-index: 1000;
-  //padding: 1rem 0;
-  height: 60px;
-  transition: all 0.3s ease;
+  height: var(--app-navbar-height, 60px);
+  transition: background 200ms ease-out, border-color 200ms ease-out, box-shadow 200ms ease-out;
   background: transparent;
+  border-bottom: 1px solid transparent;
+  --nav-fg: var(--serif-foreground);
+  --nav-muted: var(--serif-muted-foreground);
+  --nav-border: var(--serif-border);
+  --nav-card: var(--serif-card);
+  --nav-toggle-bg: color-mix(in srgb, var(--serif-muted) 75%, transparent);
 
   // 非首页时默认有背景
   &.non-home-page {
-    background: rgba(255, 255, 255, 0.95);
+    background: color-mix(in srgb, var(--serif-background) 92%, transparent);
     backdrop-filter: blur(10px);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-
-    &.dark-mode {
-      background: rgba(26, 26, 26, 0.95);
-      box-shadow: 0 2px 20px rgba(255, 255, 255, 0.1);
-    }
+    border-bottom-color: color-mix(in srgb, var(--serif-accent) 55%, var(--serif-border));
+    box-shadow: 0 1px 2px rgba(26, 26, 26, 0.04);
   }
 
   &.navbar-scrolled {
-    background: rgba(255, 255, 255, 0.95);
+    background: color-mix(in srgb, var(--serif-background) 92%, transparent);
     backdrop-filter: blur(10px);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-
-    &.dark-mode {
-      background: rgba(26, 26, 26, 0.95);
-      box-shadow: 0 2px 20px rgba(255, 255, 255, 0.1);
-    }
+    border-bottom-color: color-mix(in srgb, var(--serif-accent) 55%, var(--serif-border));
+    box-shadow: 0 1px 2px rgba(26, 26, 26, 0.04);
   }
 
   // 当移动端菜单展开时，导航栏背景变为白色
   &.mobile-menu-open {
-    background: rgba(255, 255, 255, 0.95);
+    background: color-mix(in srgb, var(--serif-background) 92%, transparent);
     backdrop-filter: blur(10px);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    border-bottom-color: color-mix(in srgb, var(--serif-accent) 55%, var(--serif-border));
+    box-shadow: 0 1px 2px rgba(26, 26, 26, 0.04);
+  }
 
-    &.dark-mode {
-      background: rgba(26, 26, 26, 0.95);
-      box-shadow: 0 2px 20px rgba(255, 255, 255, 0.1);
-    }
-
-// 汉堡按钮在菜单展开时变为深色
-    .hamburger-line {
-      background: #333 !important;
-    }
-
-    &.dark-mode .hamburger-line {
-      background: #e0e0e0 !important;
-    }
+  /* 首页 Hero 深色背景时（未滚动/未打开菜单）提高对比度 */
+  &:not(.navbar-scrolled):not(.non-home-page):not(.mobile-menu-open) {
+    --nav-fg: rgba(250, 250, 248, 0.92);
+    --nav-muted: rgba(250, 250, 248, 0.78);
+    --nav-border: rgba(250, 250, 248, 0.14);
+    --nav-card: rgba(255, 255, 255, 0.08);
+    --nav-toggle-bg: rgba(255, 255, 255, 0.06);
   }
 }
 
 .nav-container {
-  max-width: 1200px;
+  max-width: var(--serif-container-max);
   margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 2rem;
-  position: relative;
   height: 100%;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--nav-fg);
+  min-height: 44px;
+}
+
+.nav-brand-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--nav-border);
+  background: var(--nav-card);
+}
+
+.nav-brand-text {
+  font-family: var(--serif-font-display);
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
 }
 
 
 .nav-menu {
   display: flex;
-  gap: 2rem;
+  gap: 1.75rem;
+  justify-content: center;
 }
 
 .nav-toggle {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  position: absolute;
-  right: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
+  gap: 0.75rem;
+  justify-content: flex-end;
 }
 
 .nav-link {
   text-decoration: none;
-  color: #fff;
+  color: var(--nav-muted);
+  font-family: var(--serif-font-mono);
+  font-size: 0.75rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: color 200ms ease-out;
   position: relative;
-  padding: 0.5rem 1rem;
-  border-radius: 25px;
+  padding: 0.25rem 0;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    height: 1px;
+    background: var(--serif-accent);
+    opacity: 0;
+    transform: scaleX(0.6);
+    transform-origin: center;
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+  }
 
   &:hover,
   &.active {
-    background: rgba(255, 107, 53, 0.2);
-    color: #ED6516;
+    color: var(--nav-fg);
+
+    &::after {
+      opacity: 0.6;
+      transform: scaleX(1);
+    }
   }
 
   // NKG链接特殊样式
   &.nkg-link {
     &:hover,
     &.active {
-      background: rgba(113, 26, 95, 0.2);
       color: #711a5f;
-    }
-  }
-}
-
-// 非首页时导航链接保持黑色
-.navbar.non-home-page .nav-link {
-  color: #333;
-
-  // NKG链接在非首页时的特殊样式
-  &.nkg-link {
-    &:hover,
-    &.active {
-      background: rgba(113, 26, 95, 0.2);
-      color: #711a5f;
-    }
-  }
-}
-
-// 非首页时夜间模式下导航链接保持浅色
-.navbar.non-home-page.dark-mode .nav-link {
-  color: #e0e0e0;
-
-  // NKG链接在非首页夜间模式时的特殊样式
-  &.nkg-link {
-    &:hover,
-    &.active {
-      background: rgba(113, 26, 95, 0.3);
-      color: #8b2a6b;
-    }
-  }
-}
-
-.navbar-scrolled .nav-link {
-  color: #333;
-
-  &:hover,
-  &.active {
-    background: rgba(255, 107, 53, 0.2);
-    color: #ED6516;
-  }
-
-  // NKG链接在滚动状态时的特殊样式
-  &.nkg-link {
-    &:hover,
-    &.active {
-      background: rgba(113, 26, 95, 0.2);
-      color: #711a5f;
-    }
-  }
-}
-
-// 滚动后夜间模式下导航链接保持浅色
-.navbar.dark-mode.navbar-scrolled .nav-link {
-  color: #e0e0e0;
-
-  // NKG链接在滚动夜间模式时的特殊样式
-  &.nkg-link {
-    &:hover,
-    &.active {
-      background: rgba(113, 26, 95, 0.3);
-      color: #8b2a6b;
+      &::after {
+        background: #711a5f;
+        opacity: 0.5;
+      }
     }
   }
 }
 
 .theme-toggle {
-  background: transparent;
-  border: none;
-  color: #fff;
-  padding: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  background: var(--nav-toggle-bg);
+  border: 1px solid var(--nav-border);
+  color: var(--nav-fg);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 200ms ease-out, border-color 200ms ease-out, transform 200ms ease-out;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -318,14 +302,15 @@ onUnmounted(() => {
   svg {
     width: 22px;
     height: 22px;
-    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    transition: transform 200ms ease-out;
   }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    
+    background: color-mix(in srgb, var(--nav-toggle-bg) 92%, transparent);
+    border-color: color-mix(in srgb, var(--serif-accent) 60%, var(--nav-border));
+    transform: translateY(-1px);
     svg {
-      transform: rotate(20deg) scale(1.1);
+      transform: rotate(10deg) scale(1.05);
     }
   }
 }
@@ -354,11 +339,11 @@ onUnmounted(() => {
 // 移动端主题切换按钮
 .mobile-theme-toggle {
   display: none;
-  background: rgba(255, 107, 53, 0.1);
-  border: 1px solid rgba(255, 107, 53, 0.5);
-  color: #ED6516;
+  background: var(--serif-card);
+  border: 1px solid var(--serif-border);
+  color: var(--serif-foreground);
   padding: 0.75rem 1.5rem;
-  border-radius: 25px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
@@ -375,11 +360,10 @@ onUnmounted(() => {
   }
 
   &:hover {
-    background: #ED6516;
-    color: #fff;
+    border-color: color-mix(in srgb, var(--serif-accent) 60%, var(--serif-border));
     
     svg {
-      stroke: #fff;
+      stroke: currentColor;
     }
   }
 }
@@ -389,31 +373,7 @@ onUnmounted(() => {
   opacity: 1;
 }
 
-// 非首页时主题切换按钮样式
-.navbar.non-home-page .theme-toggle {
-  color: #333; // 默认深色图标
-  
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
-  }
-}
-
-.navbar-scrolled .theme-toggle {
-  color: #333; // 默认深色图标
-  
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
-  }
-}
-
-// 暗色模式下的按钮颜色
-.navbar.dark-mode .theme-toggle {
-  color: #e0e0e0;
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-}
+// 主题按钮颜色跟随 navbar 的对比度变量（见 .navbar 内 --nav-*）
 
 .mobile-menu-toggle {
   display: none;
@@ -431,35 +391,11 @@ onUnmounted(() => {
 
 .hamburger-line {
   width: 30px;
-  height: 4px;
-  background: #fff;
+  height: 3px;
+  background: var(--nav-fg);
   margin: 4px 0;
   transition: all 0.3s ease;
   border-radius: 2px;
-}
-
-// 在暗色模式下，即使是透明导航栏，汉堡按钮也应该是白色的
-.navbar.dark-mode .hamburger-line {
-  background: #fff;
-}
-
-// 非首页时汉堡菜单按钮保持黑色
-.navbar.non-home-page .hamburger-line {
-  background: #333;
-}
-
-.navbar.non-home-page.dark-mode .hamburger-line {
-  background: #e0e0e0;
-}
-
-.navbar-scrolled .hamburger-line {
-  background: #333;
-}
-
-// 移动端汉堡按钮在夜间模式下的颜色（覆盖上面的规则）
-.navbar.dark-mode.non-home-page .hamburger-line,
-.navbar.dark-mode.navbar-scrolled .hamburger-line {
-  background: #e0e0e0;
 }
 
 .hamburger-line.active:nth-child(1) {
@@ -479,9 +415,10 @@ onUnmounted(() => {
   top: 100%;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: color-mix(in srgb, var(--serif-background) 96%, transparent);
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid var(--serif-border);
+  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.06);
   display: flex;
   flex-direction: column;
   padding: 1.5rem 0;
@@ -497,26 +434,21 @@ onUnmounted(() => {
     opacity: 1;
     visibility: visible;
     max-height: 500px;
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-  }
-}
-
-.navbar.dark-mode .mobile-menu {
-  background: rgba(26, 26, 26, 0.95);
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
-  
-  &.active {
-    box-shadow: 0 6px 25px rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 24px rgba(26, 26, 26, 0.08);
   }
 }
 
 .mobile-nav-link {
   text-decoration: none;
-  color: #333;
+  color: var(--serif-muted-foreground);
+  font-family: var(--serif-font-mono);
+  font-size: 0.75rem;
   font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
   padding: 1rem 2rem;
-  transition: all 0.3s ease;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: color 200ms ease-out, background 200ms ease-out;
+  border-bottom: 1px solid var(--serif-border);
   opacity: 0;
   transition: opacity 0.3s ease;
 
@@ -539,15 +471,15 @@ onUnmounted(() => {
 
   &:hover,
   &.active {
-    background: rgba(255, 107, 53, 0.1);
-    color: #ED6516;
+    background: color-mix(in srgb, var(--serif-muted) 70%, transparent);
+    color: var(--serif-foreground);
   }
 
   // NKG链接在移动端的特殊样式
   &.nkg-link {
     &:hover,
     &.active {
-      background: rgba(113, 26, 95, 0.1);
+      background: color-mix(in srgb, #711a5f 10%, transparent);
       color: #711a5f;
     }
   }
@@ -558,29 +490,16 @@ onUnmounted(() => {
   opacity: 1;
 }
 
-.navbar.dark-mode .mobile-nav-link {
-  color: #e0e0e0;
-  border-bottom-color: rgba(255, 255, 255, 0.1);
-
-  // NKG链接在夜间模式移动端的特殊样式
-  &.nkg-link {
-    &:hover,
-    &.active {
-      background: rgba(113, 26, 95, 0.2);
-      color: #8b2a6b;
-    }
-  }
-}
-
 // 响应式设计
 @media (max-width: 768px) {
   .navbar {
-    //padding: 1rem 0;
-    height: 80px;
+    height: var(--app-navbar-height, 80px);
   }
 
   .nav-container {
     padding: 0 1rem;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
   }
   
   .desktop-menu {
@@ -592,9 +511,7 @@ onUnmounted(() => {
   }
   
   .nav-toggle {
-    right: 1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
+    justify-content: flex-end;
   }
 
   .mobile-menu-toggle {
@@ -603,6 +520,10 @@ onUnmounted(() => {
   
   .mobile-theme-toggle {
     display: block;
+  }
+
+  .nav-brand-text {
+    display: none;
   }
 }
 </style>

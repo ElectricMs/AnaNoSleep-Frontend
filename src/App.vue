@@ -1,5 +1,11 @@
 <template>
-  <div id="app" :class="{ 'dark-mode': themeStore.isDarkMode }">
+  <div
+    id="app"
+    :class="{
+      'dark-mode': themeStore.isDarkMode,
+      'has-navbar-offset': needsNavbarOffset
+    }"
+  >
     <!-- 只在非管理页面显示导航栏和页脚 -->
     <template v-if="!isAdminPage">
       <Navbar />
@@ -26,6 +32,12 @@ const themeStore = useThemeStore()
 // 判断是否为管理页面
 const isAdminPage = computed(() => {
   return route.path.startsWith('/admin') || route.path === '/login'
+})
+
+// 非首页页面给 fixed navbar 预留顶部空间，避免内容被遮挡
+const needsNavbarOffset = computed(() => {
+  if (isAdminPage.value) return false
+  return route.name !== 'home'
 })
 
 onMounted(() => {

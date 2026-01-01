@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "mcp__zai-mcp-server__ui_to_artifact",
+      "mcp__web-reader__webReader",
+      "mcp__web-search-prime__webSearchPrime",
+      "Bash(npm run dev)",
+      "Bash(timeout:*)",
+      "Skill(frontend-design)"
     ]
   }
 }

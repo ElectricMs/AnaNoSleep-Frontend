@@ -76,13 +76,31 @@ const closePrivacyModal = () => {
 
 <style lang="scss" scoped>
 .footer {
-    background: #120725;
-    color: #e0e0e0;
+    /* 使用固定的深色背景，与首页形成对比 */
+    background: #1A1A1A;
+    color: #FAFAF8;
     transition: all 0.3s ease;
-    padding: 2rem 0; // 减少上下内边距
+    padding: 3rem 0 2rem 0;
+    border-top: 3px solid #B8860B; /* 使用金色 accent */
+    position: relative;
 
+    /* 添加微妙的纹理 */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.03;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* 深色模式下使用稍浅的深色 */
     &.dark-mode {
-        background: #0b061a;
+        background: #0F0F0F;
+        border-top-color: #D4A84B;
     }
 }
 
@@ -102,16 +120,22 @@ const closePrivacyModal = () => {
 
 .brand-section {
     h3 {
-        font-size: 1.5rem;
+        font-size: 1.75rem;
         font-weight: 700;
-        color: #ED6516;
+        color: #B8860B;
         margin-bottom: 0.5rem;
+        font-family: 'Playfair Display', Georgia, serif;
+
+        .footer.dark-mode & {
+            color: #D4A84B;
+        }
     }
 
     .tagline {
-        font-size: 0.9rem;
-        color: #aaa;
+        font-size: 0.95rem;
+        color: rgba(250, 250, 248, 0.7);
         margin: 0;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
     }
 }
 
@@ -123,19 +147,24 @@ const closePrivacyModal = () => {
     gap: 0.8rem;
 
     a {
-        color: #e0e0e0;
+        color: #FAFAF8;
         text-decoration: none;
         font-size: 0.95rem;
-        transition: color 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         font-weight: 500;
+        position: relative;
 
         &:hover {
-            color: #ED6516;
+            color: #B8860B;
+
+            .footer.dark-mode & {
+                color: #D4A84B;
+            }
         }
     }
 
     .divider {
-        color: #555;
+        color: rgba(250, 250, 248, 0.3);
         font-size: 0.8rem;
     }
 }
@@ -147,44 +176,65 @@ const closePrivacyModal = () => {
     align-items: center;
     gap: 0.8rem;
     font-size: 0.85rem;
-    color: #999;
+    color: rgba(250, 250, 248, 0.6);
+    font-family: 'IBM Plex Mono', monospace;
 
     a {
-        color: #999;
+        color: rgba(250, 250, 248, 0.6);
         text-decoration: none;
-        transition: color 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
         &:hover {
-            color: #ccc;
+            color: #FAFAF8;
         }
     }
 
     .divider {
-        color: #555;
+        color: rgba(250, 250, 248, 0.3);
         font-size: 0.8rem;
     }
 }
 
-// 响应式设计
+/* 响应式设计 */
 @media (max-width: 768px) {
     .footer {
-        padding: 1.5rem 0;
+        padding: 2rem 0 1.5rem 0;
     }
 
     .footer-simple-content {
-        gap: 1.2rem;
+        gap: 1.5rem;
+    }
+
+    .brand-section h3 {
+        font-size: 1.5rem;
     }
 
     .links-section {
         gap: 0.6rem;
+        flex-direction: column;
+
+        .divider {
+            display: none; /* 移动端隐藏分割线 */
+        }
+
+        a {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: rgba(250, 250, 248, 0.1);
+            }
+        }
     }
 
     .info-section {
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.75rem;
+        font-size: 0.8rem;
 
         .divider {
-            display: none; // 移动端隐藏分割线，改为垂直堆叠
+            display: none; /* 移动端隐藏分割线 */
         }
     }
 }
