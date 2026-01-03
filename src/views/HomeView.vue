@@ -23,15 +23,20 @@
               ANANOSLEEP<span class="serif-period">.</span>COM
             </h1>
             <p class="serif-subtitle">
-              探索守望先锋英雄策略，掌握对位技巧与实战细节
+              在这里探索更多Overwatch
             </p>
             <div class="serif-actions">
-              <router-link to="/tutorials" class="serif-btn serif-btn--primary">
+              <a href="#home-main" class="serif-btn serif-btn--primary">
                 开始探索
-              </router-link>
-              <router-link to="/navigation" class="serif-btn serif-btn--outline">
-                了解更多
-              </router-link>
+              </a>
+              <a
+                href="https://ow.blizzard.cn/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="serif-btn serif-btn--outline"
+              >
+                跳转官网
+              </a>
             </div>
           </div>
         </div>
@@ -39,7 +44,7 @@
     </section>
 
     <!-- Main Content Surface -->
-    <div class="serif-main">
+    <div id="home-main" class="serif-main">
     <!-- Section 1: 英雄教学 - Asymmetric Layout -->
     <section class="serif-section serif-section--tutorials">
       <div class="serif-container">
@@ -58,7 +63,7 @@
           <div class="serif-content-main">
             <h2 class="serif-section-title">英雄策略规范</h2>
             <p class="serif-section-description">
-              系统性学习对位技巧、技能细节和实战训练，从基础到进阶的完整教学体系。
+              我们尝试建立一套完善优质的入门教学体系，系统性学习对位技巧、技能细节和实战训练，从基础到进阶的完整教学体系。
               <span class="serif-section-description-en">
                 A complete learning system—from fundamentals to advanced play—covering matchups, mechanics, and real-match practice.
               </span>
@@ -114,13 +119,17 @@
           </div>
 
           <div class="serif-cards-side">
-            <div class="serif-card serif-card--accent-top">
+            <div class="serif-card serif-card--accent-top serif-card--photo-bg-1">
               <div class="serif-card-stat">100+</div>
-              <div class="serif-card-label">英雄指南</div>
-            </div>
-            <div class="serif-card serif-card--accent-top">
-              <div class="serif-card-stat">50+</div>
               <div class="serif-card-label">对位解析</div>
+            </div>
+            <div class="serif-card serif-card--accent-top serif-card--photo-bg-2">
+              <div class="serif-card-stat">50+</div>
+              <div class="serif-card-label">技能教学</div>
+            </div>
+            <div class="serif-card serif-card--accent-top serif-card--photo-bg-3">
+              <div class="serif-card-stat">20+</div>
+              <div class="serif-card-label">英雄指南</div>
             </div>
           </div>
         </div>
@@ -140,16 +149,26 @@
           <span class="serif-line"></span>
         </div>
 
-        <div class="serif-grid-serif">
-          <div class="serif-content-main">
+        <div class="serif-grid-serif serif-grid-serif--nav">
+          <div class="serif-content-main serif-nav-main">
             <h2 class="serif-section-title">网页导航系统</h2>
             <p class="serif-section-description">
-              收纳众多中外实用守望先锋相关网站，覆盖数据详解、角斗领域教程与电竞选手专访，提供英雄热度查询与数据分析。
+              提供强大的信息收集与整合能力。本站收纳众多中外实用守望先锋相关网站，覆盖数据详解、角斗领域教程与电竞选手专访，提供英雄热度查询与专业数据分析。
               <span class="serif-section-description-en">
                 A curated directory of essential Overwatch sites—stats, guides, interviews, and meta insights in one place.
               </span>
             </p>
 
+            <router-link to="/navigation" class="serif-link serif-link--arrow">
+              探索导航资源
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </router-link>
+          </div>
+
+          <div class="serif-nav-aside">
             <div class="serif-highlights">
               <div class="serif-highlight">
                 <div class="serif-highlight-number">01</div>
@@ -173,22 +192,15 @@
                 </div>
               </div>
             </div>
-
-            <router-link to="/navigation" class="serif-link serif-link--arrow">
-              探索导航资源
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </router-link>
           </div>
 
-          <div class="serif-image-side">
+          <div class="serif-nav-gallery">
             <div class="serif-featured-card">
               <img src="/src/assets/images/wiki.png" alt="资料百科" class="serif-featured-img">
               <div class="serif-featured-overlay">
                 <span class="serif-featured-tag">新手入门</span>
                 <h3 class="serif-featured-title">资料百科</h3>
+                <div class="serif-featured-subtitle">BEGINNER WIKI</div>
               </div>
             </div>
             <div class="serif-featured-card">
@@ -196,6 +208,7 @@
               <div class="serif-featured-overlay">
                 <span class="serif-featured-tag">进阶提升</span>
                 <h3 class="serif-featured-title">数据平台</h3>
+                <div class="serif-featured-subtitle">STATS & INSIGHTS</div>
               </div>
             </div>
           </div>
@@ -220,6 +233,7 @@
           <div class="serif-content-main">
             <h2 class="serif-section-title">NanKaiGayming</h2>
             <p class="serif-section-description">
+              当一个故事快要结束的时候，我们总会想到他的开始。
               南开大学守望先锋高校战队，自2023年起参加守望先锋高校联赛、朱诺杯高校赛、OWCS预选赛等多项赛事。
               <span class="serif-section-description-en">
                 A collegiate Overwatch team from Nankai University, competing since 2023 across major tournaments and qualifiers.
@@ -232,7 +246,7 @@
                 <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path>
               </svg>
               <p class="serif-quote-text">
-                2025年11月在第二届宿舍英雄天津站中取得冠军，展现高校电竞实力。
+                2025年11月，NKG战队在第二届宿舍英雄天津站中取得冠军，展现锋芒。
               </p>
             </div>
 
@@ -247,26 +261,40 @@
 
           <div class="serif-stats-side">
             <div class="serif-stats-grid">
-              <div class="serif-stat-card serif-stat-card--primary">
-                <div class="serif-stat-value">100+</div>
-                <div class="serif-stat-label">故事片段</div>
+              <div class="serif-stat-card">
+                <div class="serif-stat-value">60+</div>
+                <div class="serif-stat-label">正赛经历</div>
+                <div class="serif-stat-label-en">OFFICIAL MATCHES</div>
               </div>
               <div class="serif-stat-card">
-                <div class="serif-stat-value">4</div>
+                <div class="serif-stat-value">7+</div>
                 <div class="serif-stat-label">赛事赛季</div>
+                <div class="serif-stat-label-en">SEASONS</div>
+              </div>
+              <div class="serif-stat-card">
+                <div class="serif-stat-value">17</div>
+                <div class="serif-stat-label">战队成员</div>
+                <div class="serif-stat-label-en">MEMBERS</div>
+              </div>
+              <div class="serif-stat-card serif-stat-card--primary">
+                <div class="serif-stat-value">1</div>
+                <div class="serif-stat-label">赛事冠军</div>
+                <div class="serif-stat-label-en">CHAMPION</div>
               </div>
               <div class="serif-stat-card serif-stat-card--full">
-                <img src="/src/assets/images/NanKaiGayming.png" alt="NKG Team" class="serif-stat-img">
+                <img src="/src/assets/images/champ.jpg" alt="NKG Team" class="serif-stat-img">
                 <div class="serif-stat-overlay">
                   <span>Team Moments</span>
                 </div>
               </div>
+              <!--
               <div class="serif-stat-card serif-stat-card--full">
                 <img src="/src/assets/images/NKG_Real.jpg" alt="NKG Photo" class="serif-stat-img">
                 <div class="serif-stat-overlay">
                   <span>Team Photo</span>
                 </div>
               </div>
+            -->
             </div>
           </div>
         </div>
@@ -280,25 +308,45 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useThemeStore } from '../stores/theme'
 
+// Import card background images
+import familyImage from '../assets/images/family.png'
+import vendettaImage from '../assets/images/vendetta.png'
+import wuyangImage from '../assets/images/wuyang.png'
+
+// Import hero float images
+import junodvaImage from '../assets/images/display/junodva.jpg'
+import daotianImage from '../assets/images/display/daotian.jpg'
+import luciechoImage from '../assets/images/display/luciecho.jpg'
+import route66Image from '../assets/images/display/route66.jpg'
+import ramImage from '../assets/images/display/ram.jpg'
+import homeviewBg1Image from '../assets/images/display/homeview-bg1.jpg'
+import kirikoImage from '../assets/images/display/kiriko.jpg'
+import kiriko2Image from '../assets/images/display/kiriko2.jpg'
+import kirimercyImage from '../assets/images/display/kirimercy.jpg'
+import kirimercy2Image from '../assets/images/display/kirimercy2.jpg'
+
 const themeStore = useThemeStore()
 const heroEntered = ref(false)
 
 const heroFloatImages = [
-  { src: '/src/assets/images/overlab.png', alt: 'Overwatch Lab' },
-  { src: '/src/assets/images/owtics.png', alt: 'OWTics' },
-  { src: '/src/assets/images/owtv.png', alt: 'OWTV' },
-  { src: '/src/assets/images/patch-notes.png', alt: 'Patch Notes' },
-  { src: '/src/assets/images/stadiumbuilds.png', alt: 'Stadium Builds' },
-  { src: '/src/assets/images/route66.jpg', alt: 'Route 66' },
-  { src: '/src/assets/images/wiki.png', alt: 'Wiki' },
-  { src: '/src/assets/images/liquipedia.png', alt: 'Liquipedia' },
-  { src: '/src/assets/images/overhub.png', alt: 'Overhub' },
-  { src: '/src/assets/images/mapleqaq.png', alt: 'Mapleqaq' },
-  { src: '/src/assets/images/kiriko.jpg', alt: 'Kiriko' },
-  { src: '/src/assets/images/kirimercy2.jpg', alt: 'Kiriko Mercy' }
+  { src: junodvaImage, alt: 'Juno & D.Va' },
+  { src: daotianImage, alt: 'Daotian' },
+  { src: luciechoImage, alt: 'Lucio & Echo' },
+  { src: route66Image, alt: 'Route 66' },
+  { src: ramImage, alt: 'Ramattra' },
+  { src: homeviewBg1Image, alt: 'Home Background' },
+  { src: kirikoImage, alt: 'Kiriko' },
+  { src: kiriko2Image, alt: 'Kiriko (Alt)' },
+  { src: kirimercyImage, alt: 'Kiriko & Mercy' },
+  { src: kirimercy2Image, alt: 'Kiriko & Mercy (Alt)' }
 ]
 
 onMounted(() => {
+  // Set CSS variables for card background images
+  document.documentElement.style.setProperty('--card-bg-1', `url('${familyImage}')`)
+  document.documentElement.style.setProperty('--card-bg-2', `url('${vendettaImage}')`)
+  document.documentElement.style.setProperty('--card-bg-3', `url('${wuyangImage}')`)
+
   requestAnimationFrame(() => {
     heroEntered.value = true
   })
@@ -320,6 +368,8 @@ onUnmounted(() => {
   font-family: var(--serif-font-body);
   transition: background 0.3s ease, color 0.3s ease;
   position: relative;
+  /* 桌面端宽度变窄时：不压缩内容，直接裁切两侧 */
+  overflow-x: hidden;
 
   /* 全局纸纹理叠加层 - 30% 不透明度 */
   &::before {
@@ -345,7 +395,9 @@ onUnmounted(() => {
 
 /* Container */
 .serif-container {
-  max-width: var(--serif-container-max);
+  /* 桌面端固定宽度：视口变窄时不缩放/不挤压，改为被裁切；<=768px 再切换移动端 */
+  width: var(--serif-container-max);
+  max-width: none;
   margin: 0 auto;
   /* 收紧容器的上下留白（主要用于正文 sections），横向保持舒适边距 */
   padding: 0rem 2rem;
@@ -354,6 +406,7 @@ onUnmounted(() => {
 .serif-main {
   position: relative;
   z-index: 2;
+  scroll-margin-top: calc(var(--app-navbar-height, 60px) + 16px);
   /* 正文用“暖灰纸面”来和 Hero 深色舞台拉开差异 */
   background:
     radial-gradient(900px circle at 12% -10%, rgba(184, 134, 11, 0.08), transparent 55%),
@@ -455,8 +508,13 @@ onUnmounted(() => {
   --y: 0px;
   --scatter-delay: 0ms;
   --float-dur: 7.5s;
+  --alpha: 1;
   opacity: 0;
-  transform: translate3d(-50%, -50%, 0) rotate(0deg) scale(0.9);
+  transform: translate3d(-50%, -50%, 0) rotate(0deg) scale(0.2);
+  transition:
+    transform 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 1100ms cubic-bezier(0.22, 0.8, 0.2, 1);
+  transition-delay: var(--scatter-delay);
 
   img {
     display: block;
@@ -464,15 +522,6 @@ onUnmounted(() => {
     height: 150px;
     object-fit: cover;
     opacity: 0.92;
-  }
-}
-
-@keyframes serifScatter {
-  0% {
-    transform: translate3d(-50%, -50%, 0) rotate(0deg) scale(0.9);
-  }
-  100% {
-    transform: translate3d(calc(-50% + var(--x)), calc(-50% + var(--y)), 0) rotate(var(--rot)) scale(1);
   }
 }
 
@@ -489,20 +538,17 @@ onUnmounted(() => {
 }
 
 .serif-hero.is-entered .serif-float-card {
-  opacity: 1;
-  animation-name: serifScatter, serifFloatCard;
-  animation-duration: 700ms, var(--float-dur);
-  animation-delay: var(--scatter-delay), calc(var(--scatter-delay) + 700ms);
-  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1), ease-in-out;
-  animation-fill-mode: forwards, both;
-  animation-iteration-count: 1, infinite;
+  opacity: var(--alpha);
+  transform: translate3d(calc(-50% + var(--x)), calc(-50% + var(--y)), 0) rotate(var(--rot)) scale(1);
+  animation: serifFloatCard var(--float-dur) ease-in-out infinite;
+  animation-delay: calc(var(--scatter-delay) + 1100ms);
 }
 
 .serif-float-card--1 {
   width: 240px;
   --rot: -6deg;
   --x: -520px;
-  --y: -170px;
+  --y: -100px;
   --scatter-delay: 0ms;
   --float-dur: 8.2s;
 }
@@ -510,18 +556,18 @@ onUnmounted(() => {
 .serif-float-card--2 {
   width: 190px;
   --rot: 4deg;
-  --x: -260px;
-  --y: -40px;
+  --x: -240px;
+  --y: -170px;
   --scatter-delay: 80ms;
   --float-dur: 7.4s;
-  opacity: 0.9;
+  --alpha: 0.9;
 }
 
 .serif-float-card--3 {
   width: 260px;
   --rot: 6deg;
-  --x: 500px;
-  --y: -160px;
+  --x: 680px;
+  --y: 180px;
   --scatter-delay: 140ms;
   --float-dur: 9s;
 }
@@ -529,97 +575,78 @@ onUnmounted(() => {
 .serif-float-card--4 {
   width: 200px;
   --rot: -3deg;
-  --x: 390px;
-  --y: 90px;
+  --x: 200px;
+  --y: 220px;
   --scatter-delay: 220ms;
   --float-dur: 7.2s;
-  opacity: 0.88;
+  --alpha: 0.88;
 }
 
 .serif-float-card--5 {
   width: 210px;
   --rot: 3deg;
-  --x: -420px;
-  --y: 150px;
+  --x: 390px;
+  --y: 30px;
   --scatter-delay: 300ms;
   --float-dur: 8.8s;
-  opacity: 0.86;
+  --alpha: 0.86;
 }
 
 .serif-float-card--6 {
   width: 260px;
   --rot: -5deg;
-  --x: 160px;
-  --y: 190px;
+  --x: -420px;
+  --y: 120px;
   --scatter-delay: 360ms;
   --float-dur: 9.4s;
-  opacity: 0.9;
+  --alpha: 0.9;
 }
 
 .serif-float-card--7 {
-  width: 180px;
+  width: 160px;
   --rot: -8deg;
-  --x: -620px;
-  --y: 20px;
+  --x: -680px;
+  --y: 120px;
   --scatter-delay: 120ms;
   --float-dur: 8.6s;
-  opacity: 0.75;
+  --alpha: 0.75;
 }
 
 .serif-float-card--8 {
   width: 190px;
   --rot: 8deg;
   --x: 650px;
-  --y: 10px;
+  --y: -70px;
   --scatter-delay: 180ms;
   --float-dur: 9.2s;
-  opacity: 0.75;
+  --alpha: 0.75;
 }
 
 .serif-float-card--9 {
-  width: 170px;
+  width: 280px;
   --rot: 10deg;
-  --x: 640px;
-  --y: -260px;
+  --x: 400px;
+  --y: -160px;
   --scatter-delay: 260ms;
   --float-dur: 7.8s;
-  opacity: 0.7;
+  --alpha: 0.7;
 }
 
 .serif-float-card--10 {
   width: 160px;
   --rot: -10deg;
-  --x: -640px;
-  --y: -260px;
+  --x: -740px;
+  --y: -180px;
   --scatter-delay: 200ms;
   --float-dur: 7.6s;
-  opacity: 0.7;
-}
-
-.serif-float-card--11 {
-  width: 210px;
-  --rot: 5deg;
-  --x: 260px;
-  --y: -260px;
-  --scatter-delay: 320ms;
-  --float-dur: 8.9s;
-  opacity: 0.78;
-}
-
-.serif-float-card--12 {
-  width: 200px;
-  --rot: -4deg;
-  --x: -260px;
-  --y: -270px;
-  --scatter-delay: 280ms;
-  --float-dur: 8.4s;
-  opacity: 0.78;
+  --alpha: 0.7;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .serif-float-card {
+    transition: none;
     animation: none !important;
-    opacity: 1;
+    opacity: var(--alpha);
     transform: translate3d(calc(-50% + var(--x)), calc(-50% + var(--y)), 0) rotate(var(--rot)) scale(1);
   }
 }
@@ -667,7 +694,8 @@ onUnmounted(() => {
 
 .serif-title {
   font-family: var(--serif-font-display);
-  font-size: clamp(2.25rem, 5.4vw, 4rem);
+  /* 桌面端固定字号，避免随宽度缩小 */
+  font-size: 3.5rem;
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -692,6 +720,10 @@ onUnmounted(() => {
   gap: 1.5rem;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.serif-actions--section {
+  justify-content: flex-start;
 }
 
 /* Buttons - Restrained Elegance */
@@ -912,7 +944,8 @@ onUnmounted(() => {
 
 .serif-section-title {
   font-family: var(--serif-font-display);
-  font-size: clamp(2rem, 5vw, 3rem);
+  /* 桌面端固定字号，避免随宽度缩小 */
+  font-size: 2.5rem;
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.01em;
@@ -1084,6 +1117,73 @@ onUnmounted(() => {
   }
 }
 
+/* Side Cards: semi-transparent photo backgrounds */
+.serif-card--photo-bg-1::after,
+.serif-card--photo-bg-2::after,
+.serif-card--photo-bg-3::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.3;
+  filter: saturate(1.05) contrast(1.02);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* readability overlay (keeps text clear) */
+.serif-card--photo-bg-1::before,
+.serif-card--photo-bg-2::before,
+.serif-card--photo-bg-3::before {
+  /* override hover-only behavior */
+  opacity: 1;
+  z-index: 0;
+  background: var(--photo-overlay, linear-gradient(
+      180deg,
+      rgba(250, 250, 248, 0.92) 0%,
+      rgba(250, 250, 248, 0.78) 45%,
+      rgba(250, 250, 248, 0.62) 100%
+    ));
+}
+
+.serif-card--photo-bg-1::after {
+  background-image: var(--card-bg-1);
+}
+.serif-card--photo-bg-2::after {
+  background-image: var(--card-bg-2);
+}
+.serif-card--photo-bg-3::after {
+  background-image: var(--card-bg-3);
+}
+
+/* Text readability on photo cards (light mode) */
+.serif-card--photo-bg-1,
+.serif-card--photo-bg-2,
+.serif-card--photo-bg-3 {
+  --photo-overlay: linear-gradient(
+      180deg,
+      rgba(250, 250, 248, 0.92) 0%,
+      rgba(250, 250, 248, 0.78) 45%,
+      rgba(250, 250, 248, 0.62) 100%
+    ),
+    radial-gradient(circle at top right, rgba(184, 134, 11, 0.07), transparent 60%);
+}
+
+.serif-card--photo-bg-1 .serif-card-stat,
+.serif-card--photo-bg-2 .serif-card-stat,
+.serif-card--photo-bg-3 .serif-card-stat {
+  color: var(--serif-foreground);
+  text-shadow: 0 2px 10px rgba(26, 26, 26, 0.12);
+}
+
+.serif-card--photo-bg-1 .serif-card-label,
+.serif-card--photo-bg-2 .serif-card-label,
+.serif-card--photo-bg-3 .serif-card-label {
+  color: color-mix(in srgb, var(--serif-foreground) 88%, var(--serif-muted-foreground));
+  text-shadow: 0 2px 10px rgba(26, 26, 26, 0.12);
+}
+
 .serif-card-stat {
   font-family: var(--serif-font-display);
   font-size: 3.5rem;
@@ -1097,8 +1197,8 @@ onUnmounted(() => {
 
 .serif-card-label {
   font-family: var(--serif-font-mono);
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 550;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--serif-muted-foreground);
@@ -1112,7 +1212,7 @@ onUnmounted(() => {
 .serif-highlights {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .serif-highlight {
@@ -1123,7 +1223,7 @@ onUnmounted(() => {
 
 .serif-highlight-number {
   font-family: var(--serif-font-display);
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: var(--serif-accent);
   opacity: 0.3;
@@ -1132,14 +1232,14 @@ onUnmounted(() => {
 
 .serif-highlight-text h4 {
   font-family: var(--serif-font-display);
-  font-size: 1.125rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: var(--serif-foreground);
   margin-bottom: 0.25rem;
 }
 
 .serif-highlight-text p {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--serif-muted-foreground);
 }
 
@@ -1165,6 +1265,45 @@ onUnmounted(() => {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* 增强阴影 */
     border-color: var(--serif-accent); /* 边框变为金色 */
   }
+
+  /* 顶部金色细线，呼应全站 rule line 系统 */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--serif-accent);
+    opacity: 0.55;
+    z-index: 2;
+  }
+}
+
+/* 导航区更稳的布局：右侧放 highlights，下方放图片卡（不拉伸、比例可控），同时保持文字列宽与其它 section 一致 */
+.serif-grid-serif--nav {
+  grid-auto-rows: min-content;
+  /* 关键：缩小“第一行(文案/高亮)”到“第二行(图片卡)”之间的行间距 */
+  column-gap: 4rem;
+  row-gap: 0.75rem;
+}
+
+.serif-nav-aside {
+  align-self: start;
+}
+
+.serif-nav-gallery {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .serif-nav-gallery {
+    grid-template-columns: 1fr;
+  }
 }
 
 .serif-featured-img {
@@ -1185,7 +1324,7 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   padding: 1.5rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 50%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.78), transparent 55%);
   transition: all 0.3s ease;
 }
 
@@ -1200,12 +1339,12 @@ onUnmounted(() => {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--serif-accent);
-  background: rgba(255, 255, 255, 0.98);
-  padding: 0.35rem 0.65rem;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
   display: inline-block;
   margin-bottom: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .serif-featured-title {
@@ -1214,6 +1353,17 @@ onUnmounted(() => {
   font-weight: 600;
   color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.serif-featured-subtitle {
+  margin-top: 0.6rem;
+  font-family: var(--serif-font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(250, 250, 248, 0.82);
+  opacity: 0.95;
 }
 
 /* ============================================
@@ -1264,7 +1414,7 @@ onUnmounted(() => {
   background: var(--serif-card);
   border: 1px solid var(--serif-border);
   border-radius: 8px; /* 更小的圆角 */
-  padding: 2rem;
+  padding: 1.5rem 1.25rem;
   text-align: center;
   transition: all 200ms ease-out; /* 200ms 克制过渡 */
   position: relative;
@@ -1282,9 +1432,20 @@ onUnmounted(() => {
   }
 
   &--primary {
-    background: var(--serif-muted);
-    border-color: var(--serif-accent);
-    border-width: 2px;
+    background: color-mix(in srgb, var(--serif-accent) 8%, var(--serif-card));
+    border-color: color-mix(in srgb, var(--serif-accent) 65%, var(--serif-border));
+    border-width: 1px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 2px;
+      background: var(--serif-accent);
+      opacity: 0.9;
+    }
   }
 
   &--full {
@@ -1311,9 +1472,28 @@ onUnmounted(() => {
   }
 }
 
+.serif-stat-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--serif-accent) 65%, var(--serif-border));
+  background: color-mix(in srgb, var(--serif-accent) 12%, transparent);
+  color: var(--serif-accent);
+  font-family: var(--serif-font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
 .serif-stat-value {
   font-family: var(--serif-font-display);
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   font-weight: 700;
   line-height: 1;
   color: var(--serif-foreground);
@@ -1333,11 +1513,25 @@ onUnmounted(() => {
   z-index: 1;
 }
 
+.serif-stat-label-en {
+  margin-top: 0.45rem;
+  font-family: var(--serif-font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--serif-muted-foreground) 70%, var(--serif-foreground));
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+
 .serif-stat-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: filter 200ms ease; /* 只改变滤镜 */
+  opacity: 0.8;
 }
 
 .serif-stat-card--full:hover .serif-stat-img {
@@ -1370,6 +1564,8 @@ onUnmounted(() => {
    ============================================ */
 @media (max-width: 768px) {
   .serif-container {
+    width: auto;
+    max-width: var(--serif-container-max);
     padding: 0.25rem 1.5rem;
   }
 
@@ -1397,6 +1593,54 @@ onUnmounted(() => {
     padding: 0.875rem 2rem;
   }
 
+  /* 首页 Section 1（教程）移动端标题与标签居中 */
+  .serif-section--tutorials {
+    .serif-section-label {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .serif-label-stack {
+      align-items: center;
+    }
+
+    .serif-section-title {
+      text-align: center;
+    }
+  }
+
+  /* 首页 Section 2（导航）移动端标题与标签居中 */
+  .serif-section--navigation {
+    .serif-section-label {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .serif-label-stack {
+      align-items: center;
+    }
+
+    .serif-section-title {
+      text-align: center;
+    }
+  }
+
+  /* 首页 Section 3（NKG）移动端标题与标签居中 */
+  .serif-section--nkg {
+    .serif-section-label {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .serif-label-stack {
+      align-items: center;
+    }
+
+    .serif-section-title {
+      text-align: center;
+    }
+  }
+
   .serif-hero-panel {
     padding: 2.25rem 1.5rem 2.75rem;
   }
@@ -1419,9 +1663,7 @@ onUnmounted(() => {
   .serif-float-card--7,
   .serif-float-card--8,
   .serif-float-card--9,
-  .serif-float-card--10,
-  .serif-float-card--11,
-  .serif-float-card--12 {
+  .serif-float-card--10 {
     display: none;
   }
 
@@ -1484,27 +1726,73 @@ onUnmounted(() => {
 }
 
 /* 平板优化 */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .serif-hero {
-    padding: 7rem 0 5rem 0;
-  }
-
-  .serif-float-card {
-    width: 200px;
-
-    img {
-      height: 135px;
-    }
-  }
-
-  .serif-grid-serif {
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 3rem;
-  }
-}
+/* 移除 769–1024 的“中间态”压缩：桌面端保持固定版式，<=768 直接切换移动端 */
 
 /* Dark Mode Adjustments - Editorial Elegance */
 .serif-home.dark-mode {
+  /* 正文区域：暗色“纸面”背景，避免沿用浅色渐变导致发灰 */
+  .serif-main {
+    background:
+      radial-gradient(900px circle at 12% -10%, rgba(184, 134, 11, 0.10), transparent 55%),
+      radial-gradient(900px circle at 88% 0%, rgba(250, 250, 248, 0.05), transparent 60%),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--serif-background) 84%, #000) 0%,
+        var(--serif-background) 60%,
+        var(--serif-background) 100%
+      );
+    border-top-color: var(--serif-border);
+    box-shadow: 0 -1px 0 rgba(250, 250, 248, 0.04);
+
+    &::before {
+      opacity: 0.04;
+    }
+  }
+
+  /* section 纹理更克制，避免暗色下发脏 */
+  .serif-section::before {
+    opacity: 0.04;
+  }
+
+  /* featured tag：去掉亮白底，改为暗底金字 */
+  .serif-featured-tag {
+    background: rgba(15, 15, 15, 0.72);
+    border: 1px solid var(--serif-border);
+    box-shadow: none;
+  }
+
+  /* 照片背景 side cards：夜间改为暗色遮罩 + 文字更亮 */
+  .serif-card--photo-bg-1,
+  .serif-card--photo-bg-2,
+  .serif-card--photo-bg-3 {
+    --photo-overlay: linear-gradient(
+        180deg,
+        rgba(10, 10, 12, 0.78) 0%,
+        rgba(10, 10, 12, 0.62) 55%,
+        rgba(10, 10, 12, 0.46) 100%
+      ),
+      radial-gradient(circle at top right, rgba(184, 134, 11, 0.12), transparent 60%);
+  }
+
+  .serif-card--photo-bg-1 .serif-card-stat,
+  .serif-card--photo-bg-2 .serif-card-stat,
+  .serif-card--photo-bg-3 .serif-card-stat {
+    color: rgba(250, 250, 248, 0.95);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+  }
+
+  .serif-card--photo-bg-1 .serif-card-label,
+  .serif-card--photo-bg-2 .serif-card-label,
+  .serif-card--photo-bg-3 .serif-card-label {
+    color: rgba(250, 250, 248, 0.88);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  }
+
+  /* navigation highlights 的大数字暗色下更可见一点 */
+  .serif-highlight-number {
+    opacity: 0.45;
+  }
+
   /* 确保深色模式下的背景和边框颜色正确 */
   .serif-card,
   .serif-stat-card,

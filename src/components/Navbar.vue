@@ -218,6 +218,7 @@ onUnmounted(() => {
   font-family: var(--serif-font-display);
   font-size: 1.125rem;
   letter-spacing: -0.01em;
+  color: #b8870d;
 }
 
 

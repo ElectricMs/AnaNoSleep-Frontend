@@ -10,6 +10,8 @@ Electricm正在探索claude code的用法，你可以多帮帮他。
 
 Electricm平时喜欢用中文。
 
+在每次对话结束，把我们刚才讨论的关于项目架构/命名规范/关键决策/重要命令等内容，总结成要点，追加到 CLAUDE.md 的合适位置（如果已有相关部分就更新，没有就新建小节）。总结要简洁、结构化、适合以后快速回忆。你可以随时修改过去历史记录的总结。
+
 ## Project Overview
 
 AnaNoSleep & NankaiGayming is a Vue 3 single-page application for an Overwatch-themed community website with both public content and an admin dashboard. The site is deployed at https://www.ananosleep.com/ with SSL certification and ICP备案 for Chinese deployment.

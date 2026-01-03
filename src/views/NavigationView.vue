@@ -399,12 +399,15 @@ onUnmounted(() => {
 }
 
 .serif-number-text {
-  opacity: 0.3;
-  transition: opacity 0.3s ease;
+  /* 更显眼：用金色 accent，并加轻微发光提升对比 */
+  color: var(--serif-accent);
+  opacity: 0.7;
+  text-shadow: 0 1px 0 rgba(26, 26, 26, 0.06);
+  transition: opacity 0.2s ease-out, color 0.2s ease-out;
 }
 
 .serif-nav-row:hover .serif-number-text {
-  opacity: 0.6;
+  opacity: 0.95;
 }
 
 /* Row Image */
@@ -464,6 +467,7 @@ onUnmounted(() => {
   color: var(--serif-muted-foreground);
   margin: 0;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -612,6 +616,7 @@ onUnmounted(() => {
 
   .serif-row-description {
     font-size: 0.9rem;
+    line-clamp: 3;
     -webkit-line-clamp: 3;
   }
 }

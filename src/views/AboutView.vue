@@ -41,9 +41,10 @@
 
           <!-- Mission Statement -->
           <div class="serif-mission-block">
-            <div class="serif-section-label-inline">
+            <div class="serif-section-label-centered">
+              <span class="serif-line"></span>
               <span class="serif-label-text">OUR MISSION</span>
-              <span class="serif-line-full"></span>
+              <span class="serif-line"></span>
             </div>
 
             <h2 class="serif-mission-title">我们的使命</h2>
@@ -70,7 +71,12 @@
 
         <!-- Features Grid -->
         <div class="serif-features-grid">
-          <div class="serif-feature-item" v-for="(feature, index) in features" :key="index">
+          <router-link
+            :to="feature.link"
+            class="serif-feature-item"
+            v-for="(feature, index) in features"
+            :key="index"
+          >
             <div class="serif-feature-icon-wrapper">
               <div class="serif-feature-icon" v-html="feature.icon"></div>
             </div>
@@ -78,8 +84,13 @@
               <h3 class="serif-feature-title">{{ feature.title }}</h3>
               <p class="serif-feature-description">{{ feature.description }}</p>
             </div>
-            <div class="serif-feature-number">0{{ index + 1 }}</div>
-          </div>
+            <div class="serif-feature-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+          </router-link>
         </div>
       </div>
     </section>
@@ -115,17 +126,20 @@ const features = ref([
   {
     title: '攻略教程',
     description: '详细的英雄技能解析、对位技巧和实战策略，助你掌握每一个英雄的制胜秘籍',
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>`
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>`,
+    link: '/tutorials'
   },
   {
     title: '网页导航',
     description: '精选守望先锋相关网站导航，涵盖数据百科、分析平台、进阶教程等丰富资源',
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1 4 10"></path></svg>`
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1 4 10"></path></svg>`,
+    link: '/navigation'
   },
   {
     title: 'NKG 战队',
     description: '探索南开大学守望先锋校队 NanKaiGayming 的故事，见证高校电竞的热血与荣耀',
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
+    link: '/nkg'
   }
 ])
 </script>
@@ -141,7 +155,7 @@ const features = ref([
   color: var(--serif-foreground);
   font-family: var(--serif-font-body);
   transition: background 0.3s ease, color 0.3s ease;
-  padding-top: 60px;
+  //padding-top: 60px;
 
   &.dark-mode {
     background: var(--serif-background);
@@ -159,7 +173,7 @@ const features = ref([
    HERO SECTION
    ============================================ */
 .serif-hero-about {
-  padding: 6rem 0 4rem 0;
+  padding: 4rem 0 4rem 0;
   text-align: center;
   position: relative;
 
@@ -296,19 +310,15 @@ const features = ref([
 .serif-mission-block {
   position: relative;
   padding: 3rem 0 0 0;
+  text-align: center;
 }
 
-.serif-section-label-inline {
+.serif-section-label-centered {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  gap: 2rem;
   margin-bottom: 2rem;
-}
-
-.serif-line-full {
-  flex: 1;
-  height: 1px;
-  background: var(--serif-border);
 }
 
 .serif-mission-title {
@@ -319,6 +329,7 @@ const features = ref([
   letter-spacing: -0.01em;
   color: var(--serif-foreground);
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .serif-mission-text {
@@ -326,6 +337,7 @@ const features = ref([
   line-height: 1.8;
   color: var(--serif-muted-foreground);
   margin: 0;
+  text-align: center;
 }
 
 /* ============================================
@@ -338,31 +350,40 @@ const features = ref([
 .serif-section-label {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 2rem;
   margin-bottom: 4rem;
 }
 
 .serif-features-grid {
-  display: grid;
-  gap: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .serif-feature-item {
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 2rem;
-  align-items: start;
+  align-items: center;
   position: relative;
-  padding: 2rem 0;
-  border-bottom: 1px solid var(--serif-border);
+  width: 100%;
+  max-width: 800px;
+  padding: 2rem 2.5rem;
+  background: var(--serif-card);
+  border: 1px solid var(--serif-border);
+  border-radius: 12px;
+  text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &:last-child {
-    border-bottom: none;
-  }
+  cursor: pointer;
 
   &:hover {
-    padding-left: 1rem;
+    transform: translateX(8px);
+    border-color: var(--serif-accent);
+    box-shadow: 0 8px 24px rgba(184, 134, 11, 0.15);
 
     .serif-feature-icon {
       transform: scale(1.1);
@@ -373,6 +394,15 @@ const features = ref([
     .serif-feature-title {
       color: var(--serif-accent);
     }
+
+    .serif-feature-arrow {
+      transform: translateX(4px);
+      color: var(--serif-accent);
+    }
+  }
+
+  &:active {
+    transform: translateX(4px);
   }
 }
 
@@ -420,13 +450,15 @@ const features = ref([
   margin: 0;
 }
 
-.serif-feature-number {
-  font-family: var(--serif-font-display);
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--serif-border);
-  opacity: 0.3;
-  line-height: 1;
+.serif-feature-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--serif-muted-foreground);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
 }
 
 /* ============================================
@@ -531,12 +563,19 @@ const features = ref([
    ============================================ */
 @media (max-width: 1024px) {
   .serif-feature-item {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr auto;
     gap: 1.5rem;
+    padding: 1.5rem 2rem;
   }
 
-  .serif-feature-number {
-    display: none;
+  .serif-feature-arrow {
+    width: 36px;
+    height: 36px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 }
 
@@ -551,6 +590,15 @@ const features = ref([
 
   .serif-section-label-hero {
     margin-bottom: 2rem;
+    gap: 1rem;
+
+    .serif-line {
+      max-width: 60px;
+    }
+  }
+
+  .serif-section-label,
+  .serif-section-label-centered {
     gap: 1rem;
 
     .serif-line {
@@ -591,9 +639,19 @@ const features = ref([
   }
 
   .serif-feature-item {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto 1fr auto;
     gap: 1rem;
-    padding: 1.5rem 0;
+    padding: 1.5rem 1.5rem;
+  }
+
+  .serif-feature-arrow {
+    width: 32px;
+    height: 32px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   .serif-feature-icon {
