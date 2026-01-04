@@ -23,7 +23,10 @@ export const useBlogStore = defineStore('blog', {
     async fetchBlogs(options = {}) {
       this.loading = true
       this.error = null
-      
+      // 在开始加载时清空旧数据，确保不显示过期数据
+      // 这样即使请求失败，也不会显示旧内容
+      this.blogs = []
+
       try {
         const params = new URLSearchParams({
           page: options.page || this.pagination.page,
@@ -36,21 +39,31 @@ export const useBlogStore = defineStore('blog', {
         const result = await response.json()
 
         if (result.success) {
-          this.blogs = result.data.list || result.data
+          this.blogs = result.data.list || result.data || []
           this.pagination = {
             page: result.data.pagination?.page || result.pagination?.page || 1,
             pageSize: result.data.pagination?.pageSize || result.pagination?.pageSize || 10,
             total: result.data.pagination?.total || result.pagination?.total || 0,
             totalPages: result.data.pagination?.totalPages || result.pagination?.totalPages || 0
           }
+          console.log('[BlogStore] 博客数据加载成功:', {
+            count: this.blogs.length,
+            pagination: this.pagination
+          })
         } else {
           this.error = result.message || '获取博客列表失败'
+          console.error('[BlogStore] 请求失败:', result.message)
         }
       } catch (error) {
         this.error = '网络错误，请稍后重试'
-        console.error('获取博客列表失败:', error)
+        console.error('[BlogStore] 获取博客列表失败:', error)
       } finally {
         this.loading = false
+        console.log('[BlogStore] 请求完成，当前状态:', {
+          blogsCount: this.blogs.length,
+          loading: this.loading,
+          error: this.error
+        })
       }
     },
 

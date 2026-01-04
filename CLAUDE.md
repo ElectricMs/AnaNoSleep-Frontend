@@ -141,6 +141,63 @@ src/
 - **Proxy**: `/api` → `http://localhost:8080` in development
 - **Build optimization**: Manual chunks for vendor libraries (vue, router, pinia, axios)
 - **Chunk size warning**: Threshold increased to 1000 KB
+- **Resource optimization** (2026-01-04):
+  - Terser compression: removes console/debugger in production
+  - CSS code splitting enabled
+  - Fine-grained chunks: vue-core, router, ui, vendor
+  - Asset categorization: images/, css/, js/, media/
+  - Assets inline limit: 4KB
+
+### Performance Optimization
+
+#### Code-Level Optimizations
+- **Image lazy loading**: HomeView.vue delays loading 10 hero float images by 500ms
+- **Dynamic imports**: Images use `new URL(..., import.meta.url).href` instead of static imports
+- **Route code splitting**: All route components are lazy-loaded via dynamic imports
+- **Debug code removal**: Console logs removed in production build
+
+#### HTTP Caching Strategy
+- **Configuration files**:
+  - `public/_headers`: For Netlify and similar platforms
+  - `.htaccess`: For Apache servers
+- **Cache rules**:
+  - Images/JS/CSS: 1 year with immutable flag
+  - HTML: No cache, must-revalidate
+  - Fonts: 1 year cache
+- **Compression**: Gzip enabled for text-based assets
+
+#### Build Output Analysis
+After optimization (2026-01-04):
+- **Total bundle size**: ~1.9MB (gzipped: ~650KB)
+- **Major chunks**:
+  - vendor.js: 956KB → 324KB (gzipped)
+  - ui.js (Element Plus): 716KB → 216KB (gzipped)
+  - vue-core.js: 289KB → 89KB (gzipped)
+- **Images (still need optimization)**: ~5.6MB
+  - Largest files: family.png (944KB), vendetta.png (774KB), wuyang.png (688KB)
+  - Recommendation: Convert to WebP for 70-80% size reduction
+
+#### Image Optimization Workflow
+**Tools and scripts**:
+- `scripts/optimize-images.bat`: Windows batch script for WebP conversion
+- `scripts/optimize-images.sh`: Unix shell script for WebP conversion
+- **Prerequisite**: Install cwebp tool (https://developers.google.com/speed/webp/download)
+
+**Manual optimization** (recommended):
+1. Use online tools like [Squoosh](https://squooosh.app/) or [TinyPNG](https://tinypng.com/)
+2. Target quality: 70-75% for WebP
+3. Priority images: family.png, vendetta.png, wuyang.png, wiki.png, champ.jpg
+4. Expected result: 5.6MB → ~800KB-1.2MB
+
+**Documentation**: See `docs/IMAGE_OPTIMIZATION.md` for detailed guide
+
+#### Performance Monitoring
+- **Lighthouse targets**:
+  - First Contentful Paint (FCP) < 1.8s
+  - Largest Contentful Paint (LCP) < 2.5s
+  - Cumulative Layout Shift (CLS) < 0.1
+  - Total Blocking Time (TBT) < 200ms
+- **Testing tools**: Lighthouse (Chrome DevTools), PageSpeed Insights, WebPageTest
 
 ## Key Patterns
 
@@ -163,7 +220,52 @@ Team member information is stored in `src/data/nkgMembersData.js` as a JavaScrip
 ## Notes
 
 - GSAP is installed but not heavily utilized; available for advanced animations
-- Christmas decorations feature exists but can be disabled (currently disabled as of Dec 27, 2025)
+- Christmas decorations feature has been **removed** (as of Jan 4, 2026)
+  - `src/stores/christmas.js` was deleted
+  - References in TutorialsView.vue have been cleaned up
 - The project includes Chinese documentation (`滚动驱动叙事介绍.md`) about Apple-style scroll-driven animations
 - ICP备案 and SSL certificate are configured for production deployment
 - Both AnaNoSleep and NKG branding present throughout the site
+
+## Performance Optimization (2026-01-04)
+
+### Completed Optimizations
+✅ **Vite build configuration enhanced**:
+  - Fine-grained code splitting (vue-core, router, ui, vendor)
+  - Terser compression (removes console/debugger)
+  - CSS code splitting enabled
+  - Asset categorization (images/, css/, js/ directories)
+  - Source maps disabled for production
+
+✅ **Image lazy loading implemented**:
+  - HomeView.vue: 10 float images delayed 500ms after initial load
+  - NKGView.vue: Dynamic imports for team photos
+  - Non-critical images use `loading="lazy"` attribute
+
+✅ **HTTP caching configured**:
+  - `public/_headers`: Netlify-compatible cache headers
+  - `.htaccess`: Apache server configuration
+  - Cache策略: 1 year for static assets, no-cache for HTML
+
+✅ **Optimization tools created**:
+  - `scripts/optimize-images.bat` (Windows)
+  - `scripts/optimize-images.sh` (Unix)
+  - `docs/IMAGE_OPTIMIZATION.md` (detailed guide)
+
+### Remaining Tasks
+🔄 **Image format conversion** (high priority):
+  - Current: 5.6MB (PNG/JPG)
+  - Target: ~800KB-1.2MB (WebP)
+  - Priority: family.png, vendetta.png, wuyang.png, wiki.png, champ.jpg
+  - Tool: Use Squoosh.app or provided optimization scripts
+
+🔄 **After image optimization**:
+  - Update image references in code (.png/.jpg → .webp)
+  - Test build: `npm run build`
+  - Verify load time improvement with Lighthouse
+
+### Expected Performance Gains
+- **Before optimization**: ~6.5MB total assets, 60-70 Lighthouse score
+- **After code optimization**: ~5.6MB (build done), 70-75 Lighthouse score
+- **After image optimization**: ~1.8-2.2MB (target), 85-95 Lighthouse score
+- **Load time improvement**: 50-70% faster

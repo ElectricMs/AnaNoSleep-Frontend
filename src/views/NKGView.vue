@@ -33,8 +33,8 @@
             <p>NanKaiGayming 2023-2025人员名单已永久写入津南校区图书馆北侧学生文化谷的2025毕业生纪念墙中，包含了至2025学年所有在NKG正赛中登场的选手。</p>
           </div>
           <div class="intro-image clean-style">
-            <img src="/src/assets/images/NanKaiGayming.png" alt="NKG战队" class="intro-img" :class="{ 'active': currentImageIndex === 0 }" loading="lazy">
-            <img src="/src/assets/images/NKG_Real.jpg" alt="NKG战队真实照片" class="intro-img" :class="{ 'active': currentImageIndex === 1 }" loading="lazy">
+            <img :src="nkgLogoImage" alt="NKG战队" class="intro-img" :class="{ 'active': currentImageIndex === 0 }" loading="lazy">
+            <img :src="nkgRealImage" alt="NKG战队真实照片" class="intro-img" :class="{ 'active': currentImageIndex === 1 }" loading="lazy">
           </div>
         </div>
       </div>
@@ -246,12 +246,16 @@ import { nkgMembersData } from '../data/nkgMembersData.js'
 
 const themeStore = useThemeStore()
 
+// 动态导入图片,避免首屏加载
+const nkgLogoImage = new URL('../assets/images/NanKaiGayming.png', import.meta.url).href
+const nkgRealImage = new URL('../assets/images/NKG_Real.jpg', import.meta.url).href
+
 // 成员名单数据
 const membersList = nkgMembersData
 
-// 调试：检查数据是否正确加载
-console.log('成员数据:', membersList)
-console.log('第一个成员:', membersList[0])
+// 移除调试日志,减少生产环境输出
+// console.log('成员数据:', membersList)
+// console.log('第一个成员:', membersList[0])
 
 // 动画可见性状态
 const isVisible1 = ref(false)

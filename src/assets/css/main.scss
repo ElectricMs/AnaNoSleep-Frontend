@@ -98,6 +98,55 @@ html {
   scroll-behavior: smooth;
 }
 
+/* 禁止文本选择 - 提升UI/UX */
+h1, h2, h3, h4, h5, h6,
+.serif-title,
+.serif-subtitle,
+.serif-hero-title,
+.serif-section-label,
+.serif-label,
+button,
+.btn,
+.serif-btn,
+.serif-hero-rule,
+.serif-line,
+hr,
+.icon,
+svg,
+.badge,
+.serif-category-badge,
+.serif-row-number,
+/* 导航栏相关 */
+.navbar,
+.nav-link,
+.nav-brand,
+.mobile-nav-link,
+.theme-toggle,
+.mobile-theme-toggle,
+.mobile-menu-toggle,
+.hamburger-line {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* 可选择的文本内容 */
+p, li, td, th {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+/* 特殊：span 和 div 默认不选择，但内容可继承 */
+span, div, a {
+  user-select: auto;
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+}
+
 /* 通用容器样式 */
 .container {
   max-width: 1200px;

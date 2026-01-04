@@ -7,7 +7,9 @@
       "mcp__web-search-prime__webSearchPrime",
       "Bash(npm run dev)",
       "Bash(timeout:*)",
-      "Skill(frontend-design)"
+      "Skill(frontend-design)",
+      "Bash(npm install:*)",
+      "Bash(npm run build)"
     ]
   }
 }

@@ -195,7 +195,7 @@
           </div>
 
           <div class="serif-nav-gallery">
-            <div class="serif-featured-card">
+            <div class="serif-featured-card" @click="navigateToNavigation">
               <img src="/src/assets/images/wiki.png" alt="资料百科" class="serif-featured-img">
               <div class="serif-featured-overlay">
                 <span class="serif-featured-tag">新手入门</span>
@@ -203,7 +203,7 @@
                 <div class="serif-featured-subtitle">BEGINNER WIKI</div>
               </div>
             </div>
-            <div class="serif-featured-card">
+            <div class="serif-featured-card" @click="navigateToNavigation">
               <img src="/src/assets/images/owtics.png" alt="数据分析" class="serif-featured-img">
               <div class="serif-featured-overlay">
                 <span class="serif-featured-tag">进阶提升</span>
@@ -282,7 +282,7 @@
                 <div class="serif-stat-label-en">CHAMPION</div>
               </div>
               <div class="serif-stat-card serif-stat-card--full">
-                <img src="/src/assets/images/champ.jpg" alt="NKG Team" class="serif-stat-img">
+                <img src="/src/assets/images/champ.webp" alt="NKG Team" class="serif-stat-img">
                 <div class="serif-stat-overlay">
                   <span>Team Moments</span>
                 </div>
@@ -306,50 +306,76 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
 
-// Import card background images
-import familyImage from '../assets/images/family.png'
-import vendettaImage from '../assets/images/vendetta.png'
-import wuyangImage from '../assets/images/wuyang.png'
-
-// Import hero float images
-import junodvaImage from '../assets/images/display/junodva.jpg'
-import daotianImage from '../assets/images/display/daotian.jpg'
-import luciechoImage from '../assets/images/display/luciecho.jpg'
-import route66Image from '../assets/images/display/route66.jpg'
-import ramImage from '../assets/images/display/ram.jpg'
-import homeviewBg1Image from '../assets/images/display/homeview-bg1.jpg'
-import kirikoImage from '../assets/images/display/kiriko.jpg'
-import kiriko2Image from '../assets/images/display/kiriko2.jpg'
-import kirimercyImage from '../assets/images/display/kirimercy.jpg'
-import kirimercy2Image from '../assets/images/display/kirimercy2.jpg'
-
 const themeStore = useThemeStore()
+const router = useRouter()
 const heroEntered = ref(false)
+const imagesLoaded = ref(false)
 
-const heroFloatImages = [
-  { src: junodvaImage, alt: 'Juno & D.Va' },
-  { src: daotianImage, alt: 'Daotian' },
-  { src: luciechoImage, alt: 'Lucio & Echo' },
-  { src: route66Image, alt: 'Route 66' },
-  { src: ramImage, alt: 'Ramattra' },
-  { src: homeviewBg1Image, alt: 'Home Background' },
-  { src: kirikoImage, alt: 'Kiriko' },
-  { src: kiriko2Image, alt: 'Kiriko (Alt)' },
-  { src: kirimercyImage, alt: 'Kiriko & Mercy' },
-  { src: kirimercy2Image, alt: 'Kiriko & Mercy (Alt)' }
-]
+// 导航到网页导航页面
+const navigateToNavigation = () => {
+  router.push('/navigation')
+}
+
+// 图片路径配置 - 使用 new URL 确保构建时包含所有图片
+const imagePaths = {
+  // 卡片背景图 - 立即加载(首屏可见)
+  cardBgs: [
+    new URL('../assets/images/family.webp', import.meta.url).href,
+    new URL('../assets/images/vendetta.webp', import.meta.url).href,
+    new URL('../assets/images/wuyang.webp', import.meta.url).href
+  ],
+  // 浮动图片 - 使用 new URL 确保被 Vite 构建系统检测到
+  floatImages: [
+    { src: new URL('../assets/images/display/junodva.jpg', import.meta.url).href, alt: 'Juno & D.Va' },
+    { src: new URL('../assets/images/display/daotian.jpg', import.meta.url).href, alt: 'Daotian' },
+    { src: new URL('../assets/images/display/luciecho.jpg', import.meta.url).href, alt: 'Lucio & Echo' },
+    { src: new URL('../assets/images/display/route66.jpg', import.meta.url).href, alt: 'Route 66' },
+    { src: new URL('../assets/images/display/ram.jpg', import.meta.url).href, alt: 'Ramattra' },
+    { src: new URL('../assets/images/display/homeview-bg1.jpg', import.meta.url).href, alt: 'Home Background' },
+    { src: new URL('../assets/images/display/kiriko.jpg', import.meta.url).href, alt: 'Kiriko' },
+    { src: new URL('../assets/images/display/kiriko2.jpg', import.meta.url).href, alt: 'Kiriko (Alt)' },
+    { src: new URL('../assets/images/display/kirimercy.jpg', import.meta.url).href, alt: 'Kiriko & Mercy' },
+    { src: new URL('../assets/images/display/kirimercy2.jpg', import.meta.url).href, alt: 'Kiriko & Mercy (Alt)' }
+  ]
+}
+
+// 浮动图片数组 - 初始为空,通过懒加载填充
+const heroFloatImages = ref([])
+
+// 懒加载图片
+const lazyLoadImages = () => {
+  // 首屏加载后延迟200ms再加载装饰性图片
+  setTimeout(() => {
+    // 先加载图片到数组
+    heroFloatImages.value = imagePaths.floatImages.map((img, index) => ({
+      src: img.src, // 已经在 imagePaths 中使用 new URL 处理过了
+      alt: img.alt,
+      // 给每张图片一个延迟,避免同时加载
+      delay: index * 100
+    }))
+
+    // 等待 DOM 更新后，再触发动画
+    // 这样确保图片已经渲染到 DOM 上
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        imagesLoaded.value = true
+        heroEntered.value = true
+      })
+    })
+  }, 200)
+}
 
 onMounted(() => {
-  // Set CSS variables for card background images
-  document.documentElement.style.setProperty('--card-bg-1', `url('${familyImage}')`)
-  document.documentElement.style.setProperty('--card-bg-2', `url('${vendettaImage}')`)
-  document.documentElement.style.setProperty('--card-bg-3', `url('${wuyangImage}')`)
+  // 立即设置CSS变量(首屏需要的背景图)
+  document.documentElement.style.setProperty('--card-bg-1', `url('${imagePaths.cardBgs[0]}')`)
+  document.documentElement.style.setProperty('--card-bg-2', `url('${imagePaths.cardBgs[1]}')`)
+  document.documentElement.style.setProperty('--card-bg-3', `url('${imagePaths.cardBgs[2]}')`)
 
-  requestAnimationFrame(() => {
-    heroEntered.value = true
-  })
+  // 懒加载装饰性图片，图片加载完成后触发动画
+  lazyLoadImages()
 })
 
 onUnmounted(() => {
@@ -1259,11 +1285,13 @@ onUnmounted(() => {
   background: var(--serif-muted);
   transition: all 200ms ease-out; /* 200ms 克制过渡 */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); /* 更克制的阴影 */
+  cursor: pointer; /* 鼠标悬停时显示手型光标 */
 
   /* 克制的悬停效果 */
   &:hover {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* 增强阴影 */
     border-color: var(--serif-accent); /* 边框变为金色 */
+    transform: translateY(-2px); /* 轻微上移效果 */
   }
 
   /* 顶部金色细线，呼应全站 rule line 系统 */

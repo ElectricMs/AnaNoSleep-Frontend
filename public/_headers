@@ -1,0 +1,32 @@
+# AnaNoSleep 静态资源缓存策略
+# 适用于 Netlify 等支持 _headers 文件的托管平台
+
+# 图片资源缓存 - 1年
+/assets/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 压缩后的JS/CSS资源 - 1年
+/assets/js/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/css/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# 字体文件 - 1年
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML文件 - 不缓存或短期缓存
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# favicon.ico - 1周
+/favicon.ico
+  Cache-Control: public, max-age=604800
+
+# 安全头部
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
