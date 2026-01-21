@@ -21,7 +21,7 @@ export const nkgMembersData = [
     isSpecial: false
   },
   {
-    name: 'EXTINCT',
+    name: 'STARLIGHT',
     heroes: ['布里吉塔', '安娜', '雾子'],
     isSpecial: true
   },
@@ -79,11 +79,21 @@ export const nkgMembersData = [
   {
     name: '无敌熊大',
     heroes: ['雾子', '巴蒂斯特'],
-    isSpecial: true
+    isSpecial: false
   },
   {
     name: '玖伍',
     heroes: ['雾子'],
+    isSpecial: false
+  },
+  {
+    name: '多刺天门冬',
+    heroes: ['布里吉塔'],
+    isSpecial: true
+  },
+  {
+    name: '知名大火男',
+    heroes: ['回声'],
     isSpecial: true
   }
 ]

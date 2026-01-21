@@ -114,8 +114,16 @@
             </div>
           </div>
 
+          <div class="timeline-item">
+            <div class="timeline-year">2026.1</div>
+            <div class="timeline-content">
+              <h3>百城之巅城市联赛</h3>
+              <p>由玩家群体组织的规模庞大的社区赛事，NKG吸收了新成员参与比赛，并以6胜2负的成绩结束瑞士轮</p>
+            </div>
+          </div>
+
           <div class="timeline-item current">
-            <div class="timeline-year">2025.12</div>
+            <div class="timeline-year">2026.1</div>
             <div class="timeline-content">
               <h3>What's Next ?</h3>
               <p>继全民性兰大杯、天开杯后，围绕第20赛季新英雄版本和活跃社区氛围的斩仇杯也在筹划当中，计划于2026年1月举办，详情可加入nkow社群了解</p>
