@@ -1,46 +1,75 @@
 <template>
   <div class="nkg-page" :class="{ 'dark-mode': themeStore.isDarkMode }">
-    <!-- 英雄区域 -->
     <div class="hero-section">
       <div class="hero-background">
         <img src="/NanKai_logo.webp" alt="南开大学logo" class="hero-bg-logo">
-        <div class="nkg-hero-logo">
-          <!-- 中央标题区域 -->
-          <div class="center-title-section">
-            <h1 class="main-title">NankaiGayming</h1>
-            <p class="subtitle">南开大学守望先锋校队</p>
-          </div>
-        </div>
       </div>
-      <div class="hero-content">
-        <div class="scroll-indicator">
-          <div class="scroll-arrow" @click="scrollToIntro">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+      <div class="container hero-shell">
+        <div class="hero-grid">
+          <div class="hero-content-panel">
+            <div class="hero-content-stack">
+              <h1 class="main-title">
+                <span class="title-line">Unleash your</span>
+                <span class="title-line">prowess</span>
+                <span class="title-line">with</span>
+                <span class="title-line title-line-accent">NankaiGayming</span>
+              </h1>
+              <p class="subtitle">
+                持续训练、长期参赛、也欢迎每一位热爱竞技的 OWer。
+                在这里，你可以和真正想赢的人一起磨合、成长、并肩作战。
+              </p>
+              <div class="hero-stats">
+                <div class="stat-item">
+                  <strong>3年+</strong>
+                  <span>校队历程</span>
+                </div>
+                <div class="stat-item">
+                  <strong>10站</strong>
+                  <span>重要赛事</span>
+                </div>
+                <div class="stat-item">
+                  <strong>长期</strong>
+                  <span>开放招募</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-figure" aria-hidden="true">
+            <div class="geometry-board">
+              <div class="shape shape-soft"></div>
+              <div class="shape shape-diamond"></div>
+              <div class="shape shape-arch"></div>
+              <div class="shape shape-frame"></div>
+              <div class="shape shape-circle">
+                <img :src="heroCircleSvg" alt="" class="shape-circle-icon">
+              </div>
+              <div class="shape shape-pill"></div>
+              <div class="shape shape-block"></div>
+              <div class="shape shape-triangle"></div>
+              <div class="shape shape-corner-arch"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 战队介绍区域 -->
     <div class="intro-section" :class="{ 'dark-mode': themeStore.isDarkMode }">
       <div class="container">
         <div class="intro-card clean-style" ref="introCard" :class="{ 'animate-in': isVisible1 }">
           <div class="intro-content">
             <h2>关于NKG</h2>
-            <p>南开大学守望先锋校队（NanKaiGayming）自2023年起活跃在各大高校电竞赛事中，致力于为南开大学的守望先锋玩家提供专业的竞技平台和成长机会。</p>
+            <p>南开大学守望先锋战队（NanKaiGayming）自2023年起活跃在各大高校电竞赛事中，致力于为南开大学的守望先锋玩家提供专业的竞技平台和成长机会。</p>
             <p>NanKaiGayming 2023-2025人员名单已永久写入津南校区图书馆北侧学生文化谷的2025毕业生纪念墙中，包含了至2025学年所有在NKG正赛中登场的选手。</p>
           </div>
           <div class="intro-image clean-style">
-            <img :src="nkgLogoImage" alt="NKG战队" class="intro-img" :class="{ 'active': currentImageIndex === 0 }" loading="lazy">
-            <img :src="nkgRealImage" alt="NKG战队真实照片" class="intro-img" :class="{ 'active': currentImageIndex === 1 }" loading="lazy">
+            <img :src="nkgLogoImage" alt="NKG" class="intro-img" :class="{ 'active': currentImageIndex === 0 }" loading="lazy">
+            <img :src="nkgRealImage" alt="NKG-real" class="intro-img" :class="{ 'active': currentImageIndex === 1 }" loading="lazy">
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 赛事历史区域 -->
     <div class="history-section" :class="{ 'dark-mode': themeStore.isDarkMode }" ref="historySection">
       <div class="container">
         <div class="section-header" ref="historyHeader" :class="{ 'animate-in': isVisible2 }">
@@ -49,92 +78,35 @@
         </div>
         
         <div class="timeline" ref="timeline" :class="{ 'animate-in': isVisible3 }">
-          <div class="timeline-item">
-            <div class="timeline-year">2023.11</div>
+          <div
+            v-for="item in timelineItems"
+            :key="`${item.year}-${item.title}`"
+            class="timeline-item"
+            :class="{
+              'champion-highlight': item.isChampion,
+              current: item.isCurrent
+            }"
+            :title="item.isClickable ? item.clickTitle : undefined"
+            :style="item.isClickable ? 'cursor: pointer;' : undefined"
+            @click="item.isClickable ? handleTimelineItemClick(item) : undefined"
+          >
+            <div class="timeline-year">{{ item.year }}</div>
             <div class="timeline-content">
-              <h3>战队成立</h3>
-              <p>守望国服停服，中国战队出征世界杯遗憾摘银，守望社区情绪高涨，CUOL中国高校守望联赛成立，NanKaiGayming也响应号召集结，代表南开大学出战</p>
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.desc }}</p>
+              <div
+                v-if="item.clickHint"
+                class="click-hint"
+                :style="item.routeName === 'vendetta-cup' ? { paddingTop: '0.8rem' } : undefined"
+              >
+                {{ item.clickHint }}
+              </div>
             </div>
           </div>
-          
-          <div class="timeline-item">
-            <div class="timeline-year">2023.12</div>
-            <div class="timeline-content">
-              <h3>CUOL中国高校守望联赛</h3>
-              <p>这是NKG参与的第一场守望比赛，吸纳了众多南开大学守望先锋爱好者加入NKOW社群，NKG的主力成员也在此相遇，最终以5胜2负结束常规赛</p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-year">2024.4</div>
-            <div class="timeline-content">
-              <h3>OUL守望高校联赛</h3>
-              <p>NKG继续征战OUL守望高校联赛，nkow社群与nkg战队也不断壮大</p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-year">2024.9</div>
-            <div class="timeline-content">
-              <h3>朱诺杯S1</h3>
-              <p>朱诺杯是由华东师范大学组织的高校社区比赛，NKG在朱诺杯上半赛段首次进入淘汰赛，取得全国16强</p>
-            </div>
-          </div>
-          
-          <div class="timeline-item">
-            <div class="timeline-year">2025.3</div>
-            <div class="timeline-content">
-              <h3>OWCS中国赛区第一阶段公开预选赛</h3>
-              <p>守望先锋国服回归，国服比赛重启，NKG参加守望先锋冠军系列赛预选赛，与全国顶尖战队竞技，最终取得五胜二负</p>
-            </div>
-          </div>
-          
-          <div class="timeline-item">
-            <div class="timeline-year">2025.5</div>
-            <div class="timeline-content">
-              <h3>宿舍杯天津站</h3>
-              <p>在宿舍杯天津站比赛中展现团队实力，NKG第一次参与纯线下比赛，过关斩将取得季军</p>
-            </div>
-          </div>
-          
-          <div class="timeline-item">
-            <div class="timeline-year">2025.9</div>
-            <div class="timeline-content">
-              <h3>朱诺杯S2</h3>
-              <p>NKG参与第二届朱诺杯高校赛，在此期间发掘培养了多位新成员</p>
-            </div>
-          </div>
-
-          <div class="timeline-item champion-highlight" @click="openChampionVideo" style="cursor: pointer;" title="点击观看夺冠纪念视频">
-            <div class="timeline-year">2025.11</div>
-            <div class="timeline-content">
-              <h3>宿舍杯天津站</h3>
-              <p>我们是冠军！NKG接连战胜北京城市学院2队、中国民航大学、天津职业技术师范大学与天津工业大学，成为宿舍杯天津站冠军！</p>
-              <div class="click-hint">点击观看夺冠纪念视频 →</div>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-year">2026.1</div>
-            <div class="timeline-content">
-              <h3>百城之巅城市联赛</h3>
-              <p>由玩家群体组织的规模庞大的社区赛事，NKG吸收了新成员参与比赛，并以6胜2负的成绩结束瑞士轮</p>
-            </div>
-          </div>
-
-          <div class="timeline-item current">
-            <div class="timeline-year">2026.1</div>
-            <div class="timeline-content">
-              <h3>What's Next ?</h3>
-              <p>继全民性兰大杯、天开杯后，围绕第20赛季新英雄版本和活跃社区氛围的斩仇杯也在筹划当中，计划于2026年1月举办，详情可加入nkow社群了解</p>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
 
-    <!-- 人员名单区域 -->
     <div class="members-section" :class="{ 'dark-mode': themeStore.isDarkMode }" ref="membersSection">
       <div class="container">
         <div class="section-header" ref="membersHeader" :class="{ 'animate-in': isVisibleMembers }">
@@ -156,7 +128,7 @@
             @mouseleave="hideHeroes"
           >
             <div class="badge-inner">
-              <span class="member-id">{{ member.name }}</span>
+              <span class="member-name-label">{{ member.name }}</span>
               <div class="hero-overlay">
                 <div class="hero-tags">
                   <span v-for="hero in member.heroes.slice(0, 3)" :key="hero">{{ hero }}</span>
@@ -170,7 +142,6 @@
       </div>
     </div>
 
-    <!-- 招募信息区域 -->
     <div class="recruitment-section" :class="{ 'dark-mode': themeStore.isDarkMode }" ref="recruitmentSection">
       <div class="container">
         <div class="recruitment-card clean-style" ref="recruitmentCard" :class="{ 'animate-in': isVisible4 }">
@@ -179,7 +150,7 @@
             <p>我们正在寻找志同道合的队友</p>
           </div>
           
-          <div class="recruitment-content clean-layout">
+          <div class="recruitment-content recruitment-layout">
             <div class="requirements-section">
               <h3>招募要求</h3>
               <div class="text-block">
@@ -213,16 +184,16 @@
 
     <!-- 底部CTA区域 - 已简化合并到招募区域，删除冗余的CTA -->
     <!-- 如果需要保留底部导航，可以使用一个更简单的样式 -->
-    <div class="simple-footer-nav" :class="{ 'dark-mode': themeStore.isDarkMode }">
+    <div class="footer-nav-compact" :class="{ 'dark-mode': themeStore.isDarkMode }">
       <router-link to="/" class="nav-link">← 返回首页</router-link>
     </div>
 
     <!-- 联系方式弹窗 -->
     <div class="contact-modal" :class="{ 'active': showContactModal }" @click="closeContactModal">
-      <div class="modal-content clean-modal" @click.stop>
+      <div class="modal-content contact-modal-card" @click.stop>
         <button class="close-btn" @click="closeContactModal">×</button>
         
-        <div class="modal-body-simple">
+        <div class="contact-modal-body">
           <h3>加入南开大学守望先锋社群</h3>
           <p class="subtitle">Welcome to NKOW</p>
           
@@ -249,17 +220,24 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
 import { nkgMembersData } from '../data/nkgMembersData.js'
+import { nkgTimelineData } from '../data/nkgTimelineData.js'
 
+const router = useRouter()
 const themeStore = useThemeStore()
 
 // 动态导入图片,避免首屏加载
 const nkgLogoImage = new URL('../assets/images/NanKaiGayming.png', import.meta.url).href
 const nkgRealImage = new URL('../assets/images/NKG_Real.jpg', import.meta.url).href
+const heroCircleSvg = new URL('../../docs/1734074185668_1f8923e771.svg', import.meta.url).href
 
 // 成员名单数据
 const membersList = nkgMembersData
+
+// 战队历程数据
+const timelineItems = nkgTimelineData
 
 // 移除调试日志,减少生产环境输出
 // console.log('成员数据:', membersList)
@@ -315,16 +293,6 @@ let observer = null
 
 
 
-// 滚动到介绍区域
-const scrollToIntro = () => {
-  const introSection = document.querySelector('.intro-section')
-  if (introSection) {
-    introSection.scrollIntoView({
-      behavior: 'smooth'
-    })
-  }
-}
-
 // 滚动到招募区域
 const scrollToRecruitment = () => {
   const recruitmentSection = document.querySelector('.recruitment-section')
@@ -371,16 +339,22 @@ const contactUs = () => {
   alert('邮箱：ananosleep@163.com\n或通过群聊联系我们')
 }
 
-// 跳转到冠军纪念视频
-const openChampionVideo = () => {
-  window.open('https://www.bilibili.com/video/BV1uikBBhEZg', '_blank')
+// 时间线词条点击处理（支持外链与站内跳转）
+const handleTimelineItemClick = (item) => {
+  if (!item?.isClickable) return
+
+  if (item.clickType === 'external' && item.externalUrl) {
+    window.open(item.externalUrl, '_blank')
+    return
+  }
+
+  if (item.clickType === 'route' && item.routeName) {
+    router.push({ name: item.routeName })
+  }
 }
 
 // 显示英雄信息
 const showHeroes = (memberName) => {
-  console.log('显示英雄信息:', memberName)
-  const member = membersList.find(m => m.name === memberName)
-  console.log('找到的成员:', member)
   hoveredMember.value = memberName
 }
 
@@ -446,16 +420,17 @@ onUnmounted(() => {
   min-height: 100vh;
 }
 
-// 英雄区域
+// 英雄区域（首屏大图/标题那一块）
+// 说明：下面还有 `.nkg-page .hero-section` 会覆盖部分属性（例如高度改成 min-height + 导航栏补偿）
 .hero-section {
-  height: 100vh;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  user-select: none; // 禁止文本选择
-  cursor: default;   // 鼠标保持默认箭头样式
+  height: 100vh; // 占满一屏高度（100vh = 视口高度）
+  position: relative; // 子元素里若有 absolute，会相对这块区域定位
+  display: flex; // 弹性布局，方便把内容在盒子里居中
+  align-items: center; // 交叉轴居中：垂直方向居中（flex 默认横向主轴时）
+  justify-content: center; // 主轴居中：水平方向居中
+  overflow: hidden; // 超出部分裁掉，避免背景/装饰溢出产生滚动条
+  user-select: none; // 禁止用鼠标拖选文字（更像“展示页”而不是文档）
+  cursor: default; // 鼠标指针保持默认箭头，不变成文本光标
 }
 
 .hero-background {
@@ -486,41 +461,11 @@ onUnmounted(() => {
   filter: brightness(0.9) blur(0.2px); // 提亮并稍微减弱模糊
 }
 
-// NKG英雄区域Logo样式
-.nkg-hero-logo {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background: rgba(255, 255, 255, 0.9);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  overflow: hidden;
-  z-index: 2;
-}
-
-.nkg-page.dark-mode .nkg-hero-logo {
-  background: rgba(26, 26, 26, 0.9);
-}
-
-
-// 中央标题区域
-.center-title-section {
-  text-align: center;
-  z-index: 2;
-  position: relative;
-  animation: fadeInUp 1.5s ease-out 0.2s forwards;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
 .main-title {
   font-size: clamp(6rem, 8vw, 7rem); // 增大字体基准尺寸
   font-weight: bold; // BigNoodleTitling 本身就很粗，不需要 bold
   color: #711a5f;
-  margin-bottom: 0.5rem;
+  //margin-bottom: 0.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   font-family: 'BigNoodleTitling', 'Arial Black', sans-serif;
   letter-spacing: 4px; // 增加一点字间距，更有气势
@@ -544,80 +489,6 @@ onUnmounted(() => {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-.hero-content {
-  text-align: center;
-  z-index: 2;
-  max-width: 800px;
-  padding: 0 2rem;
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-
-.scroll-indicator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-  animation: fadeInUp 1s ease-out 0.4s both;
-}
-
-.scroll-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: transparent;
-  border: 3px solid #711a5f;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #711a5f;
-  animation: bounce 2s infinite;
-}
-
-.scroll-arrow:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(113, 26, 95, 0.3);
-  border-color: #8b2a6b;
-  color: #8b2a6b;
-}
-
-.scroll-arrow svg {
-  transition: transform 0.3s ease;
-}
-
-.scroll-arrow:hover svg {
-  transform: translateY(2px);
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-}
 
 // 通用按钮样式
 .btn {
@@ -911,7 +782,7 @@ onUnmounted(() => {
 
 .timeline-year {
   background: #fff;
-  border: 4px solid #711a5f;
+  border: 2px solid #711a5f;
   border-radius: 50%;
   width: 80px;
   height: 80px;
@@ -1026,7 +897,7 @@ onUnmounted(() => {
     border: 1px solid #711a5f;
     box-shadow: 0 4px 15px rgba(113, 26, 95, 0.15);
     
-    .member-id {
+    .member-name-label {
       color: #711a5f;
       font-weight: 700;
     }
@@ -1037,7 +908,7 @@ onUnmounted(() => {
     background: #fff;
     border: 1px solid #e0e0e0;
     
-    .member-id {
+    .member-name-label {
       color: #666;
     }
   }
@@ -1049,14 +920,14 @@ onUnmounted(() => {
     border-color: #8b2a6b;
     box-shadow: 0 4px 15px rgba(139, 42, 107, 0.3);
     
-    .member-id { color: #d4a5c9; }
+    .member-name-label { color: #d4a5c9; }
   }
   
   .alumni .badge-inner {
     background: #333;
     border-color: #444;
     
-    .member-id { color: #999; }
+    .member-name-label { color: #999; }
   }
 }
 
@@ -1071,7 +942,7 @@ onUnmounted(() => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   
-  .member-id {
+  .member-name-label {
     font-size: 1.1rem;
     z-index: 2;
     transition: transform 0.3s ease;
@@ -1119,7 +990,7 @@ onUnmounted(() => {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   }
   
-  .member-id {
+  .member-name-label {
     opacity: 0; // 悬停时隐藏名字
   }
   
@@ -1245,7 +1116,7 @@ onUnmounted(() => {
   }
 }
 
-.recruitment-content.clean-layout {
+.recruitment-content.recruitment-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6rem; // 加大间距
@@ -1337,7 +1208,7 @@ onUnmounted(() => {
 }
 
 // 简单的底部导航样式
-.simple-footer-nav {
+.footer-nav-compact {
   padding: 2rem 0 4rem;
   text-align: center;
   background: #f8f9fa;
@@ -1428,7 +1299,8 @@ onUnmounted(() => {
       bottom: 0;
       left: 0;
       width: 100%;
-      padding: 0.5rem 1.5rem;
+      padding: 0.65rem 1.5rem;
+      padding-top: 0.8rem;
       text-align: right;
       font-size: 0.85rem;
       color: #fff;
@@ -1573,20 +1445,6 @@ onUnmounted(() => {
     font-size: 1.2rem;
   }
 
-  .scroll-indicator {
-    margin-top: 1.5rem;
-  }
-
-  .scroll-arrow {
-    width: 55px;
-    height: 55px;
-  }
-
-  .scroll-arrow svg {
-    width: 28px;
-    height: 28px;
-  }
-
   .intro-card {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -1610,7 +1468,7 @@ onUnmounted(() => {
   }
 
   .recruitment-content,
-  .recruitment-content.clean-layout {
+  .recruitment-content.recruitment-layout {
     grid-template-columns: 1fr;
     gap: 2rem;
     padding: 0 1rem; // 增加侧边距
@@ -1804,11 +1662,6 @@ onUnmounted(() => {
     padding: 0 1rem;
   }
 
-  // NKG英雄区域响应式
-  .nkg-hero-logo {
-    padding: 1.5rem 1rem;
-  }
-
   .main-title {
     font-size: clamp(2rem, 7vw, 4rem);
   }
@@ -1863,7 +1716,7 @@ onUnmounted(() => {
   }
 }
 
-.modal-content.clean-modal {
+.modal-content.contact-modal-card {
   background: #fff;
   width: 90%;
   max-width: 420px;
@@ -1880,7 +1733,7 @@ onUnmounted(() => {
   }
 }
 
-.nkg-page.dark-mode .modal-content.clean-modal {
+.nkg-page.dark-mode .modal-content.contact-modal-card {
   background: #2a2a2a;
   box-shadow: 0 20px 50px rgba(0,0,0,0.4);
 }
@@ -1906,7 +1759,7 @@ onUnmounted(() => {
   color: #fff;
 }
 
-.modal-body-simple {
+.contact-modal-body {
   h3 {
     font-size: 1.6rem;
     color: #333;
@@ -1923,7 +1776,7 @@ onUnmounted(() => {
   }
 }
 
-.nkg-page.dark-mode .modal-body-simple h3 {
+.nkg-page.dark-mode .contact-modal-body h3 {
   color: #e0e0e0;
 }
 
@@ -2029,9 +1882,418 @@ onUnmounted(() => {
 
 // 移动端弹窗样式
 @media (max-width: 768px) {
-  .modal-content.clean-modal {
+  .modal-content.contact-modal-card {
     width: 95%;
     padding: 2rem 1.5rem;
+  }
+}
+
+/* 仅保留首屏参考图风格 */
+.nkg-page {
+  --hero-bg: #fffdfd;
+  --hero-glow-primary: rgba(253, 232, 233, 0.72);
+  --hero-glow-secondary: rgba(188, 158, 193, 0.24);
+  --hero-pink: #FDE8E9;
+  --hero-rose: #E3BAC6;
+  --hero-lilac: #BC9EC1;
+  --hero-plum: #711A5F;
+  --hero-orange: #DD6E32;
+  --hero-ink: #17131a;
+  --hero-muted: #6f6571;
+  --hero-line: rgba(113, 26, 95, 0.16);
+  --hero-panel-size: 400px;
+  --hero-copy-width: 404px;
+  --hero-gap: 100px;
+}
+
+.nkg-page.dark-mode {
+  --hero-bg: #17131a;
+  --hero-glow-primary: rgba(233, 233, 233, 0.14);
+  --hero-glow-secondary: rgba(188, 188, 188, 0.08);
+  --hero-ink: #f7eff7;
+  --hero-muted: #d6c5d2;
+  --hero-line: rgba(227, 186, 198, 0.22);
+}
+
+.nkg-page .hero-section {
+  /* 覆盖基类 height:100vh：#app 已有顶部导航占位，首屏高度应为「视口减去导航栏」，否则垂直中心会偏下 */
+  height: auto;
+  min-height: calc(100vh - var(--app-navbar-height, 60px));
+  padding: 32px 0 56px;
+  /* 与全局 #app.has-navbar-offset 配合：首屏内容在可视区水平、垂直居中 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background: var(--hero-bg);
+}
+
+.nkg-page .hero-background {
+  background:
+    radial-gradient(circle at 14% 14%, var(--hero-glow-primary), transparent 24%),
+    radial-gradient(circle at 84% 18%, var(--hero-glow-secondary), transparent 26%),
+    var(--hero-bg);
+}
+
+/* 背景 logo：相对视口居中，抵消固定导航栏占位（首屏区域从导航下方开始） */
+.nkg-page .hero-bg-logo {
+  width: min(54vw, 640px);
+  height: auto;
+  opacity: 0.05;
+  filter: grayscale(1) contrast(0.85);
+  left: 50%;
+  top: calc(50vh - var(--app-navbar-height, 60px));
+  transform: translate(-50%, -50%);
+}
+
+.nkg-page.dark-mode .hero-bg-logo {
+  opacity: 0.1;
+  filter: grayscale(1) saturate(0) brightness(0.62) contrast(1.08);
+}
+
+.nkg-page .hero-shell {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: auto;
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 24px;
+  align-self: center;
+}
+
+.nkg-page .hero-grid {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: var(--hero-copy-width) var(--hero-panel-size);
+  align-items: stretch;
+  gap: var(--hero-gap);
+  opacity: 0;
+  transform: translateZ(0) scale(0.82);
+  transform-origin: center center;
+  animation: hero-grid-reveal 760ms cubic-bezier(0.22, 1, 0.36, 1) 120ms forwards;
+}
+
+.nkg-page .hero-content-panel {
+  box-sizing: border-box;
+  width: var(--hero-copy-width);
+  max-width: var(--hero-copy-width);
+  height: var(--hero-panel-size);
+  min-height: var(--hero-panel-size);
+  display: flex;
+  align-items: center;
+}
+
+.nkg-page .hero-content-stack {
+  display: flex;
+  flex-direction: column;
+  height: 98%;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.nkg-page .hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hero-muted);
+}
+
+.nkg-page .hero-kicker::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.nkg-page .hero-content-panel .main-title {
+  margin: 0;
+  font-family: 'BigNoodleTitling', 'Arial Black', sans-serif;
+  font-size: 86px;
+  line-height: 0.84;
+  letter-spacing: 0.02em;
+  color: var(--hero-ink);
+  text-shadow: none;
+  transform: none;
+}
+
+.nkg-page .hero-content-panel .title-line {
+  display: block;
+}
+
+.nkg-page .hero-content-panel .title-line-accent {
+  color: var(--hero-plum);
+}
+
+.nkg-page .hero-content-panel .subtitle {
+  max-width: 100%;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.58;
+  color: var(--hero-muted);
+  text-shadow: none;
+}
+
+.nkg-page .hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 380px;
+  //margin-top: 26px;
+}
+
+.nkg-page .stat-item {
+  padding-top: 0px;
+}
+
+.nkg-page .stat-item strong {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--hero-orange);
+  line-height: 1;
+}
+
+.nkg-page .stat-item span {
+  display: block;
+  margin-top: 3px;
+  margin-left: 2px;
+  font-size: 0.72rem;
+  color: var(--hero-muted);
+  line-height: 1.35;
+}
+
+.nkg-page .hero-figure {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--hero-panel-size);
+  height: var(--hero-panel-size);
+}
+
+.nkg-page .geometry-board {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.nkg-page .shape {
+  position: relative;
+  overflow: hidden;
+}
+
+.nkg-page .shape-soft {
+  background: var(--hero-pink);
+  border-radius: 40% 0 0 40%;
+}
+
+.nkg-page .shape-diamond::before {
+  content: '';
+  position: absolute;
+  inset: 14.65%;
+  background: var(--hero-rose);
+  transform: rotate(45deg);
+}
+
+.nkg-page .shape-arch {
+  background: var(--hero-lilac);
+  border-radius: 0 85% 0 0;
+}
+
+.nkg-page .shape-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0%;
+  border: 15px solid var(--hero-plum);
+}
+
+.nkg-page .shape-circle::before {
+  content: none;
+}
+
+.nkg-page .shape-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nkg-page .shape-circle-icon {
+  display: block;
+  width: 120%;
+  height: 120%;
+  object-fit: contain;
+}
+
+.nkg-page .shape-pill {
+  background: var(--hero-lilac);
+  border-radius: 0 0 85% 0;
+}
+
+.nkg-page .shape-block {
+  background: var(--hero-plum);
+  border-radius: 40% 40% 0 40%;
+}
+
+.nkg-page .shape-triangle::before {
+  content: '';
+  position: absolute;
+  inset: 0; /* 占满父容器 */
+  background: var(--hero-orange);
+  clip-path: polygon(50% 0, 0 100%, 100% 100%); /* 正三角朝上 */
+}
+
+.nkg-page .shape-triangle::after {
+  content: '';
+  position: absolute;
+  inset: 0; /* 占满父容器 */
+  background: var(--hero-bg);
+  clip-path: polygon(50% 26.66%, 20% 86.66%, 80% 86.66%); /* 正三角朝上 */
+}
+
+.nkg-page .shape-corner-arch {
+  background: var(--hero-plum);
+  border-radius: 0 85% 0 0;
+}
+
+@keyframes hero-grid-reveal {
+  from {
+    opacity: 0;
+    transform: translateZ(0) scale(0.82);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateZ(0) scale(1);
+  }
+}
+
+@media (max-width: 900px) {
+  .nkg-page .hero-section {
+    min-height: auto;
+    padding: 28px 0 72px;
+  }
+
+  /* 首屏高度随内容收缩时，背景 logo 改在首屏区域内居中 */
+  .nkg-page .hero-bg-logo {
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .nkg-page .hero-shell {
+    width: 100%;
+    max-width: var(--serif-container-max);
+    padding: 0 2rem;
+  }
+
+  .nkg-page .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-top: 8px;
+  }
+
+  .nkg-page .hero-content-panel {
+    max-width: 640px;
+    height: auto;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .nkg-page .hero-content-stack {
+    min-height: auto;
+  }
+
+  .nkg-page .hero-figure {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nkg-page .hero-shell {
+    padding: 0 1rem;
+  }
+
+  .nkg-page .hero-section {
+    min-height: auto;
+    padding: 20px 0 72px;
+  }
+
+  .nkg-page .hero-grid {
+    gap: 16px;
+    padding: 0;
+  }
+
+  .nkg-page .hero-content-panel {
+    max-width: none;
+  }
+
+  .nkg-page .hero-kicker {
+    margin-bottom: 12px;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+  }
+
+  .nkg-page .hero-kicker::before {
+    width: 24px;
+  }
+
+  .nkg-page .hero-content-panel .main-title {
+    margin-bottom: 12px;
+    font-size: 62px;
+    line-height: 0.94;
+  }
+
+  .nkg-page .hero-content-panel .subtitle {
+    max-width: none;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .nkg-page .hero-stats {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    max-width: none;
+    margin-top: 24px;
+  }
+
+  .nkg-page .stat-item {
+    padding-top: 12px;
+  }
+
+  .nkg-page .stat-item strong {
+    font-size: 1.5rem;
+  }
+
+  .nkg-page .stat-item span {
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nkg-page .hero-section {
+    padding: 16px 0 68px;
+  }
+
+  .nkg-page .hero-content-panel .main-title {
+    font-size: 48px;
+  }
+
+  .nkg-page .hero-content-panel .subtitle {
+    font-size: 0.9rem;
   }
 }
 </style>

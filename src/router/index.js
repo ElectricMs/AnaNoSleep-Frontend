@@ -6,6 +6,7 @@ const HomeView = () => import('../views/HomeView.vue')
 const NavigationView = () => import('../views/NavigationView.vue')
 const TutorialsView = () => import('../views/TutorialsView.vue')
 const NKGView = () => import('../views/NKGView.vue')
+const VendettaCupView = () => import('../views/VendettaCupView.vue')
 const BlogView = () => import('../views/BlogView.vue')
 const AboutView = () => import('../views/AboutView.vue')
 const LoginView = () => import('../views/LoginView.vue')
@@ -48,6 +49,12 @@ const routes = [
     name: 'nkg',
     component: NKGView,
     meta: { title: 'NKG', showInNav: true }
+  },
+  {
+    path: '/vendetta-cup',
+    name: 'vendetta-cup',
+    component: VendettaCupView,
+    meta: { title: '斩仇杯', showInNav: false }
   },
   {
     path: '/about',

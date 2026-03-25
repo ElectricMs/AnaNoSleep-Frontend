@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer" :class="{ 'dark-mode': themeStore.isDarkMode }">
+    <footer class="footer" :class="{ 'dark-mode': themeStore.isDarkMode, 'nkg-theme': isNkgPage }">
         <div class="footer-container">
             <div class="footer-simple-content">
                 <div class="brand-section">
@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="info-section">
-                    <span class="contact">📧 ananosleep_ow@163.com</span>
+                    <span class="contact">ananosleep_ow@163.com</span>
                     <span class="divider">|</span>
                     <span class="copyright">&copy; 2025 AnaNoSleep</span>
                     <span class="divider">|</span>
@@ -51,10 +51,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
 
 const themeStore = useThemeStore()
+const route = useRoute()
+const isNkgPage = computed(() => route.path === '/nkg')
 
 // 悬浮窗口状态
 const isPrivacyModalOpen = ref(false)
@@ -102,6 +105,28 @@ const closePrivacyModal = () => {
         background: #0F0F0F;
         border-top-color: #D4A84B;
     }
+
+    &.nkg-theme {
+        background:
+            radial-gradient(circle at 14% 22%, rgba(253, 232, 233, 0.86), transparent 26%),
+            linear-gradient(180deg, #fffaf8 0%, #f7eef2 100%);
+        color: #2d2630;
+        border-top: 1px solid rgba(113, 26, 95, 0.12);
+        padding: 2.8rem 0 2.2rem 0;
+
+        &::before {
+            opacity: 0.018;
+            filter: grayscale(1);
+        }
+    }
+
+    &.nkg-theme.dark-mode {
+        background:
+            radial-gradient(circle at 14% 22%, rgba(113, 26, 95, 0.18), transparent 26%),
+            linear-gradient(180deg, #17131a 0%, #1d1820 100%);
+        color: #f7eff7;
+        border-top-color: rgba(227, 186, 198, 0.12);
+    }
 }
 
 .footer-container {
@@ -139,6 +164,29 @@ const closePrivacyModal = () => {
     }
 }
 
+.footer.nkg-theme .brand-section {
+    h3 {
+        color: #711A5F;
+        font-family: 'BigNoodleTitling', 'Arial Black', sans-serif;
+        letter-spacing: 0.04em;
+        font-size: 2rem;
+    }
+
+    .tagline {
+        color: rgba(45, 38, 48, 0.72);
+    }
+}
+
+.footer.nkg-theme.dark-mode .brand-section {
+    h3 {
+        color: #E3BAC6;
+    }
+
+    .tagline {
+        color: rgba(247, 239, 247, 0.72);
+    }
+}
+
 .links-section {
     display: flex;
     flex-wrap: wrap;
@@ -169,6 +217,36 @@ const closePrivacyModal = () => {
     }
 }
 
+.footer.nkg-theme .links-section {
+    gap: 0.9rem;
+
+    a {
+        color: rgba(45, 38, 48, 0.82);
+
+        &:hover {
+            color: #711A5F;
+        }
+    }
+
+    .divider {
+        color: rgba(113, 26, 95, 0.24);
+    }
+}
+
+.footer.nkg-theme.dark-mode .links-section {
+    a {
+        color: rgba(247, 239, 247, 0.82);
+
+        &:hover {
+            color: #F0A06E;
+        }
+    }
+
+    .divider {
+        color: rgba(227, 186, 198, 0.2);
+    }
+}
+
 .info-section {
     display: flex;
     flex-wrap: wrap;
@@ -192,6 +270,40 @@ const closePrivacyModal = () => {
     .divider {
         color: rgba(250, 250, 248, 0.3);
         font-size: 0.8rem;
+    }
+}
+
+.footer.nkg-theme .info-section {
+    color: rgba(45, 38, 48, 0.62);
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-size: 0.9rem;
+
+    a {
+        color: rgba(45, 38, 48, 0.62);
+
+        &:hover {
+            color: #711A5F;
+        }
+    }
+
+    .divider {
+        color: rgba(113, 26, 95, 0.2);
+    }
+}
+
+.footer.nkg-theme.dark-mode .info-section {
+    color: rgba(247, 239, 247, 0.66);
+
+    a {
+        color: rgba(247, 239, 247, 0.66);
+
+        &:hover {
+            color: #F0A06E;
+        }
+    }
+
+    .divider {
+        color: rgba(227, 186, 198, 0.2);
     }
 }
 
@@ -266,9 +378,21 @@ const closePrivacyModal = () => {
     animation: slideIn 0.3s ease-out;
 }
 
+.footer.nkg-theme .modal-content {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(253, 232, 233, 0.9) 100%);
+    border: 1px solid rgba(113, 26, 95, 0.12);
+    box-shadow: 0 18px 42px rgba(113, 26, 95, 0.16);
+}
+
 .footer.dark-mode .modal-content {
     background: #2a2a2a;
     color: #e0e0e0;
+}
+
+.footer.nkg-theme.dark-mode .modal-content {
+    background: linear-gradient(180deg, rgba(31, 25, 33, 0.98) 0%, rgba(39, 31, 41, 0.94) 100%);
+    color: #f7eff7;
+    border-color: rgba(227, 186, 198, 0.12);
 }
 
 .modal-header {
@@ -287,12 +411,30 @@ const closePrivacyModal = () => {
     }
 }
 
+.footer.nkg-theme .modal-header {
+    background: rgba(255, 255, 255, 0.36);
+    border-bottom-color: rgba(113, 26, 95, 0.12);
+
+    h3 {
+        color: #711A5F;
+    }
+}
+
 .footer.dark-mode .modal-header {
     background: #333;
     border-bottom-color: #555;
 
     h3 {
         color: #e0e0e0;
+    }
+}
+
+.footer.nkg-theme.dark-mode .modal-header {
+    background: rgba(113, 26, 95, 0.16);
+    border-bottom-color: rgba(227, 186, 198, 0.12);
+
+    h3 {
+        color: #f7eff7;
     }
 }
 
@@ -317,12 +459,30 @@ const closePrivacyModal = () => {
     }
 }
 
+.footer.nkg-theme .modal-close {
+    color: rgba(113, 26, 95, 0.54);
+
+    &:hover {
+        background: rgba(113, 26, 95, 0.08);
+        color: #711A5F;
+    }
+}
+
 .footer.dark-mode .modal-close {
     color: #ccc;
 
     &:hover {
         background: #444;
         color: #e0e0e0;
+    }
+}
+
+.footer.nkg-theme.dark-mode .modal-close {
+    color: rgba(227, 186, 198, 0.68);
+
+    &:hover {
+        background: rgba(227, 186, 198, 0.08);
+        color: #f7eff7;
     }
 }
 
@@ -342,8 +502,16 @@ const closePrivacyModal = () => {
      }
  }
 
+.footer.nkg-theme .modal-body p {
+    color: rgba(45, 38, 48, 0.8);
+}
+
 .footer.dark-mode .modal-body p {
     color: #ccc;
+}
+
+.footer.nkg-theme.dark-mode .modal-body p {
+    color: rgba(247, 239, 247, 0.78);
 }
 
 .modal-footer {
@@ -366,6 +534,26 @@ const closePrivacyModal = () => {
          background: #ED6516;
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+    }
+}
+
+.footer.nkg-theme .modal-btn {
+    background: #711A5F;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(113, 26, 95, 0.16);
+
+    &:hover {
+        background: #621651;
+        box-shadow: 0 12px 24px rgba(113, 26, 95, 0.2);
+    }
+}
+
+.footer.nkg-theme.dark-mode .modal-btn {
+    background: #DD6E32;
+
+    &:hover {
+        background: #cb5e23;
+        box-shadow: 0 12px 24px rgba(221, 110, 50, 0.2);
     }
 }
 

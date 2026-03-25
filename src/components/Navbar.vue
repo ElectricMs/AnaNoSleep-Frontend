@@ -3,6 +3,7 @@
     'navbar-scrolled': isScrolled, 
     'dark-mode': themeStore.isDarkMode,
     'non-home-page': !isHomePage,
+    'nkg-page': isNkgPage,
     'mobile-menu-open': isMobileMenuOpen
   }">
     <div class="nav-container">
@@ -114,6 +115,7 @@ const routes = router.getRoutes().filter(route => route.meta?.title && route.met
 
 // 判断是否为首页
 const isHomePage = computed(() => route.name === 'home')
+const isNkgPage = computed(() => route.name === 'nkg')
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 100
@@ -184,6 +186,51 @@ onUnmounted(() => {
     --nav-card: rgba(255, 255, 255, 0.08);
     --nav-toggle-bg: rgba(255, 255, 255, 0.06);
   }
+
+  &.nkg-page {
+    --nav-fg: #17131a;
+    --nav-muted: rgba(23, 19, 26, 0.72);
+    --nav-border: rgba(113, 26, 95, 0.14);
+    --nav-card: rgba(253, 232, 233, 0.45);
+    --nav-toggle-bg: rgba(253, 232, 233, 0.32);
+    background: color-mix(in srgb, #fffdfd 78%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom-color: rgba(113, 26, 95, 0.12);
+    box-shadow: 0 1px 2px rgba(113, 26, 95, 0.03);
+
+    .nav-brand-text {
+      color: #711a5f;
+    }
+
+    .nav-link.nkg-link {
+      color: #711a5f;
+
+      &::after {
+        background: #711a5f;
+        opacity: 0.4;
+      }
+    }
+  }
+
+  &.nkg-page.dark-mode {
+    --nav-fg: #f7eff7;
+    --nav-muted: rgba(247, 239, 247, 0.76);
+    --nav-border: rgba(227, 186, 198, 0.18);
+    --nav-card: rgba(188, 158, 193, 0.12);
+    --nav-toggle-bg: rgba(188, 158, 193, 0.12);
+    background: color-mix(in srgb, #17131a 82%, transparent);
+    border-bottom-color: rgba(227, 186, 198, 0.16);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+
+    .nav-brand-text,
+    .nav-link.nkg-link {
+      color: #e3bac6;
+    }
+
+    .nav-link.nkg-link::after {
+      background: #e3bac6;
+    }
+  }
 }
 
 .nav-container {
@@ -210,8 +257,8 @@ onUnmounted(() => {
   width: 28px;
   height: 28px;
   border-radius: 6px;
-  border: 1px solid var(--nav-border);
-  background: var(--nav-card);
+  //border: 1px solid var(--nav-border);
+  //background: var(--nav-card);
 }
 
 .nav-brand-text {
