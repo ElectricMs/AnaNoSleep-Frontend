@@ -1,8 +1,8 @@
 /dist
 /node_modules
 frontend.tar.gz
-README_local.md
+*.md
 /.claude
 CLAUDE.md
 /docs
-/docs
+.DS_Store
