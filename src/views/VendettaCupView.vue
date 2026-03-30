@@ -1,6 +1,6 @@
 <template>
   <div class="vendetta-cup-page" :class="{ 'dark-mode': themeStore.isDarkMode }">
-    <section class="hero-section">
+    <section class="hero-section" :style="{ '--hero-section-bg-image': `url(${heroSectionBgImage})` }">
       <div class="hero-overlay"></div>
       <div class="container">
         <p class="section-label">NKG Special Event</p>
@@ -265,7 +265,7 @@ function closeAd() {
   cancelAnimationFrame(adRafId)
 }
 
-const adTargetUrl = '/vendetta-cup-champion'
+const adTargetUrl = '/vendetta-cup-champion.jpg'
 
 function openAdTarget() {
   window.open(adTargetUrl, '_blank', 'noopener')
@@ -295,12 +295,14 @@ onUnmounted(() => {
   window.removeEventListener('resize', onAdResize)
 })
 
-const heroActionImage = new URL('../../docs/Vendetta/overwatch-2-hero-45-vendetta-la-lupa-action-sword-fire.avif', import.meta.url).href
-const vendettaPortraitImage = new URL('../../docs/Vendetta/H028SAYSFEBN1767921793489.png.jpeg', import.meta.url).href
-const vendettaPosterImage = new URL('../../docs/Vendetta/HMBM2VAFBI5J1764204637307.png', import.meta.url).href
+// 与 HomeView 相同：使用 new URL + import.meta.url，资源放在 src/assets/images 便于构建打包
+const heroActionImage = new URL('../assets/images/vendetta-cup-action.avif', import.meta.url).href
+const vendettaPortraitImage = new URL('../assets/images/vendetta-cup-portrait.jpeg', import.meta.url).href
+const vendettaPosterImage = new URL('../assets/images/vendetta-cup-poster.png', import.meta.url).href
+const heroSectionBgImage = new URL('../assets/images/vendetta-cup-hero-bg.avif', import.meta.url).href
 
 const groupStageTeams = [
-  { name: '老壁灯队', members: ['Agingeye', '天使和源氏', 'Starlight', '蛮巴奥特', '多刺天门东'] },
+  { name: '老壁灯队', members: ['Agingeye', '天使和源氏', 'Starlight', '蛮巴奥特', '多刺天门冬'] },
   { name: '惊天五条区队', members: ['Omsama', 'Pingshenme', '筱妍', 'Mccormic', '板烧鸡腿堡'] },
   { name: '日不落队', members: ['Sunrise', '糖醋里脊', '吉川由纪', '知名大火男', '萨摩亚体育生'] },
   { name: '朱嘉远队', members: ['更科瑠夏', 'phantasi', '上个号丢了', 'yulu', '伊水'] },
@@ -309,7 +311,7 @@ const groupStageTeams = [
 
 const knockoutTeams = [
   { name: '老壁灯队', members: ['Agingeye', '天使和源氏', '馅饼', '蛮巴奥特', '板烧鸡腿堡'] },
-  { name: '惊天五条区队', members: ['Omsama', 'Pingshenme', '上个号丢了', 'Mccormic', '多刺天门东'] },
+  { name: '惊天五条区队', members: ['Omsama', 'Pingshenme', '上个号丢了', 'Mccormic', '多刺天门冬'] },
   { name: '日不落队', members: ['Sunrise', '糖醋里脊', '筱妍', '知名大火男', 'Fatty'] },
   { name: 'Crazy Falcons队', members: ['更科瑠夏', 'phantasi', 'Moriaty', '沙漠孤狼彪哥', '伊水'] }
 ]
@@ -373,7 +375,7 @@ const individualAwards = [
   border-bottom: 1px solid var(--serif-border);
   background:
     linear-gradient(120deg, color-mix(in srgb, var(--serif-muted) 85%, transparent), transparent),
-    url('../../docs/Vendetta/7XGR0SCQ94YO1763672757341.png.avif') center / cover no-repeat;
+    var(--hero-section-bg-image) center / cover no-repeat;
 }
 
 .retro-ad-banner {
