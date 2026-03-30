@@ -231,7 +231,7 @@ const themeStore = useThemeStore()
 // 动态导入图片,避免首屏加载
 const nkgLogoImage = new URL('../assets/images/NanKaiGayming.png', import.meta.url).href
 const nkgRealImage = new URL('../assets/images/NKG_Real.jpg', import.meta.url).href
-const heroCircleSvg = new URL('../../docs/1734074185668_1f8923e771.svg', import.meta.url).href
+const heroCircleSvg = new URL('../assets/images/nkg-hero-circle.svg', import.meta.url).href
 
 // 成员名单数据
 const membersList = nkgMembersData
