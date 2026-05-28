@@ -95,6 +95,11 @@ export const nkgMembersData = [
     name: '知名大火男',
     heroes: ['回声'],
     isSpecial: true
+  },
+  {
+    name: '糖醋里脊',
+    heroes: ['温斯顿','骇灾','毛加'],
+    isSpecial: true
   }
 ]
 

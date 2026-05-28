@@ -37,7 +37,7 @@ export const nkgTimelineData = [
   },
   {
     year: '2025.11',
-    title: '宿舍杯天津站',
+    title: '宿舍英雄天津站',
     desc: '我们是冠军！NKG接连战胜北京城市学院2队、中国民航大学、天津职业技术师范大学与天津工业大学，成为宿舍杯天津站冠军！',
     isChampion: true,
     isClickable: true,
@@ -62,9 +62,14 @@ export const nkgTimelineData = [
     clickTitle: '点击查看斩仇杯专题页'
   },
   {
-    year: '2026.3',
+    year: '2026.5',
+    title: '宿舍英雄天津站',
+    desc: 'NKG全胜击败其余学校，与二队内战并在决赛战胜天津理工大学，再次夺得天津市宿舍英雄冠军！'
+  },
+  {
+    year: '2026.5',
     title: "What's Next ?",
-    desc: 'NKG正在积极准备春季高校联赛与宿舍杯，同时积极吸纳新成员中',
+    desc: '正值成员新老更替之时，NKG剑指2027，积极吸纳新成员中',
     isCurrent: true
   }
 ]
