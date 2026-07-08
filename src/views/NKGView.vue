@@ -219,7 +219,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
 import { nkgMembersData } from '../data/nkgMembersData.js'
@@ -236,8 +236,21 @@ const heroCircleSvg = new URL('../assets/images/nkg-hero-circle.svg', import.met
 // 成员名单数据
 const membersList = nkgMembersData
 
+const getCurrentYearMonth = () => {
+  const now = new Date()
+  return `${now.getFullYear()}.${now.getMonth() + 1}`
+}
+
 // 战队历程数据
-const timelineItems = nkgTimelineData
+const timelineItems = computed(() => {
+  const currentYearMonth = getCurrentYearMonth()
+
+  return nkgTimelineData.map((item) => (
+    item.isCurrent
+      ? { ...item, year: currentYearMonth }
+      : item
+  ))
+})
 
 // 移除调试日志,减少生产环境输出
 // console.log('成员数据:', membersList)

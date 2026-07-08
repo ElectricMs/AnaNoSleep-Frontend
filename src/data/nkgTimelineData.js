@@ -67,7 +67,7 @@ export const nkgTimelineData = [
     desc: 'NKG全胜击败其余学校，与二队内战并在决赛战胜天津理工大学，再次夺得天津市宿舍英雄冠军！'
   },
   {
-    year: '2026.5',
+    year: '',
     title: "What's Next ?",
     desc: '正值成员新老更替之时，NKG剑指2027，积极吸纳新成员中',
     isCurrent: true
