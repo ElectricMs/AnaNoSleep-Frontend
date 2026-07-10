@@ -160,6 +160,7 @@
       :title="editingBlog ? '编辑博客' : '新增博客'"
       width="80%"
       :close-on-click-modal="false"
+      @opened="handleDialogOpened"
     >
       <el-form
         :model="blogForm"
@@ -254,7 +255,7 @@
         </el-form-item>
         
         <el-form-item label="内容" prop="content">
-          <RichTextEditor v-model="blogForm.content" />
+          <RichTextEditor ref="richTextEditorRef" v-model="blogForm.content" />
         </el-form-item>
         
         <el-form-item label="状态" prop="status">
@@ -276,7 +277,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, nextTick } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   Plus,
@@ -300,6 +301,7 @@ const total = ref(0)
 const showAddDialog = ref(false)
 const editingBlog = ref(null)
 const blogFormRef = ref()
+const richTextEditorRef = ref()
 
 // 搜索表单
 const searchForm = reactive({
@@ -416,6 +418,12 @@ const beforeCoverUpload = (file) => {
 const removeCover = () => {
   blogForm.featuredImage = ''
   ElMessage.success('封面图片已移除')
+}
+
+const handleDialogOpened = () => {
+  nextTick(() => {
+    richTextEditorRef.value?.focus()
+  })
 }
 
 // 图片加载处理

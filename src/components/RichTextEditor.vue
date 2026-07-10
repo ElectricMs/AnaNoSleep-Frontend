@@ -19,7 +19,7 @@
 
 <script setup>
 import '@wangeditor/editor/dist/css/style.css'
-import { ref, shallowRef, onMounted, onBeforeUnmount } from 'vue'
+import { ref, shallowRef, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 
 // 编辑器实例，必须用 shallowRef，重要！
@@ -28,6 +28,32 @@ const editorRef = shallowRef()
 // 工具栏配置
 const toolbarConfig = { 
   excludeKeys: ['uploadVideo'] // 屏蔽掉上传视频的功能
+}
+
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token')
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
+const uploadRichImage = async (file, insertFn) => {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  const response = await fetch('/api/upload/rich-editor', {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: formData
+  })
+
+  const result = await response.json().catch(() => null)
+  const imageUrl = result?.data?.url
+
+  if (!response.ok || result?.errno !== 0 || !imageUrl) {
+    const message = result?.message || `图片上传失败（${response.status}）`
+    throw new Error(message)
+  }
+
+  insertFn(imageUrl, file.name, imageUrl)
 }
 
 // 编辑器配置
@@ -41,10 +67,7 @@ const editorConfig = {
       fieldName: 'file', // 上传文件的字段名
       maxFileSize: 2 * 1024 * 1024, // 最大文件大小 2MB
       allowedFileTypes: ['image/*'], // 允许的文件类型
-      headers: {
-        // 如果需要认证，可以在这里添加token
-        // 'Authorization': `Bearer ${token}`
-      },
+      customUpload: uploadRichImage,
       // 上传成功后的回调
       onSuccess: (file, res) => {
         console.log('图片上传成功', res)
@@ -57,11 +80,6 @@ const editorConfig = {
     // 插入图片配置
     insertImage: {
       parseImageSrc: (src) => {
-        // 在插入图片前执行，处理图片路径
-        if (src.indexOf('http') !== 0) {
-          // 如果不是完整URL，添加服务器地址前缀
-          return `/api${src}`
-        }
         return src
       }
     }
@@ -80,6 +98,21 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 let initFinished = false
+let syncingFromParent = false
+
+const focusEditor = () => {
+  const editor = editorRef.value
+  if (!editor || editor.isDestroyed) return
+
+  nextTick(() => {
+    setTimeout(() => {
+      if (!editor.isDestroyed) {
+        editor.focus(true)
+        editor.updateView()
+      }
+    }, 0)
+  })
+}
 
 onMounted(() => {
   // 延迟初始化，确保编辑器完全加载
@@ -96,6 +129,19 @@ onBeforeUnmount(() => {
   editor.destroy()
 })
 
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (newValue !== valueHtml.value) {
+      syncingFromParent = true
+      valueHtml.value = newValue || ''
+      nextTick(() => {
+        syncingFromParent = false
+      })
+    }
+  }
+)
+
 // 编辑器回调函数
 const handleCreated = (editor) => {
   console.log('编辑器创建完成', editor)
@@ -103,11 +149,15 @@ const handleCreated = (editor) => {
 }
 
 const handleChange = (editor) => {
-  if (initFinished) {
+  if (initFinished && !syncingFromParent) {
     // 初始化完成后才触发更新事件
     emit('update:modelValue', valueHtml.value)
   }
 }
+
+defineExpose({
+  focus: focusEditor
+})
 </script>
 
 <style lang="scss" scoped>
@@ -149,5 +199,3 @@ const handleChange = (editor) => {
   }
 }
 </style>
-
-
