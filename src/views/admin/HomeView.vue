@@ -133,7 +133,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import {
@@ -154,7 +154,7 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 // 状态管理
-const userInfo = ref(null)
+const userInfo = computed(() => authStore.user)
 const stats = reactive({
   blogs: 0,
   categories: 0,
@@ -244,12 +244,6 @@ const formatDate = (dateString) => {
 
 // 初始化
 onMounted(() => {
-  // 获取用户信息
-  const userStr = localStorage.getItem('user')
-  if (userStr) {
-    userInfo.value = JSON.parse(userStr)
-  }
-  
   // 获取数据
   fetchStats()
   fetchRecentBlogs()

@@ -16,10 +16,27 @@ export const setUnauthorizedHandler = (handler) => {
   unauthorizedHandler = handler
 }
 
-export const getAuthHeaders = (headers = {}) => {
-  const token = localStorage.getItem('token')
-  return token
-    ? { ...headers, Authorization: `Bearer ${token}` }
+const getCookieValue = (name) => {
+  if (typeof document === 'undefined') return ''
+
+  const prefix = `${encodeURIComponent(name)}=`
+  const cookie = document.cookie
+    .split(';')
+    .map(item => item.trim())
+    .find(item => item.startsWith(prefix))
+
+  return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : ''
+}
+
+export const getCsrfHeaders = (method = 'POST', headers = {}) => {
+  const normalizedMethod = method.toUpperCase()
+  if (['GET', 'HEAD', 'OPTIONS'].includes(normalizedMethod)) {
+    return { ...headers }
+  }
+
+  const csrfToken = getCookieValue('ananosleep_csrf')
+  return csrfToken
+    ? { ...headers, 'X-CSRF-Token': csrfToken }
     : { ...headers }
 }
 
@@ -65,7 +82,7 @@ export const request = async (url, options = {}) => {
   signal?.addEventListener('abort', abortFromCaller, { once: true })
   const timeoutId = setTimeout(() => controller.abort(new DOMException('请求超时', 'TimeoutError')), timeout)
 
-  const requestHeaders = getAuthHeaders(headers)
+  const requestHeaders = getCsrfHeaders(method, headers)
   const isFormData = body instanceof FormData
   if (body !== undefined && !isFormData && !requestHeaders['Content-Type']) {
     requestHeaders['Content-Type'] = 'application/json'
@@ -75,6 +92,7 @@ export const request = async (url, options = {}) => {
     const response = await fetch(appendParams(url, params), {
       method,
       headers: requestHeaders,
+      credentials: 'include',
       body: body === undefined || isFormData ? body : JSON.stringify(body),
       signal: controller.signal
     })

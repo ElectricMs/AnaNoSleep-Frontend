@@ -109,7 +109,7 @@ const authStore = useAuthStore()
 
 // 状态管理
 const sidebarCollapsed = ref(false)
-const userInfo = ref(null)
+const userInfo = computed(() => authStore.user)
 const activeMenu = ref('/admin/dashboard')
 
 // 面包屑导航
@@ -159,10 +159,7 @@ const handleLogout = async () => {
       type: 'warning'
     })
     
-    // 清除本地存储
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    
+    await authStore.logout()
     ElMessage.success('退出成功')
     router.push('/login')
   } catch {
@@ -172,20 +169,6 @@ const handleLogout = async () => {
 
 // 初始化
 onMounted(() => {
-  // 获取用户信息
-  const userStr = localStorage.getItem('user')
-  if (userStr) {
-    userInfo.value = JSON.parse(userStr)
-  }
-  
-  // 检查登录状态
-  const token = localStorage.getItem('token')
-  if (!token) {
-    ElMessage.warning('请先登录')
-    router.push('/login')
-    return
-  }
-  
   // 设置当前激活菜单
   activeMenu.value = route.path
 })

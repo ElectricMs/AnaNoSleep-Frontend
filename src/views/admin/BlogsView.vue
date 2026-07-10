@@ -205,7 +205,8 @@
             <el-upload
               class="cover-uploader"
               :action="uploadUrl"
-              :headers="getAuthHeaders()"
+              :headers="getCsrfHeaders()"
+              :with-credentials="true"
               :show-file-list="false"
               :on-success="handleCoverSuccess"
               :on-error="handleCoverError"
@@ -289,7 +290,8 @@ import {
   View,
   Refresh
 } from '@element-plus/icons-vue'
-import api, { getAuthHeaders } from '../../services/api'
+import api, { getCsrfHeaders } from '../../services/api'
+import { useAuthStore } from '../../stores/auth'
 
 const RichTextEditor = defineAsyncComponent(() => import('../../components/RichTextEditor.vue'))
 
@@ -304,6 +306,7 @@ const showAddDialog = ref(false)
 const editingBlog = ref(null)
 const blogFormRef = ref()
 const richTextEditorRef = ref()
+const authStore = useAuthStore()
 
 // 搜索表单
 const searchForm = reactive({
@@ -372,8 +375,7 @@ const handleCoverError = (error) => {
 
 const beforeCoverUpload = (file) => {
   // 检查是否已登录
-  const token = localStorage.getItem('token')
-  if (!token) {
+  if (!authStore.isLoggedIn) {
     ElMessage.error('请先登录后再上传图片')
     return false
   }

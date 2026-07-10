@@ -13,7 +13,7 @@ app.use(pinia)
 app.use(router)
 
 setUnauthorizedHandler(() => {
-  useAuthStore(pinia).logout()
+  useAuthStore(pinia).clearSession()
   if (router.currentRoute.value.name !== 'login') {
     router.push({ name: 'login' })
   }
