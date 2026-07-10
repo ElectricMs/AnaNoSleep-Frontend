@@ -44,4 +44,20 @@ describe('auth store', () => {
       credentials: 'include'
     }))
   })
+
+  it('exchanges a legacy localStorage token once and then removes it', async () => {
+    localStorage.setItem('token', 'legacy-token')
+    fetch
+      .mockResolvedValueOnce(jsonResponse({ success: true, data: {} }))
+      .mockResolvedValueOnce(jsonResponse({
+        success: true,
+        data: { id: 1, role: 'admin' }
+      }))
+    const store = useAuthStore()
+
+    expect(await store.ensureAuthenticated()).toBe(true)
+    expect(fetch.mock.calls[0][0]).toBe('/api/auth/refresh')
+    expect(fetch.mock.calls[0][1].headers.Authorization).toBe('Bearer legacy-token')
+    expect(localStorage.getItem('token')).toBeNull()
+  })
 })

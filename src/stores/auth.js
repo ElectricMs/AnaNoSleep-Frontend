@@ -7,12 +7,14 @@ export const useAuthStore = defineStore('auth', () => {
   const loading = ref(false)
   const sessionChecked = ref(false)
   let sessionCheckPromise = null
+  let legacyToken = localStorage.getItem('token') || ''
 
   const isLoggedIn = computed(() => !!user.value)
   const userRole = computed(() => user.value?.role || 'user')
   const isAdmin = computed(() => userRole.value === 'admin')
 
   const clearSession = () => {
+    legacyToken = ''
     user.value = null
     sessionChecked.value = true
     localStorage.removeItem('token')
@@ -76,19 +78,36 @@ export const useAuthStore = defineStore('auth', () => {
     return false
   }
 
+  const migrateLegacySession = async () => {
+    const token = legacyToken
+    legacyToken = ''
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    if (!token) return false
+
+    try {
+      await api.post('/api/auth/refresh', undefined, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      return checkSession()
+    } catch (error) {
+      if (error.status !== 401) {
+        console.error('旧会话迁移失败:', error)
+      }
+      clearSession()
+      return false
+    }
+  }
+
   const ensureAuthenticated = async () => {
     if (sessionChecked.value) return isLoggedIn.value
     if (!sessionCheckPromise) {
-      sessionCheckPromise = checkSession().finally(() => {
+      sessionCheckPromise = (legacyToken ? migrateLegacySession() : checkSession()).finally(() => {
         sessionCheckPromise = null
       })
     }
     return sessionCheckPromise
   }
-
-  // 首次加载时删除旧版本遗留的可读JWT
-  localStorage.removeItem('token')
-  localStorage.removeItem('user')
 
   return {
     user,
