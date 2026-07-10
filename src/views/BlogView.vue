@@ -85,7 +85,7 @@
       <div class="serif-article-content">
         <div class="serif-content-wrapper">
           <!-- Rich Text Content -->
-          <div class="serif-rich-content" v-html="blogStore.currentBlog.content"></div>
+          <div class="serif-rich-content" v-html="safeBlogContent"></div>
 
           <!-- Tags -->
           <div v-if="blogStore.currentBlog.tags && blogStore.currentBlog.tags.length" class="serif-article-tags">
@@ -139,10 +139,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
 import { useBlogStore } from '../stores/blog'
+import { sanitizeBlogHtml } from '../utils/sanitizeHtml'
 
 const themeStore = useThemeStore()
 const blogStore = useBlogStore()
@@ -150,12 +151,17 @@ const route = useRoute()
 const router = useRouter()
 
 const isLiked = ref(false)
+const isLiking = ref(false)
+const safeBlogContent = computed(() => sanitizeBlogHtml(blogStore.currentBlog?.content || ''))
+let blogController = null
+let likedTimer = null
 
 // Load blog
-const loadBlog = async () => {
-  const blogId = route.params.id
+const loadBlog = async (blogId = route.params.id) => {
   if (blogId) {
-    await blogStore.fetchBlogById(blogId)
+    blogController?.abort()
+    blogController = new AbortController()
+    await blogStore.fetchBlogById(blogId, { signal: blogController.signal })
   }
 }
 
@@ -166,14 +172,20 @@ const goBack = () => {
 
 // Like blog
 const likeBlog = async () => {
-  if (blogStore.currentBlog) {
+  if (!blogStore.currentBlog || isLiking.value) return
+
+  isLiking.value = true
+  try {
     const result = await blogStore.likeBlog(blogStore.currentBlog.id)
-    if (result.success) {
-      isLiked.value = true
-      setTimeout(() => {
-        isLiked.value = false
-      }, 3000)
-    }
+    if (!result.success) return
+
+    isLiked.value = true
+    clearTimeout(likedTimer)
+    likedTimer = setTimeout(() => {
+      isLiked.value = false
+    }, 3000)
+  } finally {
+    isLiking.value = false
   }
 }
 
@@ -209,8 +221,12 @@ const formatDate = (dateString) => {
   })
 }
 
-onMounted(() => {
-  loadBlog()
+watch(() => route.params.id, loadBlog, { immediate: true })
+
+onBeforeUnmount(() => {
+  blogController?.abort()
+  clearTimeout(likedTimer)
+  blogStore.clearCurrentBlog()
 })
 </script>
 

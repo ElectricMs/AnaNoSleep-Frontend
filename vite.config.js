@@ -1,10 +1,18 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { resolve } from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    Components({
+      resolvers: [ElementPlusResolver({ importStyle: 'css' })],
+      dts: false
+    })
+  ],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')
@@ -39,29 +47,10 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        // 更稳定的代码分割策略
-        manualChunks: (id) => {
-          // node_modules包分割
-          if (id.includes('node_modules')) {
-            // Vue核心库 + Element Plus（避免循环依赖）
-            if (id.includes('vue') || id.includes('pinia') ||
-                id.includes('element-plus') || id.includes('@element-plus')) {
-              return 'vue-core'
-            }
-            // Vue Router
-            if (id.includes('vue-router')) {
-              return 'router'
-            }
-            // 其他第三方库
-            return 'vendor'
-          }
-        },
         // 资源文件命名
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.')
-          const ext = info[info.length - 1]
           if (/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i.test(assetInfo.name)) {
             return `media/[name]-[hash][extname]`
           }
@@ -75,10 +64,7 @@ export default defineConfig({
         }
       }
     },
-    // 提高警告阈值，避免不必要的报警
-    chunkSizeWarningLimit: 1000,
     // 资源内联阈值
     assetsInlineLimit: 4096
   }
 })
-

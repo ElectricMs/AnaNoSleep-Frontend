@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
 
@@ -61,20 +61,24 @@ const isNkgPage = computed(() => route.path === '/nkg')
 
 // 悬浮窗口状态
 const isPrivacyModalOpen = ref(false)
+let previousBodyOverflow = ''
 
 // 显示隐私政策窗口
 const showPrivacyModal = () => {
     isPrivacyModalOpen.value = true
-    // 防止背景滚动
+    previousBodyOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 }
 
 // 关闭隐私政策窗口
 const closePrivacyModal = () => {
     isPrivacyModalOpen.value = false
-    // 恢复背景滚动
-    document.body.style.overflow = 'auto'
+    document.body.style.overflow = previousBodyOverflow
 }
+
+onBeforeUnmount(() => {
+    if (isPrivacyModalOpen.value) closePrivacyModal()
+})
 </script>
 
 <style lang="scss" scoped>

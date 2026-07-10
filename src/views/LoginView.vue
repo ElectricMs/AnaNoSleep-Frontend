@@ -58,10 +58,12 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import 'element-plus/es/components/message/style/css'
 import { User, Lock } from '@element-plus/icons-vue'
-import axios from 'axios'
+import { useAuthStore } from '../stores/auth'
 
 const router = useRouter()
+const authStore = useAuthStore()
 
 // 表单数据
 const loginForm = reactive({
@@ -93,34 +95,30 @@ const handleLogin = async () => {
     await loginFormRef.value.validate()
     loading.value = true
     
-    const response = await axios.post('/api/auth/login', {
+    const result = await authStore.login({
       username: loginForm.username,
       password: loginForm.password
     })
     
-    if (response.data.success) {
-      // 保存token和用户信息
-      const { token, user } = response.data.data
-      localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(user))
-      
+    if (result.success) {
       // 记住我功能
       if (rememberMe.value) {
         localStorage.setItem('rememberedUsername', loginForm.username)
+      } else {
+        localStorage.removeItem('rememberedUsername')
       }
       
       ElMessage.success('登录成功')
-      router.push('/admin/dashboard')
+      const redirect = typeof router.currentRoute.value.query.redirect === 'string'
+        ? router.currentRoute.value.query.redirect
+        : '/admin/dashboard'
+      router.push(redirect)
     } else {
-      ElMessage.error(response.data.message || '登录失败')
+      ElMessage.error(result.message || '登录失败')
     }
   } catch (error) {
     console.error('登录错误:', error)
-    if (error.response?.data?.message) {
-      ElMessage.error(error.response.data.message)
-    } else {
-      ElMessage.error('登录失败，请检查网络连接')
-    }
+    ElMessage.error(error.message || '登录失败，请检查网络连接')
   } finally {
     loading.value = false
   }
@@ -136,8 +134,7 @@ onMounted(() => {
   }
   
   // 如果已经登录，直接跳转到控制台
-  const token = localStorage.getItem('token')
-  if (token) {
+  if (authStore.isLoggedIn) {
     router.push('/admin/dashboard')
   }
 })
@@ -213,4 +210,3 @@ onMounted(() => {
   }
 }
 </style>
-

@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import api from '../services/api'
 
 export const useAuthStore = defineStore('auth', () => {
   // 状态
   const token = ref(localStorage.getItem('token') || '')
   const user = ref(null)
   const loading = ref(false)
+  const sessionVerified = ref(false)
 
   // 初始化用户信息
   const initUser = () => {
@@ -29,19 +31,13 @@ export const useAuthStore = defineStore('auth', () => {
   const login = async (credentials) => {
     loading.value = true
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-      })
-
-      const data = await response.json()
+      const response = await api.post('/api/auth/login', credentials)
+      const data = response.data
 
       if (data.success) {
         token.value = data.data.token
         user.value = data.data.user
+        sessionVerified.value = true
         
         // 保存到本地存储
         localStorage.setItem('token', data.data.token)
@@ -63,6 +59,7 @@ export const useAuthStore = defineStore('auth', () => {
   const logout = () => {
     token.value = ''
     user.value = null
+    sessionVerified.value = false
     localStorage.removeItem('token')
     localStorage.removeItem('user')
   }
@@ -78,19 +75,13 @@ export const useAuthStore = defineStore('auth', () => {
     if (!token.value) return false
 
     try {
-      const response = await fetch('/api/auth/verify', {
-        headers: {
-          'Authorization': `Bearer ${token.value}`
-        }
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        if (data.success) {
-          user.value = data.data.user
-          localStorage.setItem('user', JSON.stringify(data.data.user))
-          return true
-        }
+      const response = await api.get('/api/auth/verify')
+      const data = response.data
+      if (data.success) {
+        user.value = data.data.user
+        sessionVerified.value = true
+        localStorage.setItem('user', JSON.stringify(data.data.user))
+        return true
       }
       
       // Token 无效，清除登录状态
@@ -101,6 +92,12 @@ export const useAuthStore = defineStore('auth', () => {
       logout()
       return false
     }
+  }
+
+  const ensureAuthenticated = async () => {
+    if (!token.value) return false
+    if (sessionVerified.value) return true
+    return checkToken()
   }
 
   // 初始化
@@ -121,7 +118,7 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     updateUser,
-    checkToken
+    checkToken,
+    ensureAuthenticated
   }
 })
-

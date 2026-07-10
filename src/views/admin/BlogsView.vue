@@ -108,7 +108,6 @@
               :alt="blog.title" 
               class="cover-image"
               @error="handleImageError"
-              @load="handleImageLoad"
             />
           </div>
           
@@ -218,7 +217,6 @@
                   :src="blogForm.featuredImage" 
                   class="cover-image" 
                   @error="handleImageError"
-                  @load="handleImageLoad"
                 />
                 <div class="cover-overlay">
                   <el-icon class="cover-icon"><Edit /></el-icon>
@@ -277,7 +275,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, nextTick } from 'vue'
+import { defineAsyncComponent, ref, reactive, onMounted, nextTick } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   Plus,
@@ -286,10 +284,14 @@ import {
   Delete,
   Calendar,
   Folder,
-  Collection
+  Collection,
+  Check,
+  View,
+  Refresh
 } from '@element-plus/icons-vue'
-import axios from 'axios'
-import RichTextEditor from '../../components/RichTextEditor.vue'
+import api, { getAuthHeaders } from '../../services/api'
+
+const RichTextEditor = defineAsyncComponent(() => import('../../components/RichTextEditor.vue'))
 
 // 状态管理
 const loading = ref(false)
@@ -341,46 +343,21 @@ const blogRules = {
   ]
 }
 
-// 获取认证头
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token')
-  console.log('获取到的token:', token ? '存在' : '不存在')
-  if (token) {
-    console.log('token长度:', token.length)
-    console.log('token前10个字符:', token.substring(0, 10))
-  }
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
-
 // 上传相关配置
 const uploadUrl = '/api/upload'
 
 // 封面图片上传相关方法
 const handleCoverSuccess = (response) => {
-  console.log('=== 封面图片上传响应 ===')
-  console.log('完整响应:', response)
-  console.log('响应类型:', typeof response)
-  console.log('响应键:', Object.keys(response))
-  
   if (response.success) {
     blogForm.featuredImage = response.data.url
-    console.log('✅ 设置封面图片URL:', response.data.url)
-    console.log('✅ blogForm.featuredImage 现在是:', blogForm.featuredImage)
     ElMessage.success('封面图片上传成功')
   } else {
-    console.log('❌ 上传失败:', response.message)
     ElMessage.error(response.message || '封面图片上传失败')
   }
 }
 
 const handleCoverError = (error) => {
   console.error('封面图片上传失败:', error)
-  console.error('错误详情:', {
-    message: error.message,
-    status: error.status,
-    response: error.response
-  })
-  
   let errorMessage = '封面图片上传失败'
   if (error.status === 401) {
     errorMessage = '认证失败，请重新登录'
@@ -426,17 +403,8 @@ const handleDialogOpened = () => {
   })
 }
 
-// 图片加载处理
-const handleImageLoad = (event) => {
-  console.log('图片加载成功:', event.target.src)
-  console.log('图片尺寸:', event.target.naturalWidth, 'x', event.target.naturalHeight)
-  console.log('图片元素:', event.target)
-}
-
 const handleImageError = (event) => {
   console.error('图片加载失败:', event.target.src)
-  console.error('错误详情:', event)
-  console.error('错误类型:', event.type)
   ElMessage.error('图片加载失败，请检查图片URL是否正确')
 }
 
@@ -452,15 +420,11 @@ const fetchBlogs = async () => {
     }
     
     // 使用博客管理接口，该接口会根据用户权限自动过滤博客
-    const response = await axios.get('/api/blogs/manage', {
-      params,
-      headers: getAuthHeaders()
-    })
+    const response = await api.get('/api/blogs/manage', { params })
     
     if (response.data.success) {
       blogs.value = response.data.data.list
       total.value = response.data.data.pagination.total
-      console.log('获取到的博客列表:', blogs.value)
     }
   } catch (error) {
     console.error('获取博客列表失败:', error)
@@ -474,7 +438,7 @@ const fetchBlogs = async () => {
 // 获取分类列表
 const fetchCategories = async () => {
   try {
-    const response = await axios.get('/api/categories')
+    const response = await api.get('/api/categories')
     if (response.data.success) {
       categories.value = response.data.data.list
     }
@@ -486,7 +450,7 @@ const fetchCategories = async () => {
 // 获取标签列表
 const fetchTags = async () => {
   try {
-    const response = await axios.get('/api/tags/all')
+    const response = await api.get('/api/tags/all')
     if (response.data.success) {
       tags.value = response.data.data
     }
@@ -515,7 +479,6 @@ const handleCurrentChange = (page) => {
 
 // 编辑博客
 const handleEdit = (blog) => {
-  console.log('编辑博客数据:', blog)
   editingBlog.value = blog
   Object.assign(blogForm, {
     title: blog.title,
@@ -562,10 +525,8 @@ const handleToggleStatus = async (blog) => {
       }
     )
     
-    await axios.patch(`/api/blogs/${blog.id}/status`, {
+    await api.patch(`/api/blogs/${blog.id}/status`, {
       status: newStatus
-    }, {
-      headers: getAuthHeaders()
     })
     
     ElMessage.success(`${actionText}成功`)
@@ -592,9 +553,7 @@ const handleDelete = async (blog) => {
       }
     )
     
-    await axios.delete(`/api/blogs/${blog.id}`, {
-      headers: getAuthHeaders()
-    })
+    await api.delete(`/api/blogs/${blog.id}`)
     
     ElMessage.success('删除成功')
     fetchBlogs()
@@ -636,14 +595,7 @@ const handleSave = async () => {
       featuredImage: blogForm.featuredImage || null
     }
     
-    console.log('=== 博客保存数据 ===')
-    console.log('blogForm.featuredImage:', blogForm.featuredImage)
-    console.log('submitData.featuredImage:', submitData.featuredImage)
-    console.log('完整提交数据:', JSON.stringify(submitData, null, 2))
-    
-    await axios[method](url, submitData, {
-      headers: getAuthHeaders()
-    })
+    await api[method](url, submitData)
     
     ElMessage.success(editingBlog.value ? '更新成功' : '创建成功')
     showAddDialog.value = false
@@ -699,11 +651,11 @@ const getToggleButtonType = (status) => {
 // 获取状态切换按钮图标
 const getToggleButtonIcon = (status) => {
   const iconMap = {
-    'draft': 'Check',
-    'published': 'View',
-    'archived': 'Refresh'
+    'draft': Check,
+    'published': View,
+    'archived': Refresh
   }
-  return iconMap[status] || 'Check'
+  return iconMap[status] || Check
 }
 
 // 获取状态切换按钮文本

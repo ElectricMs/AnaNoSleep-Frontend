@@ -219,7 +219,7 @@ import {
   User,
   Switch
 } from '@element-plus/icons-vue'
-import axios from 'axios'
+import api from '../../services/api'
 
 // 状态管理
 const loading = ref(false)
@@ -269,12 +269,6 @@ const userRules = {
   ]
 }
 
-// 获取认证头
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token')
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
-
 // 获取用户列表
 const fetchUsers = async () => {
   try {
@@ -285,10 +279,7 @@ const fetchUsers = async () => {
       ...searchForm
     }
     
-    const response = await axios.get('/api/users', {
-      params,
-      headers: getAuthHeaders()
-    })
+    const response = await api.get('/api/users', { params })
     
     if (response.data.success) {
       users.value = response.data.data.list
@@ -351,10 +342,8 @@ const handleToggleStatus = async (user) => {
       }
     )
     
-    await axios.put(`/api/users/${user.id}`, {
+    await api.put(`/api/users/${user.id}`, {
       status: newStatus
-    }, {
-      headers: getAuthHeaders()
     })
     
     ElMessage.success(`${action}成功`)
@@ -380,9 +369,7 @@ const handleDelete = async (user) => {
       }
     )
     
-    await axios.delete(`/api/users/${user.id}`, {
-      headers: getAuthHeaders()
-    })
+    await api.delete(`/api/users/${user.id}`)
     
     ElMessage.success('删除成功')
     fetchUsers()
@@ -413,9 +400,7 @@ const handleSave = async () => {
     
     const method = editingUser.value ? 'put' : 'post'
     
-    await axios[method](url, data, {
-      headers: getAuthHeaders()
-    })
+    await api[method](url, data)
     
     ElMessage.success(editingUser.value ? '更新成功' : '创建成功')
     showAddDialog.value = false

@@ -84,31 +84,12 @@ const themeStore = useThemeStore()
 const navigationStore = useNavigationStore()
 const router = useRouter()
 
-// Generate unique ID
-const generateId = (prefix, index) => {
-  return `${prefix}-${index}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-}
-
 // Add IDs to navigation items
 const navigationDataWithIds = computed(() => {
   return navigationStore.navigationData.map((item, index) => ({
     ...item,
-    id: generateId('nav', index)
+    id: item.link || `nav-${index}`
   }))
-})
-
-// Dynamic grid class based on item count
-const gridClass = computed(() => {
-  const itemCount = navigationDataWithIds.value.length
-  const classes = []
-
-  if (itemCount === 1) {
-    classes.push('serif-grid-single')
-  } else if (itemCount === 2) {
-    classes.push('serif-grid-two')
-  }
-
-  return classes.join(' ')
 })
 
 // Animation states
@@ -124,6 +105,7 @@ const setCardRef = (el, index) => {
 
 // Intersection Observer
 let observer = null
+let observerTimer = null
 
 const setupObserver = () => {
   observer = new IntersectionObserver((entries) => {
@@ -179,10 +161,11 @@ const performNavigation = (link) => {
 }
 
 onMounted(() => {
-  setTimeout(setupObserver, 100)
+  observerTimer = setTimeout(setupObserver, 100)
 })
 
 onUnmounted(() => {
+  clearTimeout(observerTimer)
   if (observer) {
     observer.disconnect()
   }

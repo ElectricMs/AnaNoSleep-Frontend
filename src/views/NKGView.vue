@@ -301,31 +301,6 @@ const ctaContent = ref(null)
 
 // Intersection Observer
 let observer = null
-
-
-
-
-
-// 滚动到招募区域
-const scrollToRecruitment = () => {
-  const recruitmentSection = document.querySelector('.recruitment-section')
-  if (recruitmentSection) {
-    recruitmentSection.scrollIntoView({
-      behavior: 'smooth'
-    })
-  }
-}
-
-// 滚动到历史区域
-const scrollToHistory = () => {
-  const historySection = document.querySelector('.history-section')
-  if (historySection) {
-    historySection.scrollIntoView({
-      behavior: 'smooth'
-    })
-  }
-}
-
 // 加入群聊
 const joinGroup = () => {
   showContactModal.value = true
@@ -346,18 +321,12 @@ const copyWechatId = () => {
   })
 }
 
-// 联系我们
-const contactUs = () => {
-  // 这里可以添加联系方式
-  alert('邮箱：ananosleep@163.com\n或通过群聊联系我们')
-}
-
 // 时间线词条点击处理（支持外链与站内跳转）
 const handleTimelineItemClick = (item) => {
   if (!item?.isClickable) return
 
   if (item.clickType === 'external' && item.externalUrl) {
-    window.open(item.externalUrl, '_blank')
+    window.open(item.externalUrl, '_blank', 'noopener,noreferrer')
     return
   }
 

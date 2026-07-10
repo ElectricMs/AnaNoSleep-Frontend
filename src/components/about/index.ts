@@ -27,6 +27,3 @@ export type { QuoteBlockProps } from './QuoteBlock.vue'
 // CTA Button
 export { default as CTAButton } from './CTAButton.vue'
 export type { CTAButtonProps } from './CTAButton.vue'
-
-// Re-exports for convenience
-export { arrowIcon } from './CTAButton.vue'

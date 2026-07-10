@@ -166,7 +166,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
-import axios from 'axios'
+import api from '../../services/api'
 
 // 权限检查
 const authStore = useAuthStore()
@@ -203,19 +203,11 @@ const categoryRules = {
   ]
 }
 
-// 获取认证头
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token')
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
-
 // 获取分类列表
 const fetchCategories = async () => {
   try {
     loading.value = true
-    const response = await axios.get('/api/categories', {
-      headers: getAuthHeaders()
-    })
+    const response = await api.get('/api/categories')
     
     if (response.data.success) {
       categories.value = response.data.data.list
@@ -267,9 +259,7 @@ const handleDelete = async (category) => {
       }
     )
     
-    await axios.delete(`/api/categories/${category.id}`, {
-      headers: getAuthHeaders()
-    })
+    await api.delete(`/api/categories/${category.id}`)
     
     ElMessage.success('删除成功')
     fetchCategories()
@@ -295,9 +285,7 @@ const handleSave = async () => {
     
     const method = editingCategory.value ? 'put' : 'post'
     
-    await axios[method](url, categoryForm, {
-      headers: getAuthHeaders()
-    })
+    await api[method](url, categoryForm)
     
     ElMessage.success(editingCategory.value ? '更新成功' : '创建成功')
     showAddDialog.value = false

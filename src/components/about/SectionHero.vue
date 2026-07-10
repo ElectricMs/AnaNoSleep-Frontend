@@ -124,14 +124,6 @@ const parsedSubtitle = computed(() => {
 const initAnimations = () => {
   if (!props.animate) return
 
-  const elements = [
-    labelRef.value,
-    titleRef.value,
-    subtitleRef.value,
-    ruleRef.value,
-    contentRef.value,
-  ].filter(Boolean)
-
   const timeline = gsap.timeline({
     delay: props.animationDelay,
   })

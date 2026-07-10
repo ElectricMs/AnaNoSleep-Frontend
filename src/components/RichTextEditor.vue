@@ -21,6 +21,7 @@
 import '@wangeditor/editor/dist/css/style.css'
 import { ref, shallowRef, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import api from '../services/api'
 
 // 编辑器实例，必须用 shallowRef，重要！
 const editorRef = shallowRef()
@@ -30,26 +31,16 @@ const toolbarConfig = {
   excludeKeys: ['uploadVideo'] // 屏蔽掉上传视频的功能
 }
 
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token')
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
-
 const uploadRichImage = async (file, insertFn) => {
   const formData = new FormData()
   formData.append('file', file)
 
-  const response = await fetch('/api/upload/rich-editor', {
-    method: 'POST',
-    headers: getAuthHeaders(),
-    body: formData
-  })
-
-  const result = await response.json().catch(() => null)
+  const response = await api.post('/api/upload/rich-editor', formData)
+  const result = response.data
   const imageUrl = result?.data?.url
 
-  if (!response.ok || result?.errno !== 0 || !imageUrl) {
-    const message = result?.message || `图片上传失败（${response.status}）`
+  if (result?.errno !== 0 || !imageUrl) {
+    const message = result?.message || '图片上传失败'
     throw new Error(message)
   }
 
@@ -68,10 +59,6 @@ const editorConfig = {
       maxFileSize: 2 * 1024 * 1024, // 最大文件大小 2MB
       allowedFileTypes: ['image/*'], // 允许的文件类型
       customUpload: uploadRichImage,
-      // 上传成功后的回调
-      onSuccess: (file, res) => {
-        console.log('图片上传成功', res)
-      },
       // 上传失败后的回调
       onFailed: (file, res) => {
         console.error('图片上传失败', res)
@@ -99,13 +86,15 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 let initFinished = false
 let syncingFromParent = false
+let focusTimer = null
+let initTimer = null
 
 const focusEditor = () => {
   const editor = editorRef.value
   if (!editor || editor.isDestroyed) return
 
   nextTick(() => {
-    setTimeout(() => {
+    focusTimer = setTimeout(() => {
       if (!editor.isDestroyed) {
         editor.focus(true)
         editor.updateView()
@@ -116,7 +105,7 @@ const focusEditor = () => {
 
 onMounted(() => {
   // 延迟初始化，确保编辑器完全加载
-  setTimeout(() => {
+  initTimer = setTimeout(() => {
     valueHtml.value = props.modelValue
     initFinished = true
   }, 200)
@@ -124,6 +113,8 @@ onMounted(() => {
 
 // 组件销毁时，及时销毁编辑器
 onBeforeUnmount(() => {
+  clearTimeout(focusTimer)
+  clearTimeout(initTimer)
   const editor = editorRef.value
   if (editor == null) return
   editor.destroy()
@@ -144,11 +135,10 @@ watch(
 
 // 编辑器回调函数
 const handleCreated = (editor) => {
-  console.log('编辑器创建完成', editor)
   editorRef.value = editor // 记录 editor 实例，重要！
 }
 
-const handleChange = (editor) => {
+const handleChange = () => {
   if (initFinished && !syncingFromParent) {
     // 初始化完成后才触发更新事件
     emit('update:modelValue', valueHtml.value)

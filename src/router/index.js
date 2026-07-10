@@ -124,7 +124,7 @@ const router = createRouter({
 })
 
 // 路由守卫 - 设置页面标题和认证检查
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to) => {
   // 设置页面标题
   if (to.meta.title) {
     // 根据是否为管理页面设置不同的标题后缀
@@ -133,35 +133,25 @@ router.beforeEach((to, from, next) => {
   }
   
   // 检查是否需要认证
-  if (to.meta.requiresAuth) {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      next('/login')
-      return
-    }
+  const authStore = useAuthStore()
+
+  if (to.meta.requiresAuth && !(await authStore.ensureAuthenticated())) {
+    return { name: 'login', query: { redirect: to.fullPath } }
   }
   
   // 检查是否需要管理员权限
   if (to.meta.requiresAdmin) {
-    const authStore = useAuthStore()
     if (!authStore.isAdmin) {
-      // 非管理员用户重定向到仪表盘
-      next('/admin/dashboard')
-      return
+      return { name: 'admin-dashboard' }
     }
   }
   
   // 如果已登录且访问登录页，重定向到控制台
   if (to.path === '/login') {
-    const token = localStorage.getItem('token')
-    if (token) {
-      next('/admin/dashboard')
-      return
+    if (await authStore.ensureAuthenticated()) {
+      return { name: 'admin-dashboard' }
     }
   }
-  
-  next()
 })
 
 export default router
-

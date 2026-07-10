@@ -119,6 +119,7 @@ import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '../stores/theme'
 import { useBlogStore } from '../stores/blog'
+import fallbackBlogImage from '../assets/images/family.webp'
 
 const themeStore = useThemeStore()
 const blogStore = useBlogStore()
@@ -152,6 +153,8 @@ const setCardRef = (el, index) => {
 
 // Intersection Observer
 let observer = null
+let observerSetupTimer = null
+let revealFallbackTimer = null
 
 const setupObserver = () => {
   // 清理旧的 observer
@@ -221,7 +224,7 @@ const getBlogImage = (blog) => {
     return blog.featuredImage
   }
   // 如果没有特色图片，使用默认图片
-  return '/src/assets/images/hero-tutorial.jpg'
+  return fallbackBlogImage
 }
 
 // 格式化日期
@@ -251,12 +254,12 @@ onMounted(() => {
     await nextTick()
 
     // 再等待一小段时间确保浏览器完成布局
-    setTimeout(() => {
+    observerSetupTimer = setTimeout(() => {
       console.log('[TutorialsView] 数据加载完成，设置观察器，当前博客数量:', blogStore.blogs.length)
       setupObserver()
 
       // 1秒后如果还有卡片没显示，强制显示所有卡片（后备方案）
-      setTimeout(() => {
+      revealFallbackTimer = setTimeout(() => {
         const invisibleCount = blogStore.blogs.length - Object.keys(visibleCards.value).filter(k => visibleCards.value[k]).length
         if (invisibleCount > 0) {
           console.log(`[TutorialsView] 后备方案：强制显示所有 ${invisibleCount} 个未显示的卡片`)
@@ -272,6 +275,8 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  clearTimeout(observerSetupTimer)
+  clearTimeout(revealFallbackTimer)
   if (observer) {
     observer.disconnect()
   }

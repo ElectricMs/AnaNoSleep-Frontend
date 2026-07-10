@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import api from '../services/api'
 
 export const useBlogStore = defineStore('blog', {
   state: () => ({
@@ -6,6 +7,7 @@ export const useBlogStore = defineStore('blog', {
     currentBlog: null,
     loading: false,
     error: null,
+    currentBlogRequestId: 0,
     pagination: {
       page: 1,
       pageSize: 10,
@@ -35,8 +37,8 @@ export const useBlogStore = defineStore('blog', {
           ...options
         })
 
-        const response = await fetch(`/api/blogs?${params}`)
-        const result = await response.json()
+        const response = await api.get(`/api/blogs?${params}`)
+        const result = response.data
 
         if (result.success) {
           this.blogs = result.data.list || result.data || []
@@ -67,15 +69,16 @@ export const useBlogStore = defineStore('blog', {
       }
     },
 
-    async fetchBlogById(id) {
+    async fetchBlogById(id, options = {}) {
+      const requestId = ++this.currentBlogRequestId
       this.loading = true
       this.error = null
       
       try {
-        const response = await fetch(`/api/blogs/${id}`)
-        const result = await response.json()
+        const response = await api.get(`/api/blogs/${id}`, { signal: options.signal })
+        const result = response.data
 
-        if (result.success) {
+        if (result.success && requestId === this.currentBlogRequestId) {
           this.currentBlog = result.data
           return result.data
         } else {
@@ -83,23 +86,20 @@ export const useBlogStore = defineStore('blog', {
           return null
         }
       } catch (error) {
+        if (error.name === 'AbortError') return null
+        if (requestId !== this.currentBlogRequestId) return null
         this.error = '网络错误，请稍后重试'
         console.error('获取博客详情失败:', error)
         return null
       } finally {
-        this.loading = false
+        if (requestId === this.currentBlogRequestId) this.loading = false
       }
     },
 
     async likeBlog(id) {
       try {
-        const response = await fetch(`/api/blogs/${id}/like`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        const result = await response.json()
+        const response = await api.post(`/api/blogs/${id}/like`)
+        const result = response.data
 
         if (result.success) {
           // 更新本地博客的点赞数
@@ -120,6 +120,7 @@ export const useBlogStore = defineStore('blog', {
     },
 
     clearCurrentBlog() {
+      this.currentBlogRequestId += 1
       this.currentBlog = null
     },
 

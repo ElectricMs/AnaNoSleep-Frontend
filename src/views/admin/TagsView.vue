@@ -184,7 +184,7 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Edit, Delete, Search } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
-import axios from 'axios'
+import api from '../../services/api'
 
 // 权限检查
 const authStore = useAuthStore()
@@ -229,19 +229,11 @@ const filteredTags = computed(() => {
   )
 })
 
-// 获取认证头
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token')
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
-
 // 获取标签列表
 const fetchTags = async () => {
   try {
     loading.value = true
-    const response = await axios.get('/api/tags', {
-      headers: getAuthHeaders()
-    })
+    const response = await api.get('/api/tags')
     
     if (response.data.success) {
       // 处理分页响应格式
@@ -316,9 +308,7 @@ const handleDelete = async (tag) => {
       }
     )
     
-    await axios.delete(`/api/tags/${tag.id}`, {
-      headers: getAuthHeaders()
-    })
+    await api.delete(`/api/tags/${tag.id}`)
     
     ElMessage.success('删除成功')
     fetchTags()
@@ -344,9 +334,7 @@ const handleSave = async () => {
     
     const method = editingTag.value ? 'put' : 'post'
     
-    await axios[method](url, tagForm, {
-      headers: getAuthHeaders()
-    })
+    await api[method](url, tagForm)
     
     ElMessage.success(editingTag.value ? '更新成功' : '创建成功')
     showAddDialog.value = false

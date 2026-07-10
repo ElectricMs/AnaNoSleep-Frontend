@@ -313,6 +313,9 @@ const themeStore = useThemeStore()
 const router = useRouter()
 const heroEntered = ref(false)
 const imagesLoaded = ref(false)
+let lazyLoadTimer = null
+let firstAnimationFrame = null
+let secondAnimationFrame = null
 
 // 导航到网页导航页面
 const navigateToNavigation = () => {
@@ -348,7 +351,7 @@ const heroFloatImages = ref([])
 // 懒加载图片
 const lazyLoadImages = () => {
   // 首屏加载后延迟200ms再加载装饰性图片
-  setTimeout(() => {
+  lazyLoadTimer = setTimeout(() => {
     // 先加载图片到数组
     heroFloatImages.value = imagePaths.floatImages.map((img, index) => ({
       src: img.src, // 已经在 imagePaths 中使用 new URL 处理过了
@@ -359,8 +362,8 @@ const lazyLoadImages = () => {
 
     // 等待 DOM 更新后，再触发动画
     // 这样确保图片已经渲染到 DOM 上
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
+    firstAnimationFrame = requestAnimationFrame(() => {
+      secondAnimationFrame = requestAnimationFrame(() => {
         imagesLoaded.value = true
         heroEntered.value = true
       })
@@ -379,6 +382,12 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  clearTimeout(lazyLoadTimer)
+  if (firstAnimationFrame !== null) cancelAnimationFrame(firstAnimationFrame)
+  if (secondAnimationFrame !== null) cancelAnimationFrame(secondAnimationFrame)
+  document.documentElement.style.removeProperty('--card-bg-1')
+  document.documentElement.style.removeProperty('--card-bg-2')
+  document.documentElement.style.removeProperty('--card-bg-3')
 })
 </script>
 

@@ -147,7 +147,7 @@ import {
   UserFilled,
   Edit
 } from '@element-plus/icons-vue'
-import axios from 'axios'
+import api from '../../services/api'
 import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
@@ -163,37 +163,28 @@ const stats = reactive({
 })
 const recentBlogs = ref([])
 
-// 获取认证头
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token')
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
-
 // 获取统计数据
 const fetchStats = async () => {
   try {
     // 获取博客数量 - 使用博客管理接口，会根据用户权限自动过滤
-    const blogsResponse = await axios.get('/api/blogs/manage', {
-      params: { page: 1, pageSize: 1 },
-      headers: getAuthHeaders()
+    const blogsResponse = await api.get('/api/blogs/manage', {
+      params: { page: 1, pageSize: 1 }
     })
     if (blogsResponse.data.success) {
       stats.blogs = blogsResponse.data.data.pagination.total
     }
     
     // 获取分类数量
-    const categoriesResponse = await axios.get('/api/categories', {
-      params: { page: 1, pageSize: 1 },
-      headers: getAuthHeaders()
+    const categoriesResponse = await api.get('/api/categories', {
+      params: { page: 1, pageSize: 1 }
     })
     if (categoriesResponse.data.success) {
       stats.categories = categoriesResponse.data.data.pagination.total
     }
     
     // 获取标签数量
-    const tagsResponse = await axios.get('/api/tags', {
-      params: { page: 1, pageSize: 1 },
-      headers: getAuthHeaders()
+    const tagsResponse = await api.get('/api/tags', {
+      params: { page: 1, pageSize: 1 }
     })
     if (tagsResponse.data.success) {
       stats.tags = tagsResponse.data.data.pagination.total
@@ -201,9 +192,8 @@ const fetchStats = async () => {
     
     // 只有管理员才能获取用户数量
     if (authStore.isAdmin) {
-      const usersResponse = await axios.get('/api/users', {
-        params: { page: 1, pageSize: 1 },
-        headers: getAuthHeaders()
+      const usersResponse = await api.get('/api/users', {
+        params: { page: 1, pageSize: 1 }
       })
       if (usersResponse.data.success) {
         stats.users = usersResponse.data.data.pagination.total
@@ -218,9 +208,8 @@ const fetchStats = async () => {
 // 获取最近博客
 const fetchRecentBlogs = async () => {
   try {
-    const response = await axios.get('/api/blogs/manage', {
-      params: { page: 1, pageSize: 5 },
-      headers: getAuthHeaders()
+    const response = await api.get('/api/blogs/manage', {
+      params: { page: 1, pageSize: 5 }
     })
     
     if (response.data.success) {
@@ -232,7 +221,7 @@ const fetchRecentBlogs = async () => {
 }
 
 // 博客点击处理
-const handleBlogClick = (blog) => {
+const handleBlogClick = () => {
   // 可以跳转到博客详情页或编辑页
   ElMessage.info('博客详情功能开发中...')
 }
